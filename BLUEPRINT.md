@@ -189,16 +189,21 @@ Reverse check:
 
 ## 4. Complexity budget
 
-Planned, counted by hand; the author replaces it with the script's output.
+Counted by the `kit-budget` script on the built kit (sdlc 0.1.0, 2026-10-08).
 
-| Measure | Value | Zone | Reason, when not green |
-|---|---|---|---|
-| Worker roles (not supervisor) | 4 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and Jira writes are rights the developer does not otherwise need. |
-| Work steps in `task` | 5 | green | |
-| Gates in `task` | 2 | green | |
-| Words in the longest role prompt | ≤ 800 planned | green | |
-| Own skills | 4 | green | |
-| MCP servers | 0 | green | |
+| Measure | Where | Value | Green / yellow up to | Zone | Reason, when not green |
+|---|---|---|---|---|---|
+| Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and Jira writes are rights the developer does not otherwise need. |
+| Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green | |
+| Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
+| Words in a role prompt | agents/analyst.md | 720 | 800 / 1500 | green | |
+| Words in a role prompt | agents/developer.md | 534 | 800 / 1500 | green | |
+| Words in a role prompt | agents/integrator.md | 486 | 800 / 1500 | green | |
+| Words in a role prompt | agents/reviewer.md | 384 | 800 / 1500 | green | |
+| Words in the lead's prompt | agents/supervisor.md | 589 | 1000 / 1500 | green | |
+| Own skills | kit | 4 | 5 / 10 | green | |
+| MCP servers | kit | 0 | 2 / 4 | green | |
+| Similar paragraphs | kit | none | | green | |
 
 ## 5. Change log
 

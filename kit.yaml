@@ -1,0 +1,25 @@
+name: sdlc
+version: 0.1.0
+description: >-
+  Day-to-day development of a project whose tasks live in Jira Server, one task per run:
+  an analyst takes the task and designs the change with you as an openspec change, a
+  developer builds it test-first and opens the pull request, a reviewer drives it through
+  local and external review rounds, an integrator archives the change inside the pull
+  request and merges it with the Jira routine. You approve the design and the merge.
+  Start it with the kit tracker-jira-server, which gives the roles the skill tracker.
+supervisor: supervisor
+dependencies:
+  lado: ">=0.27"
+  skills:
+    superpowers:
+      from: https://github.com/obra/superpowers@v6.4.1
+      folders:
+        - skills/brainstorming
+        - skills/writing-plans
+        - skills/test-driven-development
+        - skills/systematic-debugging
+        - skills/verification-before-completion
+    mattpocock-skills:
+      from: https://github.com/mattpocock/skills@v1.2.3
+      folders:
+        - skills/productivity/grilling

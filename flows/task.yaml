@@ -1,0 +1,114 @@
+name: task
+description: >-
+  One Jira task from taking it to a merged pull request: the analyst takes the task and
+  designs the change with the human as an openspec change, the human approves the design,
+  the developer builds it and opens the pull request, the reviewer runs local and external
+  review rounds until they converge, the integrator archives the change inside the pull
+  request, the human approves the merge, the integrator merges and updates Jira. The run's
+  task is the Jira key, with anything the human said about it.
+start: design
+states:
+  design:
+    agent: analyst
+    produces: [design]
+    do: |
+      Take the Jira task the run's task names and design its change with the human, as your
+      role describes: take the task, check it is still wanted, propose the scale, then the
+      dialogue and the documents of that scale.
+      On a later visit the previous step's note says why you are back: the human's reason
+      for rejecting the design at `design_ok` (quote it at the top of `design`), or the
+      developer's reason for `redesign` (its `build-report` says what cannot be built as
+      approved). Revise the committed change, not a version from memory, and write
+      `design` whole again.
+      Done when the human has answered every question you asked, the change's files are
+      committed on the run's branch, `openspec validate <change> --strict` passes and
+      `design` holds them. Report `ready`: note_summary is the key, the scale and the
+      change's one-line summary; note_body what changed since the last visit and the
+      engineering decisions you took for the record. Report `dropped` only when the human
+      agreed the task is no longer wanted; `design` then says why, and nothing is
+      committed.
+    outcomes: {ready: design_ok, dropped: dropped}
+  design_ok:
+    gate: approval
+    reads: [design]
+    ask: >-
+      Approve the design: scope, scale, target branch and the openspec change? The
+      developer starts the code from it.
+    outcomes: {approved: build, rejected: design}
+  build:
+    agent: developer
+    reads: [design, ledger]
+    produces: [build-report]
+    do: |
+      Build the approved change (your `design` input) in the run's worktree, as your role
+      describes, and bring its pull request up to date.
+      On the first visit the previous step's note is the human's answer at `design_ok`: a
+      comment there binds like the design. On a later visit the note says what to fix: the
+      reviewer's `ledger` (fix every finding whose fate is "fix"), the human's reason for
+      rejecting the merge at `merge_ok` (quote it at the top of `build-report` and fix it
+      like a finding), or a conflict or red check from `merge` (merge the target branch in
+      and resolve it). When the change is already archived, revert the archive commit
+      first (`openspec-changes`, "After the archive").
+      Done when every task of the change's `tasks.md` is checked, the project's checks
+      pass with their numbers in `build-report`, the work is committed and pushed and the
+      pull request's description matches the diff. Report `ready`: note_summary is your
+      status and a one-line result; note_body what changed since the last visit.
+      Report `redesign` instead when the work needs a change of scope or a decision the
+      design does not hold: `build-report` says what and why, and nothing half done is
+      left uncommitted.
+    outcomes: {ready: review, redesign: design}
+  review:
+    agent: reviewer
+    max_visits: 5
+    reads: [design, build-report]
+    produces: [ledger]
+    do: |
+      Run one round of `review-loop` on the pull request, read-only, as your role
+      describes: a local review pass, a check against the change's spec, and, once the
+      local pass leaves nothing to fix, an external round with its delta comment.
+      On a later visit your previous ledger is your `ledger` artifact: mark each of its
+      findings RESOLVED or STILL OPEN first, against the developer's `build-report`.
+      Visits hold up to 3 external rounds, the cleanup pass and the final round.
+      Done when every finding of this round has a verdict, a tier and a fate with its
+      evidence, and `ledger` is written whole. Report `converged` when the stop criterion
+      of `review-loop` holds after the cleanup pass and its final round, otherwise
+      `changes`: note_summary is the round, the verdict and the counts by tier; note_body
+      the findings the developer must fix, by ID.
+    outcomes: {changes: build, converged: archive}
+  archive:
+    agent: integrator
+    reads: [design, ledger]
+    produces: [merge-report]
+    do: |
+      Archive the change inside the pull request (`openspec-changes`, "Archive") and
+      prepare the merge, as your role describes.
+      Done when the archive commit is pushed, `openspec validate --specs --strict` passes,
+      and `merge-report` holds the archive's result, the pull request's state, what the
+      merge will do in git and Jira, the drafted Jira comment and the ledger's residual
+      risk. When the change cannot be archived as it is (a task not checked, a delta that
+      contradicts a living spec), archive nothing and say so at the top of
+      `merge-report`: the human sends it back at `merge_ok`. Report `ready`: note_summary
+      is the pull request and its target; note_body what the human should look at.
+    outcomes: {ready: merge_ok}
+  merge_ok:
+    gate: approval
+    reads: [ledger, merge-report]
+    ask: >-
+      Merge the pull request into its target branch? The integrator brings the target in,
+      merges with a merge commit and updates Jira.
+    outcomes: {approved: merge, rejected: build}
+  merge:
+    agent: integrator
+    do: |
+      Merge the pull request as your role describes ("Merge"), with the plan and the Jira
+      comment of your `merge-report` artifact; a comment of the human at `merge_ok` binds.
+      Report `merged` once the pull request's state is merged and the Jira routine is
+      done: note_summary is the pull request and the merge commit; note_body what was
+      done in Jira and what is left for the human. Report `conflicts` when bringing the
+      target in conflicts or turns a check red: abort the merge, push nothing, and name
+      the files or the failing check in note_body.
+    outcomes: {merged: done, conflicts: build}
+  done:
+    end: true
+  dropped:
+    end: true
