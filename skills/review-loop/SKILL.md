@@ -63,8 +63,8 @@ at the merge gate. A refuted finding: `drop`.
    `tasks.md` is checked, the design's decisions are kept, nothing out of scope was done.
 3. **Verify, tier, fate** each new finding; mark each earlier one RESOLVED or STILL OPEN.
 4. **Checks.** Run the project's checks (`sdlc-settings`, **Checks**) and the pull
-   request's CI state; a red check is a finding. A check must be able to fail
-   (`engineering-rules`); the traps are in `${SKILL_DIR}/references/false-greens.md`.
+   request's CI state; a red check whose cause is in the work is a finding
+   (`engineering-rules`, "A red check"). A check must be able to fail; the traps are in `${SKILL_DIR}/references/false-greens.md`.
 5. **External round**, only when the local pass leaves nothing to fix: see below.
 6. **Stop** when the stop criterion holds; otherwise the findings to fix go back to the
    developer.
@@ -80,7 +80,9 @@ description after the fixes: reviewers most often find it stale.
 
 ## External round
 
-Push before you ask: the external reviewer reads what is pushed. Request the round as the
+The external reviewer reads what is pushed, and the developer pushes in `build`: check
+that the remote head (`git ls-remote origin <branch>`) is the head you reviewed, and
+never push yourself. Request the round as the
 project's **External reviewer** says, with a comment rendered from the ledger:
 
 ```
@@ -117,11 +119,14 @@ The loop has converged when all hold:
 - the pull request's CI is green: no findings over a red pipeline is not mergeable;
 - the pull request's title and description match its diff;
 - the cleanup pass ran after correctness converged, and one final round (precision pass
-  and external round) after the cleanup found nothing to fix.
+  and external round) after the cleanup found no blocker and no important finding. When
+  the cleanup leaves nothing to fix, the round that converged is the final one.
 
-Minor findings do not start another round. A round that brings back only findings already
-declined is a stop signal. After 3 external rounds, if the criterion still fails, ask the
-human with the open findings and your recommendation, and do as they say.
+Minor findings do not start another round: a minor finding of the final round gets
+`decline`, with "found in the final round" as its reason, and the human weighs it at the
+merge gate. A round that brings back only findings already declined is a stop signal.
+After the round cap of **External reviewer** (`sdlc-settings`), if the criterion still
+fails, ask the human with the open findings and your recommendation, and do as they say.
 
 ## Cleanup pass
 

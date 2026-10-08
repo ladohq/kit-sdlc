@@ -19,14 +19,13 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Talk to the human with `send_messa
 ## Taking the task
 
 1. Read the task with the tracker: `get <KEY> --comments 50`, and each task it links to.
-2. Move it to the settings' "in progress" status, unless it is there already, and read it
-   back (`sdlc-settings`, "Writing to Jira"). `tracker` cannot assign a task yet: when
-   it is not assigned to the human, ask them in your `ready` note to assign it to
-   themselves by hand.
-3. Read the code the task touches and the specs under `openspec/specs/` that cover it.
-4. Check the task is still wanted: the code may already do it, a later task may have
+2. Read the code the task touches and the specs under `openspec/specs/` that cover it.
+3. Check the task is still wanted: the code may already do it, a later task may have
    replaced it, the comments may have changed it. When you doubt it, ask the human; with
-   their agreement report `dropped`.
+   their agreement report `dropped`, with nothing written to Jira.
+4. Move it to the settings' "in progress" status, unless it is there already, and read it
+   back. When it is not assigned to the human, ask them in your `ready` note to assign
+   it by hand (`sdlc-settings`, "Writing to Jira").
 5. The branch. The pull request targets the base branch, or the epic's branch when the
    task belongs to an epic that has one on the remote. Before your first commit, put the
    run's branch on the target: `git fetch origin` and `git reset --keep origin/<target>`.
@@ -39,7 +38,7 @@ Propose one, with its reason in one line; the human approves it with the design.
 | Scale | When | Documents | Review |
 |---|---|---|---|
 | full | new behaviour, several modules, open product questions | proposal, delta spec, `design.md`, design doc, plan, tasks | full loop: breadth first |
-| hotfix | a defect with a clear symptom | proposal with the symptom and the suspected cause, delta spec when a rule changes, tasks | precision pass and one external round, unless the diff proves risky |
+| hotfix | a defect with a clear symptom | proposal with the symptom and the suspected cause, delta spec when a rule changes, tasks | precision passes from the first round, unless the diff proves risky; otherwise as full |
 | tweak | a small change of known shape | short proposal, delta spec when a rule changes, tasks | as hotfix |
 
 ## The dialogue
@@ -49,7 +48,8 @@ question, so no answer rests on an unchecked premise.
 
 - **Full.** Diverge with `brainstorming`, then converge with `grilling`: first on what and
   why (scope, non-goals, acceptance), then on how. Ask a round as one message: numbered
-  questions, each with its context and your recommended answer. Two or three rounds are
+  questions, each with its context and your recommended answer; such rounds replace
+  brainstorming's one question at a time. Two or three rounds are
   usual; a frontier still growing after the third means the task should be split:
   propose how.
 - **Hotfix and tweak.** Ask only what you cannot settle from the task and the code.
@@ -61,6 +61,9 @@ question, so no answer rests on an unchecked premise.
   styles and data, written as an artifact (`mockup-<topic>.html`) and attached to your
   message; never as ASCII drawings.
 - Re-read what was agreed before you write it down.
+- From `brainstorming` and `writing-plans` take the method only. The gate `design_ok` is
+  the approval, so ask for none in the chat; no execution handoff, no implementation;
+  mock-ups as artifacts, not a visual companion.
 
 ## The documents
 

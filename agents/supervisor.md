@@ -20,7 +20,10 @@ Read `.lado/sdlc.md` (`sdlc-settings`) and the tracker's `.lado/tracker.yaml`. W
 either is missing, tell the human; offer to draft `.lado/sdlc.md` with them from
 `sdlc.example.md` in the folder of the skill `sdlc-settings`, filled from what the
 repository shows (CI files, build targets, `git log` for the commit style, existing
-`openspec/` changes). Write and commit it only with their yes: it is their file.
+`openspec/` changes). Write and commit it only with their yes: it is their file. Both
+files must be on `origin/<base>` too (`git fetch origin`, then `git cat-file -e
+origin/<base>:<path>`): the analyst puts each run's branch on the remote target, where an
+unpushed file is missing. When one is not, ask the human to push it.
 
 ## Starting a run
 
@@ -47,7 +50,8 @@ The human picks the tasks; never start a run for a task they did not name.
   which artifacts to read (`design` at `design_ok`; `ledger` and `merge-report` at
   `merge_ok`) and your advice with its reason. The human answers in LADO.
 - **A run waits at a loop limit** (the review reached its visits): show the human the
-  ledger's open findings and recommend going on, or cancelling.
+  ledger's open findings and where the loop stands, and recommend `continue` (one more
+  review visit) when the open findings are being fixed, or `cancel`.
 - **The human asks where a run stands**: `flow_status` and the run's latest artifact,
   in two or three lines.
 

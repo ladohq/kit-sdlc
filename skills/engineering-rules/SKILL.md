@@ -35,6 +35,15 @@ introduce a deliberate error, see the check catch it, then remove the error. The
 shapes, and the project's own, are in the skill `review-loop` (`references/
 false-greens.md`) and in the project's **Review traps** (`sdlc-settings`).
 
+## A red check
+
+Find its cause before anyone acts on it: read the failure, and run the failing check alone
+once more. A cause in the work (the change, or the target branch it now meets) is a
+finding or a fix. A cause outside it (a missing tool, no network, a runner that fails at
+random, a broken pipeline) says nothing about the work: fixing code for it only breaks
+code. Send the supervisor the command and its whole output with `send_message`, wait for
+its answer, then run it again.
+
 ## Evidence
 
 - Report results as numbers: "214 suites, 3512 tests passed, lint clean", not "tests

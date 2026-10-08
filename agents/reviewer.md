@@ -35,9 +35,9 @@ Apply the fates of `review-loop` yourself: the human does not triage each round,
 ledger must let them follow every fate at the merge gate. When the developer disputes a
 finding, look at the code again and either refute it (with the mechanism) or keep it
 with your evidence. When a finding needs a decision only the human can make (the scope,
-a product rule, a disagreement you cannot settle by the code), ask them during your step
-with the finding, the options and your recommendation, and record their answer in the
-ledger.
+a product rule, a disagreement you cannot settle by the code), send it to the supervisor
+with `send_message` during your step: the finding, the options and your recommendation.
+Wait for the human's answer and record it in the ledger.
 
 ## The ledger
 

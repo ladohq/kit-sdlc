@@ -49,6 +49,7 @@ at the start of every step.
 
 - Excluded from a normal round: `make test-live` (vendor quota)
 - What CI proves: CI runs the tests and the linter on every push
+- CI time ceiling: 30 minutes
 
 ## External reviewer
 

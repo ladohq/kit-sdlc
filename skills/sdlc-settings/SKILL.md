@@ -26,7 +26,7 @@ supervisor drafts a missing file with the human from `${SKILL_DIR}/sdlc.example.
 | **Languages** | the language of the chat with the human, of pull requests and their comments, of Jira comments, of commit messages and of the openspec documents | everyone |
 | **Git** | the remote, the base branch, how epic branches are named, the pull request branch name for each scale, the code host and its command-line tool | analyst, developer, integrator |
 | **Jira** | the tracker's status words for "in progress" and "review", the label for "waiting for release", the issue types the routine skips, the merge comment's template | analyst, developer, integrator |
-| **Checks** | the commands that must pass, where each runs, what is excluded from a normal round and why, what CI proves | developer, reviewer, integrator |
+| **Checks** | the commands that must pass, where each runs, what is excluded from a normal round and why, what CI proves, how long to wait for CI | developer, reviewer, integrator |
 | **External reviewer** | how to request a round, how to tell it finished, a time ceiling, the round cap | reviewer |
 | **Review traps** | the project's known false greens and pitfalls, one per entry: symptom, how to spot it, how to get round it | developer, reviewer |
 | **Extra instructions** | free text that changes the kit's work here, by role or for all | everyone |

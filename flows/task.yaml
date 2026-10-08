@@ -10,6 +10,7 @@ start: design
 states:
   design:
     agent: analyst
+    reads: [build-report]
     produces: [design]
     do: |
       Take the Jira task the run's task names and design its change with the human, as your
@@ -47,8 +48,7 @@ states:
       reviewer's `ledger` (fix every finding whose fate is "fix"), the human's reason for
       rejecting the merge at `merge_ok` (quote it at the top of `build-report` and fix it
       like a finding), or a conflict or red check from `merge` (merge the target branch in
-      and resolve it). When the change is already archived, revert the archive commit
-      first (`openspec-changes`, "After the archive").
+      and resolve it), as your role describes ("Fixing").
       Done when every task of the change's `tasks.md` is checked, the project's checks
       pass with their numbers in `build-report`, the work is committed and pushed and the
       pull request's description matches the diff. Report `ready`: note_summary is your
@@ -68,11 +68,13 @@ states:
       local pass leaves nothing to fix, an external round with its delta comment.
       On a later visit your previous ledger is your `ledger` artifact: mark each of its
       findings RESOLVED or STILL OPEN first, against the developer's `build-report`.
-      Visits hold up to 3 external rounds, the cleanup pass and the final round.
+      The visits hold the first local round, up to the round cap of external rounds and the
+      final round: in the visit where correctness converges, run the cleanup pass too; when
+      it leaves nothing to fix, that visit's round is the final one.
       Done when every finding of this round has a verdict, a tier and a fate with its
       evidence, and `ledger` is written whole. Report `converged` when the stop criterion
-      of `review-loop` holds after the cleanup pass and its final round, otherwise
-      `changes`: note_summary is the round, the verdict and the counts by tier; note_body
+      of `review-loop` holds, or the human accepted the open findings, recorded in
+      `ledger`; otherwise `changes`: note_summary is the round, the verdict and the counts by tier; note_body
       the findings the developer must fix, by ID.
     outcomes: {changes: build, converged: archive}
   archive:
@@ -99,14 +101,18 @@ states:
     outcomes: {approved: merge, rejected: build}
   merge:
     agent: integrator
+    reads: [design, merge-report]
     do: |
       Merge the pull request as your role describes ("Merge"), with the plan and the Jira
       comment of your `merge-report` artifact; a comment of the human at `merge_ok` binds.
       Report `merged` once the pull request's state is merged and the Jira routine is
       done: note_summary is the pull request and the merge commit; note_body what was
       done in Jira and what is left for the human. Report `conflicts` when bringing the
-      target in conflicts or turns a check red: abort the merge, push nothing, and name
-      the files or the failing check in note_body.
+      target in conflicts, or a check or the pull request's CI is red for a cause in the
+      work: undo the merge as your role says, push nothing, and name the files or the
+      failing check in note_body. A cause outside the work, a CI past its time ceiling or
+      a host that refuses the merge is no outcome: send it to the supervisor and stay in
+      `merge` (your role, "Merge").
     outcomes: {merged: done, conflicts: build}
   done:
     end: true

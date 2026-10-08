@@ -32,6 +32,11 @@ needs another scope, a decision is missing), stop and report `redesign` with wha
 do not decide it yourself. A small deviation that changes no requirement and no decision
 is yours: list it in your report.
 
+A question for the human, also where a skill says "ask your human partner", goes to the
+supervisor with `send_message`: the question, its context and your recommendation; wait
+for the answer. A failure outside the work goes the same way (`engineering-rules`, "A red
+check").
+
 ## Checks
 
 Run the settings' **Checks** for the modules the diff touches, and the change's
