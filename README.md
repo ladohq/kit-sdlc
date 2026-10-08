@@ -14,7 +14,7 @@ it works on a project that already has one.
 
 ## Install and start
 
-You need LADO 0.27 or newer, the `openspec` CLI, the code host's CLI (e.g. `gh`) logged in,
+You need LADO 0.29 or newer, the `openspec` CLI, the code host's CLI (e.g. `gh`) logged in,
 and the Jira variables of [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server).
 
 ```bash

@@ -200,7 +200,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.0, 2026-10-08).
 | Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and Jira writes are rights the developer does not otherwise need. |
 | Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green | |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
-| Words in a role prompt | agents/analyst.md | 720 | 800 / 1500 | green | |
+| Words in a role prompt | agents/analyst.md | 747 | 800 / 1500 | green | |
 | Words in a role prompt | agents/developer.md | 534 | 800 / 1500 | green | |
 | Words in a role prompt | agents/integrator.md | 486 | 800 / 1500 | green | |
 | Words in a role prompt | agents/reviewer.md | 384 | 800 / 1500 | green | |

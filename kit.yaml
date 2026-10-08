@@ -8,8 +8,10 @@ description: >-
   request and merges it with the Jira routine. You approve the design and the merge.
   Start it with the kit tracker-jira-server, which gives the roles the skill tracker.
 supervisor: supervisor
+expects:
+  skills: [tracker]
 dependencies:
-  lado: ">=0.27"
+  lado: ">=0.29"
   skills:
     superpowers:
       from: https://github.com/obra/superpowers@v6.4.1
