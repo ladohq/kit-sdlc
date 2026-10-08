@@ -152,7 +152,9 @@ states:
 
 ![task](blueprint-flows/task.svg)
 
-`review` visits: up to 3 external rounds, the cleanup round and the final round; on a
+`review` visits (`max_visits: 8`): the first local round, the external rounds up to the
+round cap of the project's settings, the cleanup and final rounds, and a re-entry after a
+rejection at `merge_ok` or `conflicts`; the limit is a rare stop. On a
 later visit the reviewer marks its previous findings RESOLVED or STILL OPEN. `build` on a
 later visit fixes what the ledger, the human's rejection or the merge conflict names.
 
@@ -161,7 +163,7 @@ later visit fixes what the ledger, the human's rejection or the merge conflict n
 | Element | Kind | Covers | Why it exists / why nothing simpler |
 |---|---|---|---|
 | `supervisor` | role (lead) | R1, R6, R14 | Starts one run of `task` per Jira key the human names, in the human's language; answers blocked workers; brings the human to the gates. |
-| `analyst` | role | R5, R7, R11, R12 | Takes the task in Jira and runs the design dialogue with the human; writes documents only, never code. |
+| `analyst` | role | R5, R7, R11, R12 | Takes the task in Jira and runs the design dialogue with the human directly (the other workers reach the human through the supervisor); writes documents only, never code. |
 | `developer` | role | R4, R8, R12, R13 | Builds from the approved artifacts with a fresh context; fixes what the review, a rejection or a conflict names. |
 | `reviewer` | role | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). Read-only on code. |
 | `integrator` | role | R9, R10, R11, R12 | Other rights (merge, Jira writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
@@ -172,7 +174,7 @@ later visit fixes what the ledger, the human's rejection or the merge conflict n
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec; `max_visits: 8` (the first local round, up to the round cap of external rounds, cleanup, final round and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
 | `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the Jira comment. Reads `design`, `ledger`. Produces `merge-report`. |
 | `task.merge_ok` | gate | R6, R10 | The merge to the base branch is hard to undo (stage deploys from it on Clens). Reads `ledger`, `merge-report`. |
-| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, Jira label and comment; `conflicts` back to build when the base changes the code or the local check is red; a red CI after the push leaves the pushed merge and goes to the supervisor. Reads `design`, `merge-report`. |
+| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, Jira label and comment; `conflicts` back to build when the base changes the code or the local check is red; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
 | `sdlc-settings` | skill | R2, R14 | The format of `.lado/sdlc.md` and how every role reads it; one place instead of five roles. |
 | `openspec-changes` | skill | R3, R9 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, integrator). |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
@@ -213,12 +215,18 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.0, 2026-10-08).
 
 | Date | Version | Change | ← Fact (session, run, metric or report) |
 |---|---|---|---|
-| 2026-10-08 | 0.1.1 | `merge`: undo the merge only before the push; a red CI after it leaves the pushed merge commit and goes to the supervisor; push only with every check green | kit-reports/sdlc-0.1.0-2026-10-08.md F5.5, F3.7 |
+| 2026-10-08 | 0.1.1 | `merge`: undo the merge only before the push; a red CI after it leaves the pushed merge commit: `conflicts` for a cause in the work, the supervisor otherwise; push only with every check green | kit-reports/sdlc-0.1.0-2026-10-08.md F5.5, F3.7 |
 | 2026-10-08 | 0.1.1 | `review-loop`: a minor `fix` rides with the next round's fixes and does not count as something to fix for the external round or the stop criterion | same report, F3.6 |
 | 2026-10-08 | 0.1.1 | The settings files are checked on the run's target branch (base or epic), not only the base | same report, F2.4 |
 | 2026-10-08 | 0.1.1 | `task.review` `max_visits` 5 → 8 | same report, F8.1 |
 | 2026-10-08 | 0.1.1 | Supervisor at `cancel` tells the human what is left and asks before closing anything; analyst at `dropped` after In Progress asks whether to move the task back | same report, F12.2, F12.3 |
 | 2026-10-08 | 0.1.1 | Analyst leaves the execution header of `writing-plans` out of the plan file | same report, F5.6 |
+| 2026-10-08 | 0.1.2 | Integrator pushes to the pull request's branch as the developer does; developer's "Fixing" covers a red CI from `merge` | kit-reports/sdlc-0.1.1-2026-10-08.md F2.6, F3.9 |
+| 2026-10-08 | 0.1.2 | Analyst talks to the human directly again (rule lost in 0.1.1); after the settings answer it fetches and checks again | same report, F7.2, F2.5 |
+| 2026-10-08 | 0.1.2 | `review-loop`: one reading of when a minor `fix` is fixed or declined; a fallback reviewer through the supervisor when the role cannot start a fresh agent | same report, F3.8, F11.1 |
+| 2026-10-08 | 0.1.2 | `dropped`: the analyst asks about moving the task back before dropping; the supervisor names what is left when a pull request exists | same report, F12.3, F12.4 |
+| 2026-10-08 | 0.1.2 | `archive` and `merge-report` match `openspec-changes` and the manual label | same report, F3.10, F5.8 |
+| 2026-10-08 | 0.1.2 | Blueprint prose on `merge` and `review` visits matches the flow | same report, F5.7, F8.2 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R15, flow `task`.
