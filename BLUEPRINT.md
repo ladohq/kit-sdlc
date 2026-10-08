@@ -71,8 +71,8 @@ transcripts, 147 archived changes), cited below as "dump §N".
   it to themselves by hand. The kit does not bring `tracker` itself: another kit of the
   session does (now `tracker-jira-server`; another tracker kit with a skill of the same
   name fits as well), so `kit.yaml` declares it in `expects.skills` and the roles that use
-  it name it in their `skills:`. `expects` needs LADO 0.29 or newer (round 7: a LADO change
-  made for this kit; until it is released, the kit is not released). *Source:* brief
+  it name it in their `skills:`. `expects` needs LADO 0.29 or newer, so `kit.yaml` sets `dependencies.lado: ">=0.29"`
+  (round 7: a LADO change made for this kit, released in LADO 0.29.0). *Source:* brief
   ("Known so far: the tracker"); dump §1.1, §6 rules 3–5; round 7 (B1).
 - **R12** Specialised roles, each good at one kind of work with its own rights: analyst,
   developer, reviewer, integrator. *Source:* round 4 ("specialised roles … that fit the
