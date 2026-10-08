@@ -1,5 +1,5 @@
 name: sdlc
-version: 0.1.1
+version: 0.1.2
 description: >-
   Day-to-day development of a project whose tasks live in Jira Server, one task per run:
   an analyst takes the task and designs the change with you as an openspec change, a
