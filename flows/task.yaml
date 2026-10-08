@@ -17,16 +17,16 @@ states:
       role describes: take the task, check it is still wanted, propose the scale, then the
       dialogue and the documents of that scale.
       On a later visit the previous step's note says why you are back: the human's reason
-      for rejecting the design at `design_ok` (quote it at the top of `design`), or the
-      developer's reason for `redesign` (its `build-report` says what cannot be built as
-      approved). Revise the committed change, not a version from memory, and write
+      for rejecting the design at `design_ok`, or the developer's reason for `redesign`
+      (its `build-report` says what cannot be built as approved); quote either reason at
+      the top of `design`. Revise the committed change, not a version from memory, and write
       `design` whole again.
       Done when the human has answered every question you asked, the change's files are
       committed on the run's branch, `openspec validate <change> --strict` passes and
       `design` holds them. Report `ready`: note_summary is the key, the scale and the
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
-      agreed the task is no longer wanted; `design` then says why, and nothing is
+      agreed the task is no longer wanted; `design` then says why, and nothing new is
       committed. When the task is already in the settings' "in progress" status, ask, in
       the message where you propose dropping it, whether to move it back and to which
       status, and move it only on their yes (`sdlc-settings`, "Writing to Jira").
@@ -45,12 +45,12 @@ states:
     do: |
       Build the approved change (your `design` input) in the run's worktree, as your role
       describes, and bring its pull request up to date.
-      On the first visit the previous step's note is the human's answer at `design_ok`: a
-      comment there binds like the design. On a later visit the note says what to fix: the
-      reviewer's `ledger` (fix every finding whose fate is "fix"), the human's reason for
-      rejecting the merge at `merge_ok` (quote it at the top of `build-report` and fix it
-      like a finding), or a conflict or red check from `merge` (merge the target branch in
-      and resolve it), as your role describes ("Fixing").
+      On a visit after `design_ok` (the first, or after `redesign`) the note is the human's
+      answer there: a comment binds like the design; build the revised change. On a visit
+      after another step the note says what to fix: the reviewer's `ledger` (fix every
+      finding whose fate is "fix"), the human's reason for rejecting the merge at
+      `merge_ok` (quote it at the top of `build-report` and fix it like a finding), or a
+      conflict or red check from `merge`, as your role describes ("Fixing").
       Done when every task of the change's `tasks.md` is checked, the project's checks
       pass with their numbers in `build-report`, the work is committed and pushed and the
       pull request's description matches the diff. Report `ready`: note_summary is your
@@ -90,9 +90,9 @@ states:
       Done when the archive commit is pushed, `openspec validate --specs --strict` passes,
       and `merge-report` holds the archive's result, the pull request's state, what the
       merge will do in git and Jira, the drafted Jira comment and the ledger's residual
-      risk. When the change cannot be archived as it is (a task not checked without a reason, a delta that
-      contradicts a living spec), archive nothing and say so at the top of
-      `merge-report`: the human sends it back at `merge_ok`. Report `ready`: note_summary
+      risk. When the change cannot be archived as it is (the ledger does not show the
+      review converged, a task not checked without a reason, a delta that contradicts a
+      living spec), archive nothing and say so at the top of `merge-report`: the human sends it back at `merge_ok`. Report `ready`: note_summary
       is the pull request and its target; note_body what the human should look at.
     outcomes: {ready: merge_ok}
   merge_ok:

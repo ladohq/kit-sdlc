@@ -156,7 +156,8 @@ states:
 round cap of the project's settings, the cleanup and final rounds, and a re-entry after a
 rejection at `merge_ok` or `conflicts`; the limit is a rare stop. On a
 later visit the reviewer marks its previous findings RESOLVED or STILL OPEN. `build` on a
-later visit fixes what the ledger, the human's rejection or the merge conflict names.
+later visit fixes what the ledger, the human's rejection, the merge conflict or a red CI
+from `merge` names; after `redesign` it builds the newly approved design.
 
 ## 3. Traceability
 
@@ -168,7 +169,7 @@ later visit fixes what the ledger, the human's rejection or the merge conflict n
 | `reviewer` | role | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). Read-only on code. |
 | `integrator` | role | R9, R10, R11, R12 | Other rights (merge, Jira writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
 | `task` | flow | R1, R4 | One run per task; LADO keeps its state, so it resumes after any stop. |
-| `task.design` | work step | R3, R5, R7, R11 | Takes the task (assign, In Progress), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks the settings files are on it. Reads `build-report` on a return. Produces `design`. |
+| `task.design` | work step | R3, R5, R7, R11 | Takes the task (In Progress; asks the human to assign it), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks the settings files are on it. Reads `build-report` on a return. Produces `design`. |
 | `task.design_ok` | gate | R5, R6 | Code starts only on the human's approval of scope, scale and design. Reads `design`. |
 | `task.build` | work step | R8, R11, R13 | TDD and the change; the project's checks; push; the pull request, its Jira link, Code Review on the last PR. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec; `max_visits: 8` (the first local round, up to the round cap of external rounds, cleanup, final round and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
@@ -176,9 +177,9 @@ later visit fixes what the ledger, the human's rejection or the merge conflict n
 | `task.merge_ok` | gate | R6, R10 | The merge to the base branch is hard to undo (stage deploys from it on Clens). Reads `ledger`, `merge-report`. |
 | `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, Jira label and comment; `conflicts` back to build when the base changes the code or the local check is red; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
 | `sdlc-settings` | skill | R2, R14 | The format of `.lado/sdlc.md` and how every role reads it; one place instead of five roles. |
-| `openspec-changes` | skill | R3, R9 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, integrator). |
+| `openspec-changes` | skill | R3, R9 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator). |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
-| `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer and reviewer. |
+| `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer, reviewer and integrator. |
 | superpowers skills (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion) | dependency skills | R5, R7, R8 | The methods Comet Classic used; published, so declared in `dependencies.skills`, not copied. |
 | `grilling` | dependency skill | R7 | The human's grilling step at design. |
 | `tracker` (kit `tracker-jira-server`) | skill of another kit | R2, R11 | Jira through one script; declared in `kit.yaml` `expects.skills` (LADO >= 0.29), named in the `skills:` of analyst, developer, integrator and supervisor; the session adds a kit that provides it. |
@@ -203,10 +204,10 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.2, 2026-10-08).
 | Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green | |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
 | Words in a role prompt | agents/analyst.md | 798 | 800 / 1500 | green | |
-| Words in a role prompt | agents/developer.md | 599 | 800 / 1500 | green | |
-| Words in a role prompt | agents/integrator.md | 644 | 800 / 1500 | green | |
+| Words in a role prompt | agents/developer.md | 604 | 800 / 1500 | green | |
+| Words in a role prompt | agents/integrator.md | 641 | 800 / 1500 | green | |
 | Words in a role prompt | agents/reviewer.md | 392 | 800 / 1500 | green | |
-| Words in the lead's prompt | agents/supervisor.md | 770 | 1000 / 1500 | green | |
+| Words in the lead's prompt | agents/supervisor.md | 739 | 1000 / 1500 | green | |
 | Own skills | kit | 4 | 5 / 10 | green | |
 | MCP servers | kit | 0 | 2 / 4 | green | |
 | Similar paragraphs | kit | none | | green | |
@@ -223,10 +224,16 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.2, 2026-10-08).
 | 2026-10-08 | 0.1.1 | Analyst leaves the execution header of `writing-plans` out of the plan file | same report, F5.6 |
 | 2026-10-08 | 0.1.2 | Integrator pushes to the pull request's branch as the developer does; developer's "Fixing" covers a red CI from `merge` | kit-reports/sdlc-0.1.1-2026-10-08.md F2.6, F3.9 |
 | 2026-10-08 | 0.1.2 | Analyst talks to the human directly again (rule lost in 0.1.1); after the settings answer it fetches and checks again | same report, F7.2, F2.5 |
-| 2026-10-08 | 0.1.2 | `review-loop`: one reading of when a minor `fix` is fixed or declined; a fallback reviewer through the supervisor when the role cannot start a fresh agent | same report, F3.8, F11.1 |
+| 2026-10-08 | 0.1.2 | `review-loop`: one reading of when a minor `fix` is fixed or declined; when the reviewer cannot start a fresh agent, it asks the human whether to go on without the external round | same report, F3.8, F11.1 |
 | 2026-10-08 | 0.1.2 | `dropped`: the analyst asks about moving the task back before dropping; the supervisor names what is left when a pull request exists | same report, F12.3, F12.4 |
 | 2026-10-08 | 0.1.2 | `archive` and `merge-report` match `openspec-changes` and the manual label | same report, F3.10, F5.8 |
 | 2026-10-08 | 0.1.2 | Blueprint prose on `merge` and `review` visits matches the flow | same report, F5.7, F8.2 |
+| 2026-10-08 | 0.1.2 | No fallback reviewer from the supervisor: the reviewer without a fresh agent asks the human; their "go on without the external round" holds for the rest of the loop and counts for the stop criterion | kit-reports/sdlc-0.1.2-2026-10-08.md F12.7, F3.13, F7.4 |
+| 2026-10-08 | 0.1.2 | `build` after `redesign` builds the newly approved design; `design` quotes either reason for a return; the pull request is opened when none is open | same report, F2.10, F4.3, F2.9 |
+| 2026-10-08 | 0.1.2 | `dropped` after a rejection at `design_ok` or after `redesign`: the supervisor names the committed work before asking to discard | same report, F12.8, F2.8 |
+| 2026-10-08 | 0.1.2 | Integrator reads convergence from the ledger and archives nothing when it is not shown; the developer fixes a red CI from `merge` on top of the branch | same report, F10.2, F3.12, F3.11 |
+| 2026-10-08 | 0.1.2 | `review-loop`: breadth first only on a full change; no external round over an unpushed head. Settings file put on the run's target branch. Analyst names `grilling` with the method-only rule | same report, F5.14, F3.14, F12.9, F5.11 |
+| 2026-10-08 | 0.1.2 | Blueprint prose: `build` revisits, `task.design` assign, users of `openspec-changes` and `engineering-rules` | same report, F8.3, F5.15, F5.16, F5.13 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R15, flow `task`.

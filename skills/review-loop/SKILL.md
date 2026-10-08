@@ -61,8 +61,8 @@ after their fix is the final one.
 1. **Scope.** The diff is the pull request's target branch against the head:
    `git diff origin/<target>...HEAD`. A pushed branch's `@{upstream}` diff is empty, and a
    review of nothing looks clean.
-2. **Local pass.** Breadth on the first round, and on a round after a fix that reshaped
-   the design; precision on every other round, on the delta since the last round. The
+2. **Local pass.** Breadth on the first round of a full change (the role and the
+   design's review depth decide), and on a round after a fix that reshaped the design; precision on every other round, on the delta since the last round. The
    lenses are in `${SKILL_DIR}/references/lenses.md`. Check the change against its spec:
    every requirement and scenario of the delta has code and a test, every task of
    `tasks.md` is checked, the design's decisions are kept, nothing out of scope was done.
@@ -87,7 +87,8 @@ description after the fixes: reviewers most often find it stale.
 
 The external reviewer reads what is pushed, and the developer pushes in `build`: check
 that the remote head (`git ls-remote origin <branch>`) is the head you reviewed, and
-never push yourself. Request the round as the
+never push yourself; when it differs, request no external round: report `changes` with
+"push the head <sha>". Request the round as the
 project's **External reviewer** says, with a comment rendered from the ledger:
 
 ```
@@ -114,10 +115,8 @@ than that time: an older one is the previous round's. A timeout is a timeout, ne
 clean round. When the project has no external reviewer, or it does not answer, use a
 fresh agent given only the diff and the pull request's description, and label the round
 "substitute" in the ledger and the closing report: it shares your priors. When you cannot
-start a fresh agent yourself, ask the supervisor for a fresh agent with only the diff and
-the pull request's description; it sends back that agent's findings. When that is not
-possible either, say so in the ledger and ask the human through the supervisor whether to
-go on without the external round.
+start a fresh agent, say so in the ledger and ask the human through the supervisor
+whether to go on without the external round (their answer: "Stop criterion").
 
 Treat the external reviewer's findings like any other: verify, tier, fate.
 
@@ -130,8 +129,8 @@ The loop has converged when all hold:
 - the cleanup pass ran after correctness converged, and one final round (precision pass
   and external round) after the cleanup found no blocker and no important finding. When
   the cleanup leaves nothing to fix, the round that converged is the final one. An
-  external round the human allowed you to skip counts as run, once the ledger records
-  their answer.
+  external round the human allowed you to skip counts as run; their answer, recorded in
+  the ledger, holds for the rest of the loop unless they say otherwise.
 
 Minor findings do not start another round: a minor finding of the final round gets
 `decline`, with "found in the final round" as its reason, and the human weighs it at the

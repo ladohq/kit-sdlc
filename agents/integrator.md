@@ -19,8 +19,8 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
 
 ## Archive
 
-1. Check the review converged: the ledger's last round meets the stop criterion of
-   `review-loop`, or the human accepted the open findings, recorded in the ledger.
+1. Check the review converged: the ledger says its last round met the stop criterion,
+   or that the human accepted the open findings.
 2. Archive as `openspec-changes` says ("Archive"), with the closing report from the
    ledger, and push as the developer does: `git push origin HEAD:refs/heads/<the
    design's pull request branch>`, never force.

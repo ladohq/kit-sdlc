@@ -47,10 +47,10 @@ Run the settings' **Checks** for the modules the diff touches, and the change's
 
 1. Push the run's branch under the design's pull request branch name:
    `git push origin HEAD:refs/heads/<branch>` (no force, ever).
-2. On the first visit open the pull request against the design's target branch with the
+2. When no pull request is open, open one against the design's target branch with the
    code host's tool (`sdlc-settings`, **Git**). Its description, in the settings'
    language: what was wrong or missing, what was done, how it was checked (the numbers,
-   and what was not run and why), and the path of the openspec change. On later visits
+   and what was not run and why), and the path of the openspec change. When one is open,
    update it so it matches the diff.
 3. Link the pull request to the task with the tracker (`link <KEY> <url> --title
    '<title>'`), every pull request at once.
@@ -59,8 +59,9 @@ Run the settings' **Checks** for the modules the diff touches, and the change's
 
 ## Fixing
 
-On a later visit, the note says what to fix. Fix each ledger finding whose fate is "fix",
-as `review-loop` says ("Fixing a finding"), one commit per round. A finding you believe
+On a visit after `review`, `merge_ok` or `merge`, the note says what to fix. Fix each
+ledger finding whose fate is "fix", as `review-loop` says ("Fixing a finding"), one
+commit per round. A finding you believe
 is wrong is not yours to drop: say why in your report, with evidence, and leave it for
 the reviewer. When the change is already archived, revert the archive first
 (`openspec-changes`, "After the archive"). For a conflict, merge `origin/<target>` into

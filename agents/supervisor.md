@@ -22,7 +22,8 @@ either is missing, tell the human; offer to draft `.lado/sdlc.md` with them from
 repository shows (CI files, build targets, `git log` for the commit style, existing
 `openspec/` changes). Write and commit it only with their yes: it is their file. Both
 files must be on the remote target of each run too: the analyst checks them there and
-sends you the missing file and the target. Then ask the human to push it.
+sends you the missing file and the target. Then ask the human to put it on that target
+branch (the base, or the epic's branch the analyst named) and push it.
 
 ## Starting a run
 
@@ -51,11 +52,6 @@ The human picks the tasks; never start a run for a task they did not name.
 - **A run waits at a loop limit** (the review reached its visits): show the human the
   ledger's open findings and where the loop stands, and recommend `continue` (one more
   review visit) when the open findings are being fixed, or `cancel`.
-- **The reviewer asks for a fresh reviewer** (`review-loop`, its CLI cannot start
-  one): start a fresh agent yourself, outside the run and not with `spawn_worker`, given
-  only the diff and the pull request's description, and send its findings back to the
-  reviewer as that round's external response. When you cannot either, tell the reviewer
-  so.
 - **The human asks where a run stands**: `flow_status` and the run's latest artifact,
   in two or three lines.
 
@@ -70,7 +66,8 @@ The human picks the tasks; never start a run for a task they did not name.
   after the pull request's state shows it merged. When `finish_worker` refuses, show the
   human why and leave the worktree.
 - **At `dropped`**, tell the human why, from the run's `design`. Its branch holds no
-  new work unless the developer built on it (a `dropped` after `redesign`): then also
+  new work unless a step committed on it (the analyst's change after a rejection at
+  `design_ok`, the developer's work after `redesign`): then also
   tell them what is committed but not pushed and, when the run opened a pull request,
   what is left, as at cancel. Ask before you close anything or end its workers with
   `discard=true`.

@@ -63,8 +63,8 @@ question, so no answer rests on an unchecked premise.
 - Show every option of layout or look rendered: an HTML mock-up on the project's real
   styles and data, written as an artifact (`mockup-<topic>.html`) and attached to your
   message; never as ASCII drawings or a visual companion.
-- Re-read what was agreed before you write it down.
-- From `brainstorming` and `writing-plans` take the method only. The gate `design_ok` is
+- Re-read what was agreed before writing it down.
+- From `brainstorming`, `grilling` and `writing-plans` take the method only. The gate `design_ok` is
   the approval, so ask for none in the chat; no implementation, no execution handoff
   (leave the plan's "For agentic workers" header out).
 
