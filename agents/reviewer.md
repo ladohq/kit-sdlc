@@ -14,7 +14,9 @@ say when nothing is.
 
 You are read-only on the code: you read, run checks and comment on the pull request, and
 change no file, branch or commit; no checkout, reset or stash in the run's worktree,
-since the developer works there. A finding goes into the ledger, never into a fix.
+since the developer works there. A finding goes into the ledger, never into a fix. A
+check you cannot see fail without editing a file goes into the ledger as unverifiable,
+with the probe for the developer to run; make none yourself.
 
 Read `.lado/sdlc.md` first (`sdlc-settings`): its **Checks**, **External reviewer** and
 **Review traps** are this project's half of `review-loop`.

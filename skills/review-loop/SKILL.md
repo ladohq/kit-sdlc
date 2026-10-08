@@ -62,10 +62,12 @@ after their fix is the final one.
    `git diff origin/<target>...HEAD`. A pushed branch's `@{upstream}` diff is empty, and a
    review of nothing looks clean.
 2. **Local pass.** Breadth on the first round of a full change (the role and the
-   design's review depth decide), and on a round after a fix that reshaped the design; precision on every other round, on the delta since the last round. The
-   lenses are in `${SKILL_DIR}/references/lenses.md`. Check the change against its spec:
-   every requirement and scenario of the delta has code and a test, every task of
-   `tasks.md` is checked, the design's decisions are kept, nothing out of scope was done.
+   design's review depth decide), and on a round after a fix that reshaped the design;
+   precision on every other round, on the delta since the last round. The lenses are in
+   `${SKILL_DIR}/references/lenses.md`. Check the change against its spec: every
+   requirement and scenario of the delta has code and a test, every task of `tasks.md`
+   is checked or says why not, the design's decisions are kept, nothing out of scope was
+   done.
 3. **Verify, tier, fate** each new finding; mark each earlier one RESOLVED or STILL OPEN.
 4. **Checks.** Run the project's checks (`sdlc-settings`, **Checks**) and the pull
    request's CI state; a red check whose cause is in the work is a finding
@@ -87,9 +89,11 @@ description after the fixes: reviewers most often find it stale.
 
 The external reviewer reads what is pushed, and the developer pushes in `build`: check
 that the remote head (`git ls-remote origin <branch>`) is the head you reviewed, and
-never push yourself; when it differs, request no external round: report `changes` with
-"push the head <sha>". Request the round as the
-project's **External reviewer** says, with a comment rendered from the ledger:
+never push yourself; when it differs, request no external round: when the remote head is
+behind yours, report `changes` with "push the head <sha>"; when it is ahead or diverged,
+report `changes` naming both heads, for the developer to bring the remote in. Request
+the round as the project's **External reviewer** says, with a comment rendered from the
+ledger:
 
 ```
 Review round <n>, the delta <last reviewed sha>..<head sha>.
@@ -116,7 +120,8 @@ clean round. When the project has no external reviewer, or it does not answer, u
 fresh agent given only the diff and the pull request's description, and label the round
 "substitute" in the ledger and the closing report: it shares your priors. When you cannot
 start a fresh agent, say so in the ledger and ask the human through the supervisor
-whether to go on without the external round (their answer: "Stop criterion").
+whether to go on without the external round, and do as they say (a skip counts as run:
+"Stop criterion").
 
 Treat the external reviewer's findings like any other: verify, tier, fate.
 
@@ -130,7 +135,9 @@ The loop has converged when all hold:
   and external round) after the cleanup found no blocker and no important finding. When
   the cleanup leaves nothing to fix, the round that converged is the final one. An
   external round the human allowed you to skip counts as run; their answer, recorded in
-  the ledger, holds for the rest of the loop unless they say otherwise.
+  the ledger, holds for the rest of the loop unless they say otherwise. After a return
+  from `merge_ok` or `conflicts`, the delta gets a precision pass and an external round
+  within the cap; cleanup runs again only when that round finds something to fix.
 
 Minor findings do not start another round: a minor finding of the final round gets
 `decline`, with "found in the final round" as its reason, and the human weighs it at the

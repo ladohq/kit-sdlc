@@ -27,9 +27,10 @@ states:
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
       agreed the task is no longer wanted; `design` then says why, and nothing new is
-      committed. When the task is already in the settings' "in progress" status, ask, in
-      the message where you propose dropping it, whether to move it back and to which
-      status, and move it only on their yes (`sdlc-settings`, "Writing to Jira").
+      committed. When the task is already in the settings' "in progress" or "review"
+      status, ask, in the message where you propose dropping it, whether to move it back
+      and to which status, and move it only on their yes (`sdlc-settings`, "Writing to
+      Jira").
     outcomes: {ready: design_ok, dropped: dropped}
   design_ok:
     gate: approval
@@ -45,16 +46,19 @@ states:
     do: |
       Build the approved change (your `design` input) in the run's worktree, as your role
       describes, and bring its pull request up to date.
-      On a visit after `design_ok` (the first, or after `redesign`) the note is the human's
-      answer there: a comment binds like the design; build the revised change. On a visit
-      after another step the note says what to fix: the reviewer's `ledger` (fix every
-      finding whose fate is "fix"), the human's reason for rejecting the merge at
-      `merge_ok` (quote it at the top of `build-report` and fix it like a finding), or a
+      On a visit after `design_ok` (the first, or after `redesign`) the note is the
+      human's answer there: a comment binds like the design; build the approved change
+      (after `redesign`, the revised one). On a visit after another step the note says
+      what to fix: the reviewer's `ledger` (fix every finding whose fate is "fix"), the
+      human's reason for rejecting the merge at `merge_ok` (quote it at the top of
+      `build-report` and fix it like a finding; when it is only that the review did not
+      converge, with nothing in the code to fix, quote it and report `ready`), or a
       conflict or red check from `merge`, as your role describes ("Fixing").
-      Done when every task of the change's `tasks.md` is checked, the project's checks
-      pass with their numbers in `build-report`, the work is committed and pushed and the
-      pull request's description matches the diff. Report `ready`: note_summary is your
-      status and a one-line result; note_body what changed since the last visit.
+      Done when every task of the change's `tasks.md` is checked or says why not, the
+      project's checks pass with their numbers in `build-report`, the work is committed
+      and pushed and the pull request's description matches the diff. Report `ready`:
+      note_summary is your status and a one-line result; note_body what changed since
+      the last visit.
       Report `redesign` instead when the work needs a change of scope or a decision the
       design does not hold: `build-report` says what and why, and nothing half done is
       left uncommitted.
@@ -92,8 +96,10 @@ states:
       merge will do in git and Jira, the drafted Jira comment and the ledger's residual
       risk. When the change cannot be archived as it is (the ledger does not show the
       review converged, a task not checked without a reason, a delta that contradicts a
-      living spec), archive nothing and say so at the top of `merge-report`: the human sends it back at `merge_ok`. Report `ready`: note_summary
-      is the pull request and its target; note_body what the human should look at.
+      living spec), archive nothing and say so at the top of `merge-report`: the human
+      sends it back, or accepts the open findings there, at `merge_ok`. Report `ready`:
+      note_summary is the pull request and its target; note_body what the human should
+      look at.
     outcomes: {ready: merge_ok}
   merge_ok:
     gate: approval
@@ -108,6 +114,8 @@ states:
     do: |
       Merge the pull request as your role describes ("Merge"), with the plan and the Jira
       comment of your `merge-report` artifact; a comment of the human at `merge_ok` binds.
+      When `merge-report` says nothing was archived and the human accepted the findings at
+      `merge_ok`, archive first ("Archive"), then merge.
       Report `merged` once the pull request's state is merged and the Jira routine is
       done: note_summary is the pull request and the merge commit; note_body what was
       done in Jira and what is left for the human. Report `conflicts` when bringing the

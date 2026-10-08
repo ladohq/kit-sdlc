@@ -175,7 +175,7 @@ from `merge` names; after `redesign` it builds the newly approved design.
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec; `max_visits: 8` (the first local round, up to the round cap of external rounds, cleanup, final round and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
 | `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the Jira comment. Reads `design`, `ledger`. Produces `merge-report`. |
 | `task.merge_ok` | gate | R6, R10 | The merge to the base branch is hard to undo (stage deploys from it on Clens). Reads `ledger`, `merge-report`. |
-| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, Jira label and comment; `conflicts` back to build when the base changes the code or the local check is red; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
+| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, Jira label and comment; `conflicts` back to build when bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
 | `sdlc-settings` | skill | R2, R14 | The format of `.lado/sdlc.md` and how every role reads it; one place instead of five roles. |
 | `openspec-changes` | skill | R3, R9 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator). |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
@@ -204,9 +204,9 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.2, 2026-10-08).
 | Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green | |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
 | Words in a role prompt | agents/analyst.md | 798 | 800 / 1500 | green | |
-| Words in a role prompt | agents/developer.md | 604 | 800 / 1500 | green | |
+| Words in a role prompt | agents/developer.md | 614 | 800 / 1500 | green | |
 | Words in a role prompt | agents/integrator.md | 641 | 800 / 1500 | green | |
-| Words in a role prompt | agents/reviewer.md | 392 | 800 / 1500 | green | |
+| Words in a role prompt | agents/reviewer.md | 419 | 800 / 1500 | green | |
 | Words in the lead's prompt | agents/supervisor.md | 739 | 1000 / 1500 | green | |
 | Own skills | kit | 4 | 5 / 10 | green | |
 | MCP servers | kit | 0 | 2 / 4 | green | |
@@ -234,6 +234,11 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.2, 2026-10-08).
 | 2026-10-08 | 0.1.2 | Integrator reads convergence from the ledger and archives nothing when it is not shown; the developer fixes a red CI from `merge` on top of the branch | same report, F10.2, F3.12, F3.11 |
 | 2026-10-08 | 0.1.2 | `review-loop`: breadth first only on a full change; no external round over an unpushed head. Settings file put on the run's target branch. Analyst names `grilling` with the method-only rule | same report, F5.14, F3.14, F12.9, F5.11 |
 | 2026-10-08 | 0.1.2 | Blueprint prose: `build` revisits, `task.design` assign, users of `openspec-changes` and `engineering-rules` | same report, F8.3, F5.15, F5.16, F5.13 |
+| 2026-10-08 | 0.1.2 | Developer's "Fixing" covers a red local check after the target was brought in; a task may stay unchecked with a reason in `build` and the review | kit-reports/sdlc-0.1.2-2026-10-08.md (visit 3) F2.11, F5.17 |
+| 2026-10-08 | 0.1.2 | `merge_ok` over an unconverged ledger: the human sends it back (the developer quotes it and reports `ready`) or accepts the findings (the integrator archives first, then merges) | same report, F3.15 |
+| 2026-10-08 | 0.1.2 | `review-loop`: a remote head ahead or diverged goes to the developer with both heads; a return from `merge_ok` or `conflicts` gets a precision pass and an external round; the human's answer on a skipped round is followed either way | same report, F3.16, F8.4, F7.5 |
+| 2026-10-08 | 0.1.2 | Reviewer makes no probe edits: a check it cannot see fail goes into the ledger as unverifiable | same report, F5.18 |
+| 2026-10-08 | 0.1.2 | `dropped` asks about moving the task back from "review" too; `build` wording on the first visit; blueprint `task.merge` prose | same report, F12.10, F9.4, F5.19 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R15, flow `task`.
