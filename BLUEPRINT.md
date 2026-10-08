@@ -10,7 +10,7 @@ and reused on other projects. It leads the session; the kit `tracker-jira-server
 roles the skill `tracker`:
 `lado start <repo> --kit sdlc --kit tracker-jira-server`.
 
-Sources: the interview in LADO session `kit-comet` (rounds 1–6, 2026-10-08), the brief
+Sources: the interview in LADO session `kit-comet` (rounds 1–7, 2026-10-08), the brief
 `BRIEF.md` of this repository, and the human's process dump `clens-process-dump.md`
 (session artifact, 2026-10-08: memory routines, the `pr-converge` skill, 326 session
 transcripts, 147 archived changes), cited below as "dump §N".
@@ -68,8 +68,12 @@ transcripts, 147 archived changes), cited below as "dump §N".
   merge label and comment. A new Jira task only after the human's explicit yes. All of it
   through the skill `tracker`. Until `tracker` can assign a task (as with labels, R10), the
   analyst moves the task to In Progress itself and asks the human, in its note, to assign
-  it to themselves by hand. *Source:* brief ("Known so far: the tracker"); dump §1.1,
-  §6 rules 3–5.
+  it to themselves by hand. The kit does not bring `tracker` itself: another kit of the
+  session does (now `tracker-jira-server`; another tracker kit with a skill of the same
+  name fits as well), so `kit.yaml` declares it in `expects.skills` and the roles that use
+  it name it in their `skills:`. `expects` needs LADO 0.29 or newer (round 7: a LADO change
+  made for this kit; until it is released, the kit is not released). *Source:* brief
+  ("Known so far: the tracker"); dump §1.1, §6 rules 3–5; round 7 (B1).
 - **R12** Specialised roles, each good at one kind of work with its own rights: analyst,
   developer, reviewer, integrator. *Source:* round 4 ("specialised roles … that fit the
   budget and do only their task well"; answer "4 roles").
@@ -175,7 +179,7 @@ later visit fixes what the ledger, the human's rejection or the merge conflict n
 | `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer and reviewer. |
 | superpowers skills (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion) | dependency skills | R5, R7, R8 | The methods Comet Classic used; published, so declared in `dependencies.skills`, not copied. |
 | `grilling` | dependency skill | R7 | The human's grilling step at design. |
-| `tracker` (kit `tracker-jira-server`) | skill of another kit | R11 | Jira through one script; the session adds that kit, the roles name the skill. |
+| `tracker` (kit `tracker-jira-server`) | skill of another kit | R2, R11 | Jira through one script; declared in `kit.yaml` `expects.skills` (LADO >= 0.29), named in the `skills:` of analyst, developer, integrator and supervisor; the session adds a kit that provides it. |
 
 Reverse check:
 - R1: `supervisor`, `task`. R2: `sdlc-settings`. R3: `task.design`, `openspec-changes`,
