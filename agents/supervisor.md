@@ -21,9 +21,8 @@ either is missing, tell the human; offer to draft `.lado/sdlc.md` with them from
 `sdlc.example.md` in the folder of the skill `sdlc-settings`, filled from what the
 repository shows (CI files, build targets, `git log` for the commit style, existing
 `openspec/` changes). Write and commit it only with their yes: it is their file. Both
-files must be on `origin/<base>` too (`git fetch origin`, then `git cat-file -e
-origin/<base>:<path>`): the analyst puts each run's branch on the remote target, where an
-unpushed file is missing. When one is not, ask the human to push it.
+files must be on the remote target of each run too: the analyst checks them there and
+sends you the missing file and the target. Then ask the human to push it.
 
 ## Starting a run
 
@@ -67,3 +66,6 @@ The human picks the tasks; never start a run for a task they did not name.
   human why and leave the worktree.
 - **At `dropped`**, tell the human why, from the run's `design`. Its branch holds no
   work; ask before you end its workers with `discard=true`.
+- **At cancel**, tell the human what is left: the pull request and whether it holds an
+  archive commit, the task's Jira status, the run's worktree and workers. Ask before you
+  close anything or end its workers with `discard=true`.

@@ -49,7 +49,10 @@ them into one row.
 **Fate.** Blockers and important findings: `fix`, in this branch. Minor: `fix` when it is
 cheap (the file is already open, no new test needed), otherwise `decline` with the
 reason. No finding becomes a new task or a debt entry: the human can still decide that
-at the merge gate. A refuted finding: `drop`.
+at the merge gate. A refuted finding: `drop`. A minor `fix` rides with the next round's
+fixes: it is not something to fix for the external round or the stop criterion. The
+cleanup is the exception: its minor `fix` findings go to the developer, and the round
+after their fix is the final one.
 
 ## A round
 

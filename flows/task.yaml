@@ -27,7 +27,8 @@ states:
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
       agreed the task is no longer wanted; `design` then says why, and nothing is
-      committed.
+      committed. When you already moved the task to In Progress, ask the human in the
+      note whether to move it back.
     outcomes: {ready: design_ok, dropped: dropped}
   design_ok:
     gate: approval
@@ -59,7 +60,7 @@ states:
     outcomes: {ready: review, redesign: design}
   review:
     agent: reviewer
-    max_visits: 5
+    max_visits: 8
     reads: [design, build-report]
     produces: [ledger]
     do: |
@@ -68,9 +69,10 @@ states:
       local pass leaves nothing to fix, an external round with its delta comment.
       On a later visit your previous ledger is your `ledger` artifact: mark each of its
       findings RESOLVED or STILL OPEN first, against the developer's `build-report`.
-      The visits hold the first local round, up to the round cap of external rounds and the
-      final round: in the visit where correctness converges, run the cleanup pass too; when
-      it leaves nothing to fix, that visit's round is the final one.
+      The visits hold the first local round, the external rounds up to the round cap, the
+      cleanup and final rounds, and a return after `merge_ok` or `conflicts`; reaching the
+      limit is rare. In the visit where correctness converges, run the cleanup pass too;
+      when it leaves nothing to fix, that visit's round is the final one.
       Done when every finding of this round has a verdict, a tier and a fate with its
       evidence, and `ledger` is written whole. Report `converged` when the stop criterion
       of `review-loop` holds, or the human accepted the open findings, recorded in
@@ -108,10 +110,11 @@ states:
       Report `merged` once the pull request's state is merged and the Jira routine is
       done: note_summary is the pull request and the merge commit; note_body what was
       done in Jira and what is left for the human. Report `conflicts` when bringing the
-      target in conflicts, or a check or the pull request's CI is red for a cause in the
-      work: undo the merge as your role says, push nothing, and name the files or the
-      failing check in note_body. A cause outside the work, a CI past its time ceiling or
-      a host that refuses the merge is no outcome: send it to the supervisor and stay in
+      target in conflicts or a local check is red for a cause in the work: undo the merge
+      as your role says, push nothing, and name the files or the failing check in
+      note_body. A CI red for a cause in the work is `conflicts` too, but the merge is
+      already pushed: leave it (your role, "Merge"). A cause outside the work, a CI past
+      its time ceiling or a host that refuses the merge is no outcome: send it to the supervisor and stay in
       `merge` (your role, "Merge").
     outcomes: {merged: done, conflicts: build}
   done:

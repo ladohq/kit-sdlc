@@ -41,15 +41,17 @@ posted; the ledger's residual risk and declined findings.
    run's branch. On a conflict, `git merge --abort` and report `conflicts`. When it
    merges cleanly and brought changes, run the settings' **Checks**. A red check whose
    cause is in the work (`engineering-rules`, "A red check") is `conflicts` too: first
-   `git reset --keep <the noted commit>`, so the unpushed merge commit goes. Otherwise
-   push.
+   `git reset --keep <the noted commit>`, so the unpushed merge commit goes. A red check
+   whose cause is outside the work follows "A red check". With every check green, push.
 2. Wait for the pull request's CI, at most the CI time ceiling of **Checks**, then merge
    it with a merge commit, never squash or rebase: `gh pr merge <n> --merge` or the
-   settings' tool's equivalent. A CI red for a cause in the work is `conflicts`, with the
-   failing job in note_body. A cause outside the work, a CI past the ceiling, or a host
-   that refuses the merge (branch protection, missing approvals) goes to the supervisor
-   with `send_message`, with the command and its output; stay in `merge` and go on when
-   it answers.
+   settings' tool's equivalent. A red CI comes after the push, so the merge commit is
+   already on the remote: leave it, never reset or rewrite it. When the cause is in the
+   work, report `conflicts` with the failing job in note_body; the developer fixes on
+   top of it. A cause outside the work, a CI past the ceiling, or a host that refuses the
+   merge (branch protection, missing approvals) goes to the supervisor with
+   `send_message`, with the command and its output; stay in `merge` and go on when it
+   answers.
 3. Check the merge by the pull request's state (merged, with its merge commit), never by
    the command's exit code: the merge often succeeds while a local step of the tool
    fails.
