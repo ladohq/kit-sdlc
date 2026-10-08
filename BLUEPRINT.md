@@ -66,7 +66,9 @@ transcripts, 147 archived changes), cited below as "dump §N".
 - **R11** Agents write to Jira only as the routine says: take the task (assign, In Progress),
   link each pull request, move to Code Review only on the task's last pull request, the
   merge label and comment. A new Jira task only after the human's explicit yes. All of it
-  through the skill `tracker`. *Source:* brief ("Known so far: the tracker"); dump §1.1,
+  through the skill `tracker`. Until `tracker` can assign a task (as with labels, R10), the
+  analyst moves the task to In Progress itself and asks the human, in its note, to assign
+  it to themselves by hand. *Source:* brief ("Known so far: the tracker"); dump §1.1,
   §6 rules 3–5.
 - **R12** Specialised roles, each good at one kind of work with its own rights: analyst,
   developer, reviewer, integrator. *Source:* round 4 ("specialised roles … that fit the
