@@ -54,5 +54,5 @@ routine does not name, needs the human's explicit "yes, create" for that very ac
 having shown them a draft or asked "confirm?" earlier is not that yes. Skip the routine
 for an issue type **Jira** lists as skipped, and say so in your note.
 
-Until `tracker` can set a label on an existing task, the integrator asks the human to set
-it by hand.
+Until `tracker` can assign a task or set a label on an existing one, the human does both
+by hand: the analyst asks them to assign the task, the integrator to set the label.

@@ -20,7 +20,9 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Talk to the human with `send_messa
 
 1. Read the task with the tracker: `get <KEY> --comments 50`, and each task it links to.
 2. Move it to the settings' "in progress" status, unless it is there already, and read it
-   back (`sdlc-settings`, "Writing to Jira").
+   back (`sdlc-settings`, "Writing to Jira"). `tracker` cannot assign a task yet: when
+   it is not assigned to the human, ask them in your `ready` note to assign it to
+   themselves by hand.
 3. Read the code the task touches and the specs under `openspec/specs/` that cover it.
 4. Check the task is still wanted: the code may already do it, a later task may have
    replaced it, the comments may have changed it. When you doubt it, ask the human; with
