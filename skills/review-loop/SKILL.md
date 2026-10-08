@@ -49,8 +49,10 @@ them into one row.
 **Fate.** Blockers and important findings: `fix`, in this branch. Minor: `fix` when it is
 cheap (the file is already open, no new test needed), otherwise `decline` with the
 reason. No finding becomes a new task or a debt entry: the human can still decide that
-at the merge gate. A refuted finding: `drop`. A minor `fix` rides with the next round's
-fixes: it is not something to fix for the external round or the stop criterion. The
+at the merge gate. A refuted finding: `drop`. A minor `fix` goes to the developer with
+the fixes of its round; when its round sends nothing back, with the next fixes; it gets
+`decline` when the loop converges first. It is not something to fix for the external
+round or the stop criterion. The
 cleanup is the exception: its minor `fix` findings go to the developer, and the round
 after their fix is the final one.
 
@@ -111,7 +113,10 @@ Note the time before you post. Wait with a time ceiling, and take only a respons
 than that time: an older one is the previous round's. A timeout is a timeout, never a
 clean round. When the project has no external reviewer, or it does not answer, use a
 fresh agent given only the diff and the pull request's description, and label the round
-"substitute" in the ledger and the closing report: it shares your priors.
+"substitute" in the ledger and the closing report: it shares your priors. When you cannot
+start a fresh agent yourself, ask the supervisor for a fresh worker with only the diff and
+the pull request's description. When that is not possible either, say so in the ledger
+and ask the human through the supervisor whether to go on without the external round.
 
 Treat the external reviewer's findings like any other: verify, tier, fate.
 

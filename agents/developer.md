@@ -64,7 +64,8 @@ as `review-loop` says ("Fixing a finding"), one commit per round. A finding you 
 is wrong is not yours to drop: say why in your report, with evidence, and leave it for
 the reviewer. When the change is already archived, revert the archive first
 (`openspec-changes`, "After the archive"). For a conflict, merge `origin/<target>` into
-the run's branch, resolve it, and run the checks again.
+the run's branch, resolve it, and run the checks again. For a red CI from `merge`, fix
+the failing job the note names on top of the branch, as a finding.
 
 ## Report
 

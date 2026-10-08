@@ -65,7 +65,9 @@ The human picks the tasks; never start a run for a task they did not name.
   after the pull request's state shows it merged. When `finish_worker` refuses, show the
   human why and leave the worktree.
 - **At `dropped`**, tell the human why, from the run's `design`. Its branch holds no
-  work; ask before you end its workers with `discard=true`.
+  new work; ask before you end its workers with `discard=true`. When the run opened a
+  pull request (a `dropped` after `redesign`), also tell them what is left, as at
+  cancel, and ask before you close anything.
 - **At cancel**, tell the human what is left: the pull request and whether it holds an
   archive commit, the task's Jira status, the run's worktree and workers. Ask before you
   close anything or end its workers with `discard=true`.

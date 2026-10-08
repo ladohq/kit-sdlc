@@ -22,7 +22,8 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
 1. Check the review converged: the ledger's last round meets the stop criterion of
    `review-loop`, or the human accepted the open findings, recorded in the ledger.
 2. Archive as `openspec-changes` says ("Archive"), with the closing report from the
-   ledger, and push to the pull request's branch.
+   ledger, and push as the developer does: `git push origin HEAD:refs/heads/<the
+   design's branch>`, never force.
 3. Read the pull request's state: its CI, whether it can be merged, its target.
 4. Draft the Jira comment from the settings' merge comment template, in the settings'
    Jira language, in Jira wiki markup. Write it from the pull request's description and
@@ -31,9 +32,10 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
 
 Write the artifact `merge-report` whole, in the settings' chat language: the archive
 commit and the validation's result; the pull request, its target and CI; what `merge`
-will do in git and in Jira (base branch: comment and the waiting-for-release label; epic
-branch: comment only, the task stays in review); the drafted comment as it will be
-posted; the ledger's residual risk and declined findings.
+will do in git and in Jira (base branch: the comment, and a request to you to set the
+waiting-for-release label by hand; epic branch: comment only, the task stays in review);
+the drafted comment as it will be posted; the ledger's residual risk and declined
+findings.
 
 ## Merge
 
@@ -42,7 +44,7 @@ posted; the ledger's residual risk and declined findings.
    merges cleanly and brought changes, run the settings' **Checks**. A red check whose
    cause is in the work (`engineering-rules`, "A red check") is `conflicts` too: first
    `git reset --keep <the noted commit>`, so the unpushed merge commit goes. A red check
-   whose cause is outside the work follows "A red check". With every check green, push.
+   whose cause is outside the work follows "A red check". With every check green, push as in "Archive".
 2. Wait for the pull request's CI, at most the CI time ceiling of **Checks**, then merge
    it with a merge commit, never squash or rebase: `gh pr merge <n> --merge` or the
    settings' tool's equivalent. A red CI comes after the push, so the merge commit is

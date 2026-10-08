@@ -27,8 +27,9 @@ states:
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
       agreed the task is no longer wanted; `design` then says why, and nothing is
-      committed. When you already moved the task to In Progress, ask the human in the
-      note whether to move it back.
+      committed. When the task is already in the settings' "in progress" status, ask the
+      human in the same message where they agree to drop it whether to move it back, and
+      move it only on their yes (`sdlc-settings`, "Writing to Jira").
     outcomes: {ready: design_ok, dropped: dropped}
   design_ok:
     gate: approval
@@ -89,7 +90,7 @@ states:
       Done when the archive commit is pushed, `openspec validate --specs --strict` passes,
       and `merge-report` holds the archive's result, the pull request's state, what the
       merge will do in git and Jira, the drafted Jira comment and the ledger's residual
-      risk. When the change cannot be archived as it is (a task not checked, a delta that
+      risk. When the change cannot be archived as it is (a task not checked without a reason, a delta that
       contradicts a living spec), archive nothing and say so at the top of
       `merge-report`: the human sends it back at `merge_ok`. Report `ready`: note_summary
       is the pull request and its target; note_body what the human should look at.
