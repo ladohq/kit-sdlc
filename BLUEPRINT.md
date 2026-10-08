@@ -61,8 +61,8 @@ transcripts, 147 archived changes), cited below as "dump §N".
   for the developer) in wiki markup. A task merged into an epic branch gets the comment but
   no label and stays in Code Review. *Source:* round 1 (merge procedure); dump §1.2 «Мерж PR»,
   «Мерж PR в эпик»; round 5 answer 1. Until the skill `tracker` can label an existing task
-  (round 5 answer 2: a patch of `tracker-jira-server`), the integrator asks the human in the
-  Jira comment's place to set the label by hand.
+  (round 5 answer 2: a patch of `tracker-jira-server`), the integrator asks the human, in its
+  note after the merge, to set the label by hand.
 - **R11** Agents write to Jira only as the routine says: take the task (assign, In Progress),
   link each pull request, move to Code Review only on the task's last pull request, the
   merge label and comment. A new Jira task only after the human's explicit yes. All of it
