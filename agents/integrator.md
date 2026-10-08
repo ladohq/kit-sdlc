@@ -23,7 +23,7 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    `review-loop`, or the human accepted the open findings, recorded in the ledger.
 2. Archive as `openspec-changes` says ("Archive"), with the closing report from the
    ledger, and push as the developer does: `git push origin HEAD:refs/heads/<the
-   design's branch>`, never force.
+   design's pull request branch>`, never force.
 3. Read the pull request's state: its CI, whether it can be merged, its target.
 4. Draft the Jira comment from the settings' merge comment template, in the settings'
    Jira language, in Jira wiki markup. Write it from the pull request's description and
@@ -32,7 +32,7 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
 
 Write the artifact `merge-report` whole, in the settings' chat language: the archive
 commit and the validation's result; the pull request, its target and CI; what `merge`
-will do in git and in Jira (base branch: the comment, and a request to you to set the
+will do in git and in Jira (base branch: the comment, and a request to the human to set the
 waiting-for-release label by hand; epic branch: comment only, the task stays in review);
 the drafted comment as it will be posted; the ledger's residual risk and declined
 findings.

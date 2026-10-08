@@ -27,9 +27,9 @@ states:
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
       agreed the task is no longer wanted; `design` then says why, and nothing is
-      committed. When the task is already in the settings' "in progress" status, ask the
-      human in the same message where they agree to drop it whether to move it back, and
-      move it only on their yes (`sdlc-settings`, "Writing to Jira").
+      committed. When the task is already in the settings' "in progress" status, ask, in
+      the message where you propose dropping it, whether to move it back and to which
+      status, and move it only on their yes (`sdlc-settings`, "Writing to Jira").
     outcomes: {ready: design_ok, dropped: dropped}
   design_ok:
     gate: approval

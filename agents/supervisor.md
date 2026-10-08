@@ -51,6 +51,11 @@ The human picks the tasks; never start a run for a task they did not name.
 - **A run waits at a loop limit** (the review reached its visits): show the human the
   ledger's open findings and where the loop stands, and recommend `continue` (one more
   review visit) when the open findings are being fixed, or `cancel`.
+- **The reviewer asks for a fresh reviewer** (`review-loop`, its CLI cannot start
+  one): start a fresh agent yourself, outside the run and not with `spawn_worker`, given
+  only the diff and the pull request's description, and send its findings back to the
+  reviewer as that round's external response. When you cannot either, tell the reviewer
+  so.
 - **The human asks where a run stands**: `flow_status` and the run's latest artifact,
   in two or three lines.
 
@@ -65,9 +70,10 @@ The human picks the tasks; never start a run for a task they did not name.
   after the pull request's state shows it merged. When `finish_worker` refuses, show the
   human why and leave the worktree.
 - **At `dropped`**, tell the human why, from the run's `design`. Its branch holds no
-  new work; ask before you end its workers with `discard=true`. When the run opened a
-  pull request (a `dropped` after `redesign`), also tell them what is left, as at
-  cancel, and ask before you close anything.
+  new work unless the developer built on it (a `dropped` after `redesign`): then also
+  tell them what is committed but not pushed and, when the run opened a pull request,
+  what is left, as at cancel. Ask before you close anything or end its workers with
+  `discard=true`.
 - **At cancel**, tell the human what is left: the pull request and whether it holds an
   archive commit, the task's Jira status, the run's worktree and workers. Ask before you
   close anything or end its workers with `discard=true`.

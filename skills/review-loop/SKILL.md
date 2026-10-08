@@ -114,9 +114,10 @@ than that time: an older one is the previous round's. A timeout is a timeout, ne
 clean round. When the project has no external reviewer, or it does not answer, use a
 fresh agent given only the diff and the pull request's description, and label the round
 "substitute" in the ledger and the closing report: it shares your priors. When you cannot
-start a fresh agent yourself, ask the supervisor for a fresh worker with only the diff and
-the pull request's description. When that is not possible either, say so in the ledger
-and ask the human through the supervisor whether to go on without the external round.
+start a fresh agent yourself, ask the supervisor for a fresh agent with only the diff and
+the pull request's description; it sends back that agent's findings. When that is not
+possible either, say so in the ledger and ask the human through the supervisor whether to
+go on without the external round.
 
 Treat the external reviewer's findings like any other: verify, tier, fate.
 
@@ -128,7 +129,9 @@ The loop has converged when all hold:
 - the pull request's title and description match its diff;
 - the cleanup pass ran after correctness converged, and one final round (precision pass
   and external round) after the cleanup found no blocker and no important finding. When
-  the cleanup leaves nothing to fix, the round that converged is the final one.
+  the cleanup leaves nothing to fix, the round that converged is the final one. An
+  external round the human allowed you to skip counts as run, once the ledger records
+  their answer.
 
 Minor findings do not start another round: a minor finding of the final round gets
 `decline`, with "found in the final round" as its reason, and the human weighs it at the
