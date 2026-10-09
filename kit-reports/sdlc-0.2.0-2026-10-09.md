@@ -2,15 +2,11 @@
 
 - Дата: 2026-10-09
 - Кит: worktree рана `improve/sdlc` (`.lado/worktrees/kit-sdlc/improve-sdlc`), путь дан задачей
-- Коммит: d8150dc (визит 2 шага `evaluate`). Визит 1 оценивал d77b2d6, его версия этого отчёта — коммит 61892b4.
+- Коммит: 26f7666 (визит 3 шага `evaluate`). Визит 1 оценивал d77b2d6 (отчёт — коммит 61892b4), визит 2 — d8150dc (отчёт — коммит c193b00).
 - Оценил: критик kit-builder (слои a и b)
-- Режим: повторная оценка относительно `kit-reports/sdlc-0.1.3-2026-10-09.md` (артефакт `assessment`) и отчёта визита 1. База — коммит из плана, 4b7d998. Правки после визита 1: `git diff d77b2d6 d8150dc`, коммиты 735eefe, 78bd61d и d8150dc.
-- Проходы: пять независимых суб-агентов, у каждого рубрика, папка кита, полный diff и дельта визита.
-  - Три прохода, каждый со своего места: 1 — роли, 2 — флоу по шагам, 3 — скилы.
-  - Четвёртый проверил вырезанные правила по `git diff --word-diff d77b2d6 HEAD` и таблице автора.
-  - Пятый сделал полный проход (Re-evaluation 5) по всем 11 файлам из diff.
-  - Одиночных находок отброшено 3: у проверки трекера у аналитика нет «зачем»; неясно, что значит «`tracker` reads the task from there»; «use them only as the skill `tracker` says» якобы разрешает чужую разметку. В файлах вред не подтвердился.
-  - Из полного прохода оставлены 2 подтверждённые (F3.3, F6.4).
+- Режим: повторная оценка относительно `kit-reports/sdlc-0.1.3-2026-10-09.md` (артефакт `assessment`) и отчёта визита 1. База — коммит из плана, 4b7d998. Правки после визита 2: `git diff d8150dc 26f7666`, один коммит 26f7666 (6 строк в `skills/sdlc-settings/SKILL.md`, раздел «The task key as a name»).
+- Проходы, визит 3: дельта — один абзац, поэтому три прохода по нему и по местам, которые на него ссылаются (`sdlc.example.md:19-22`, `openspec-changes:37-38`, `supervisor.md:32-33`), критик сделал сам, без суб-агентов. Затем проверил вырезанные правила по `git diff --word-diff d8150dc 26f7666` и сделал полный проход по всему `skills/sdlc-settings/SKILL.md`, единственному файлу дельты. Новых находок нет, одиночных отброшенных нет.
+- Визит 2: пять суб-агентов (три прохода, проверка вырезанных правил, полный проход по 11 файлам); 3 одиночные отброшены, 2 из полного прохода оставлены (F3.3, F6.4).
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
 
@@ -21,9 +17,9 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | 6 находок в изменённом тексте (0 high, 1 medium, 5 low), потерянных правил нет; 7 из 12 критериев без находок |
-| Охват | повторная оценка изменённого текста и полный проход по 11 файлам из diff |
-| Правило остановки | не выполнено: 0 high, 1 medium (F5.11). Это совет для гейта релиза, не блок |
+| b. Рубрика | 5 находок в изменённом тексте (0 high, 0 medium, 5 low), потерянных правил нет; 8 из 12 критериев без находок |
+| Охват | повторная оценка изменённого текста (визит 3: `skills/sdlc-settings/SKILL.md`, с полным проходом по файлу; визит 2: 11 файлов) |
+| Правило остановки | выполнено: 0 high, 0 medium в изменённом тексте |
 
 Счёт относится только к тому, что указано в строке «Охват». С полной оценкой его сравнивать нельзя.
 
@@ -71,7 +67,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Исправить в первую очередь
 
-1. Правило имени из ключа: сказать, что делать с `owner/` и с `#`, и что ветки «содержат» ключ, а не «начинаются» с него (F5.11).
+Нет блокирующих и medium-находок. Если делать ещё круг — F10.3 и F7.2 (по строке каждая).
 
 ## Находки
 
@@ -96,11 +92,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ### 5. Противоречия
 
-- **F5.11** [medium] `skills/sdlc-settings/SKILL.md:74-75`
-  > `yourself to lowercase letters, digits and `-`, and put `task-` before a key of digits`
-  > `only (`ABC-123` → `abc-123`, `#123` → `task-123`, `owner/repo#123` → `repo-123`).`
-  Третий пример правилу не следует. По правилу из `owner/repo#123` получится `owner-repo-123` или `ownerrepo123`, а пример отбрасывает владельца. Не сказано и о том, превращаются ли `/` и `#` в `-` или исчезают. Ран называет супервайзер, а изменение и ветку — аналитик, каждый применяет правило сам. На таком ключе имена разойдутся между ролями и между ранами. Строка 73 к тому же говорит, что ветки «start with» ключ («Runs, openspec changes and branches start with the task key as a name: convert the key»), а шаблоны ветвей — «- Pull request branch: full `feat/<key>-<slug>`, hotfix `hotfix/<key>-<slug>`,» (`skills/sdlc-settings/sdlc.example.md:21`). Проходы оценили low, low и medium, полный проход — medium; взят medium.
-  Fix: «drop everything up to the last `/`, turn other characters into `-`, collapse repeated `-`, put `task-` before a key of digits only»; «start with» → «carry» (у веток — `<key>` в шаблоне). Passes: 3/3 (а также полный проход и проверка вырезанных правил)
+Правило имени из ключа теперь задано по шагам, и все три примера из него следуют: «`<key>`. Convert the key yourself, in this order: drop everything up to the last `/`,» (`skills/sdlc-settings/SKILL.md:74`). С ним согласны шаблоны веток (`skills/sdlc-settings/sdlc.example.md:20-21`), `openspec-changes:37-38` и `agents/supervisor.md:33`. F5.11 — RESOLVED, см. «Прежние находки».
 
 ### 6. Дублирование
 
@@ -158,10 +150,14 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Прежние находки
 
+Отчёт визита 2 (c193b00): 6 находок.
+- **F5.11** RESOLVED: «lowercase it, turn every other character that is not a letter or digit into `-`, collapse» (`skills/sdlc-settings/SKILL.md:75`); `ABC-123` → `abc-123`, `#123` → `-123` → `123` → `task-123`, `owner/repo#123` → `repo#123` → `repo-123`. Ветки: «Runs and openspec changes start with the task key as a name, and branches carry it as» (`:73`).
+- **F3.3, F6.4, F7.2, F9.5, F10.3** STILL OPEN: по решению человека не трогались; `git diff d8150dc 26f7666` их строк не меняет (F10.3: описание, `:3-8`, то же).
+
 Отчёт визита 1 (61892b4), 9 находок, все RESOLVED. Список автора в `build-report` сверен с файлами.
 - **F5.7** RESOLVED решением человека (вариант б): правило Markdown осталось, README требует его от трекер-кита (`README.md:21`), блупринт ставит публикацию после релиза tracker-jira-server (`BLUEPRINT.md:94-95`). См. условие релиза.
 - **F5.8** RESOLVED решением человека: пути обновления с 0.1.x нет, «the kit yet (session kit-sdlc, 2026-10-09).» (`BLUEPRINT.md:105`). Раздел README и предложение супервайзера убраны.
-- **F6.3** RESOLVED: правило в одном месте, `skills/sdlc-settings/SKILL.md:71-75`. Супервайзер ссылается: «(`sdlc-settings`, "The task key as a name": `ABC-123` → `abc-123`).» (`agents/supervisor.md:33`). Пробел в самом правиле — F5.11.
+- **F6.3** RESOLVED: правило в одном месте, `skills/sdlc-settings/SKILL.md:71-78`. Супервайзер ссылается: «(`sdlc-settings`, "The task key as a name": `ABC-123` → `abc-123`).» (`agents/supervisor.md:33`).
 - **F3.2** RESOLVED: «origin/<target>`. Check that `.lado/sdlc.md` is on it and that `tracker` reads the» (`agents/analyst.md:32`).
 - **F4.2** RESOLVED: `agents/integrator.md:36` «say which».
 - **F5.9** RESOLVED: «URL. Name no tracker's commands, settings files or markup yourself, and use them only as» (`skills/sdlc-settings/SKILL.md:52`); то же в R16.
@@ -175,9 +171,10 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 | Убранное правило (файл:строка на d77b2d6) | Где оно сейчас |
 |---|---|
-| openspec-changes:37-38 правило имени и примеры | `skills/sdlc-settings/SKILL.md:73-75`; `gh-123` → `task-123` намеренно |
-| openspec-changes:39-40 «Run and branch names take the key in the same form» | `skills/sdlc-settings/SKILL.md:73` (оговорка про «start with» — F5.11) |
-| supervisor.md:32-33 форма ключа для рана | ссылка `agents/supervisor.md:33` + `skills/sdlc-settings/SKILL.md:73-75` |
+| openspec-changes:37-38 правило имени и примеры | `skills/sdlc-settings/SKILL.md:73-77`; `gh-123` → `task-123` намеренно |
+| openspec-changes:39-40 «Run and branch names take the key in the same form» | `skills/sdlc-settings/SKILL.md:73,77-78` «Every role converts the same way, so the run, the change and the branch get the same name» |
+| supervisor.md:32-33 форма ключа для рана | ссылка `agents/supervisor.md:33` + `skills/sdlc-settings/SKILL.md:73-78` |
+| визит 3, sdlc-settings:73-75 на d8150dc: «lowercase letters, digits and `-`», `task-` перед цифрами, три примера | `skills/sdlc-settings/SKILL.md:74-77`, каждое — шагом правила; примеры те же |
 | analyst.md:33-34 «put the branch on the target again and check again» | `agents/analyst.md:34` «fetch, reset and check again» |
 | analyst.md:33 «send the supervisor the file's name and the target» | `agents/analyst.md:33` «the missing file or the error and the target» |
 | README.md:20 «link a URL» среди обязательных | `README.md:20` под «when it can»; обход — `skills/sdlc-settings/SKILL.md:67` |
@@ -206,5 +203,5 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Вопросы к человеку
 
-1. Публиковать 0.2.0 только после релиза tracker-jira-server с Markdown (так записано в R16)? Рекомендация: да, на `release_ok` проверить, что он вышел, или выпустить локальный тег без публикации.
-2. Правило остановки не выполнено из-за одной medium (F5.11, пример `owner/repo#123`). Рекомендация: ещё один короткий круг только по F5.11 и F10.3 (две строки в `sdlc-settings`) либо выпуск с F5.11 в бэклоге. Сейчас нет трекер-кита с ключами `owner/repo#123`, так что вред пока теоретический.
+1. Публиковать 0.2.0 только после релиза tracker-jira-server с Markdown (так записано в R16)? Рекомендация: да; на `release_ok` проверить, что он вышел, или выпустить локальный тег без публикации.
+2. Правило остановки выполнено, остались 5 low (F3.3, F6.4, F7.2, F9.5, F10.3). Рекомендация: выпускать и занести их в BACKLOG.md; ещё один круг стоит делать только ради F10.3 и F7.2.
