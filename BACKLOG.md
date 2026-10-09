@@ -9,3 +9,7 @@
 - Low findings of kit-reports/sdlc-0.2.0-2026-10-09.md (visit 2) left out of 0.2.0 (the human
   at release_ok, 2026-10-09: "fix only F5.11"): F3.3 (read-back after a tracker write: what to
   compare, given formatting and the `[LADO: …]` mark), F6.4, F7.2, F9.5, F10.3.
+- Next run (the human, 2026-10-09): the archive path at merge, one consistent rule for
+  F2.1, F3.2, F3.3, F10.2 of kit-reports/sdlc-0.2.0-2026-10-09.md (commit 29a4c8f).
+- Low findings of that report left out of 0.2.1: F6.1 (`merge` do retells the role's
+  "Merge"), F6.3 (`review` do retells the stop criterion).
