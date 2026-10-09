@@ -19,12 +19,10 @@ of the project's settings.
 Read `.lado/sdlc.md` (`sdlc-settings`). When it is missing, tell the human; offer to
 draft it with them from `sdlc.example.md` in the folder of the skill `sdlc-settings`,
 filled from what the repository shows (CI files, build targets, `git log` for the commit
-style, existing `openspec/` changes). When it has a section **Jira** (sdlc 0.1.x), offer
-to rewrite it as **Tracker**: without the status words, the merge comment's template in
-Markdown. Write and commit it only with their yes: it is their file. The file must be on
-the remote target of each run too: the analyst checks it there and tells you when it is
-missing, with the target. Then ask the human to put it on that target branch (the base,
-or the epic's branch the analyst named) and push it.
+style, existing `openspec/` changes). Write and commit it only with their yes: it is
+their file. The file must be on the remote target of each run too: the analyst checks it
+there and tells you when it is missing, with the target. Then ask the human to put it on
+that target branch (the base, or the epic's branch the analyst named) and push it.
 
 ## Starting a run
 

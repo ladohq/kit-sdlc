@@ -17,8 +17,9 @@ it works on a project that already has one.
 You need LADO 0.29 or newer, the `openspec` CLI, the code host's CLI (e.g. `gh`) logged
 in, and a tracker kit: any kit that brings the skill `tracker`, set up as that kit says.
 sdlc asks the skill, by meaning, to read a task with its comments, list and change its
-status and post a comment (written in Markdown), and, when it can, link a URL, assign
-the task and label it. sdlc reads no settings file of the tracker kit.
+status and post a comment, and, when it can, link a URL, assign the task and label it.
+The skill must accept comments in Markdown and format them for its tracker. sdlc reads
+no settings file of the tracker kit.
 
 For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server):
 
@@ -33,10 +34,6 @@ tracker's label and skipped issue types, check commands, the external reviewer, 
 traps and free-form extra instructions. On the first start the supervisor offers to
 draft `.lado/sdlc.md` with you from the repository; the template is
 `skills/sdlc-settings/sdlc.example.md`.
-
-Upgrading from sdlc 0.1.x: in `.lado/sdlc.md`, rename the section **Jira** to
-**Tracker**, drop its status words and rewrite the merge comment's template in Markdown.
-The supervisor offers to do it with you when it finds **Jira**.
 
 Then tell the supervisor which task to take: "take ABC-123". Several tasks can run at
 once, each in its own worktree.

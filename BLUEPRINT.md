@@ -226,7 +226,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.2.0, 2026-10-09).
 | Words in a role prompt | agents/developer.md | 613 | 800 / 1500 | green | |
 | Words in a role prompt | agents/integrator.md | 640 | 800 / 1500 | green | |
 | Words in a role prompt | agents/reviewer.md | 419 | 800 / 1500 | green | |
-| Words in the lead's prompt | agents/supervisor.md | 777 | 1000 / 1500 | green | |
+| Words in the lead's prompt | agents/supervisor.md | 753 | 1000 / 1500 | green | |
 | Own skills | kit | 4 | 5 / 10 | green | |
 | MCP servers | kit | 0 | 2 / 4 | green | |
 | Similar paragraphs | kit | none | | green | |
