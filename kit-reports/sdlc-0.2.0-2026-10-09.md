@@ -2,14 +2,15 @@
 
 - Дата: 2026-10-09
 - Кит: worktree рана `improve/sdlc` (`.lado/worktrees/kit-sdlc/improve-sdlc`), путь дан задачей
-- Коммит: d77b2d6 (визит 1 шага `evaluate`)
+- Коммит: d8150dc (визит 2 шага `evaluate`). Визит 1 оценивал d77b2d6, его версия этого отчёта — коммит 61892b4.
 - Оценил: критик kit-builder (слои a и b)
-- Режим: повторная оценка относительно `kit-reports/sdlc-0.1.3-2026-10-09.md` (артефакт `assessment`). База — коммит из плана, 4b7d998; изменение — `git diff 4b7d998 -- kit.yaml README.md BLUEPRINT.md agents flows skills` (11 файлов, +190 −156).
-- Проходы: работали пять независимых суб-агентов. Каждому дали рубрику, папку кита, diff, зависимые скилы и скил `tracker` из tracker-jira-server v1.0.0.
-  - Три прохода по изменённому тексту, каждый со своего места: 1 — роли, 2 — флоу по шагам, 3 — скилы.
-  - Четвёртый проверял вырезанные правила по `git diff --word-diff` и таблице автора.
-  - Пятый сделал полный проход по всем 11 файлам из diff.
-  - Одиночных находок отброшено 1: «два статуса подходят по смыслу» — вред только рассуждением. Оставлено 2 подтверждённых (F3.2, F9.3), ещё 1 — из полного прохода (F5.10).
+- Режим: повторная оценка относительно `kit-reports/sdlc-0.1.3-2026-10-09.md` (артефакт `assessment`) и отчёта визита 1. База — коммит из плана, 4b7d998. Правки после визита 1: `git diff d77b2d6 d8150dc`, коммиты 735eefe, 78bd61d и d8150dc.
+- Проходы: пять независимых суб-агентов, у каждого рубрика, папка кита, полный diff и дельта визита.
+  - Три прохода, каждый со своего места: 1 — роли, 2 — флоу по шагам, 3 — скилы.
+  - Четвёртый проверил вырезанные правила по `git diff --word-diff d77b2d6 HEAD` и таблице автора.
+  - Пятый сделал полный проход (Re-evaluation 5) по всем 11 файлам из diff.
+  - Одиночных находок отброшено 3: у проверки трекера у аналитика нет «зачем»; неясно, что значит «`tracker` reads the task from there»; «use them only as the skill `tracker` says» якобы разрешает чужую разметку. В файлах вред не подтвердился.
+  - Из полного прохода оставлены 2 подтверждённые (F3.3, F6.4).
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
 
@@ -20,11 +21,13 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | 9 находок в изменённом тексте (1 high, 2 medium, 6 low), включая потерянные правила; 6 из 12 критериев без находок |
+| b. Рубрика | 6 находок в изменённом тексте (0 high, 1 medium, 5 low), потерянных правил нет; 7 из 12 критериев без находок |
 | Охват | повторная оценка изменённого текста и полный проход по 11 файлам из diff |
-| Правило остановки | не выполнено: 1 high, 2 medium. Это совет для гейта релиза, не блок |
+| Правило остановки | не выполнено: 0 high, 1 medium (F5.11). Это совет для гейта релиза, не блок |
 
 Счёт относится только к тому, что указано в строке «Охват». С полной оценкой его сравнивать нельзя.
+
+**Условие релиза (решение человека, R16):** README требует, чтобы скил `tracker` принимал Markdown («The skill must accept comments in Markdown and format them for its tracker. sdlc reads», `README.md:21`). tracker-jira-server v1.0.0 этого пока не умеет: «## Writing in Jira: wiki markup, not Markdown» (tracker SKILL.md:65). Блупринт записывает порядок: «work, 2026-10-09), and `sdlc` 0.2.0 is published after it.» (`BLUEPRINT.md:95`). Публиковать 0.2.0 только после релиза tracker-jira-server с Markdown. До него у пары sdlc 0.2.0 + tracker-jira-server v1.0.0 комментарий при мерже уйдёт в Jira сырым Markdown.
 
 ### `lado kits check .`
 
@@ -43,11 +46,11 @@ expects skills: tracker
 | Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow |
 | Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green |
-| Words in a role prompt | agents/analyst.md | 794 | 800 / 1500 | green |
+| Words in a role prompt | agents/analyst.md | 798 | 800 / 1500 | green |
 | Words in a role prompt | agents/developer.md | 613 | 800 / 1500 | green |
-| Words in a role prompt | agents/integrator.md | 627 | 800 / 1500 | green |
+| Words in a role prompt | agents/integrator.md | 640 | 800 / 1500 | green |
 | Words in a role prompt | agents/reviewer.md | 419 | 800 / 1500 | green |
-| Words in the lead's prompt | agents/supervisor.md | 759 | 1000 / 1500 | green |
+| Words in the lead's prompt | agents/supervisor.md | 753 | 1000 / 1500 | green |
 | Own skills | kit | 4 | 5 / 10 | green |
 | MCP servers | kit | 0 | 2 / 4 | green |
 
@@ -68,167 +71,140 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Исправить в первую очередь
 
-1. Markdown-комментарий и tracker-jira-server: в «Writing to the tracker» добавить правило на случай, когда скил `tracker` называет свою разметку; в `merge-report` показывать текст ровно таким, каким он будет опубликован. Это решает человек, см. вопрос 1 (F5.7).
-2. Путь обновления для существующего `.lado/sdlc.md`: раздел **Jira** → **Tracker**, шаблон — в Markdown (F5.8).
-3. Правило имени из ключа держать в одном месте, которое читает и супервайзер (F6.3).
+1. Правило имени из ключа: сказать, что делать с `owner/` и с `#`, и что ветки «содержат» ключ, а не «начинаются» с него (F5.11).
 
 ## Находки
 
 ### 1. Границы ролей
 
-Права не изменились: «and keep the human informed. You change no code and write to the tracker only when the» (`agents/supervisor.md:11`). Записи в трекер остались у тех же ролей, у ревьюера `tracker` нет.
+Права не изменились: «and keep the human informed. You change no code and write to the tracker only when the» (`agents/supervisor.md:11`). Скила `tracker` у ревьюера нет.
 
 ### 2. Передача между шагами
 
-Флоу, его `reads` и `produces` не менялись. Комментарий трекера по-прежнему идёт через `merge-report` («the drafted comment as it will be posted; the ledger's residual risk and declined», `agents/integrator.md:37`).
+`merge-report` снова говорит, кто ставит метку: «label, set through `tracker` or asked of the human when it cannot, say which; epic» (`agents/integrator.md:36`). Гейт `merge_ok` его читает.
 
 ### 3. Готовность и исходы
 
-- **F3.2** [low] `agents/analyst.md:32` (state `design`)
-  > `   origin/<target>`. Check that `.lado/sdlc.md` is on it; when it is missing, send the`
-  Проверку настроек трекера на целевой ветке убрали, как и решил человек. Но скил `tracker` ищет свои настройки «finds it from the current directory up to the repository root» (tracker SKILL.md:94), то есть в worktree рана. Если на ветке эпика их нет, `tracker` упадёт при привязке в `build` или при комментарии уже после мержа, а не в `design`. Потом всё равно дойдёт до супервайзера через таблицу выходов скила, только поздно.
-  Fix, без имени трекера: после `reset --keep` перечитать задачу через `tracker` из worktree; при ошибке отправить супервайзеру ошибку и ветку, как для `.lado/sdlc.md`. Passes: 1/3, confirmed (tracker SKILL.md:93-95; `agents/analyst.md:32`)
+- **F3.3** [low] `skills/sdlc-settings/SKILL.md:56`
+  > `task, and read the task back after each write: a reported success is not proof that the`
+  Не сказано, с чем сверять прочитанное. Комментарий теперь уходит в Markdown, скил трекера его форматирует, а tracker-jira-server к тому же ставит перед каждым комментарием метку «`[LADO: <your agent name>]`; leave that mark to it.» (tracker SKILL.md:23). Прочитанный текст никогда не равен отправленному. Один интегратор примет комментарий, другой решит, что запись не прошла, и опубликует второй. Метка была и в 0.1.3, а форматирование увеличивает разницу.
+  Fix: «read the task back: the write is there (the tracker may format a comment differently)». Passes: full pass, confirmed (tracker SKILL.md:21-23)
 
 ### 4. Независимая проверка
 
-- **F4.2** [low] `agents/integrator.md:35` (state `archive`, gate `merge_ok`)
-  > `will do in git and in the tracker (base branch: the comment and the waiting-for-release`
-  `merge-report` теперь обещает метку, но не говорит, кто её поставит. В tracker-jira-server v1.0.0 нет действия «поставить метку существующей задаче», поэтому после мержа интегратор попросит человека. На `merge_ok` человек одобряет не то, что произойдёт; в 0.1.3 здесь стояло «a request to the human to set the waiting-for-release label by hand». Проверка вырезанных правил оценила это как low–medium; взят low.
-  Fix: «…the waiting-for-release label (set through `tracker`, or asked of the human when it cannot; say which)». Passes: 3/3 (а также полный проход и проверка вырезанных правил)
+Гейты и их `reads` не менялись. Записи в трекер при мерже идут только после `merge_ok`.
 
 ### 5. Противоречия
 
-- **F5.7** [high] `skills/sdlc-settings/SKILL.md:65-66`
-  > `- **Comments** are written in Markdown and handed to `tracker` as they are; the tracker`
-  > `  skill formats them for its tracker.`
-  Единственный трекер-кит, который есть сейчас, этого не делает. tracker-jira-server v1.0.0 говорит обратное: «## Writing in Jira: wiki markup, not Markdown» (tracker SKILL.md:65) и «Jira Server shows descriptions and comments as wiki markup and the script sends your» (`:67`). Интегратор читает оба скила и получает два указания, которые нельзя выполнить одновременно:
-  - опубликовать «`merge-report` as it is, read it back, and set the waiting-for-release label, or ask» (`agents/integrator.md:63`) — тогда команда увидит в Jira сырые `**…**` и `- `;
-  - перевести в wiki-разметку — тогда опубликован не тот текст, который человек одобрил на `merge_ok` («the drafted comment as it will be posted», `:37`).
-  Что выберет агент, зависит от рана, а комментарий уходит с машины под именем пользователя. Обойти через **Extra instructions** проект не может: «Writing to the tracker» стоит выше них (`skills/sdlc-settings/SKILL.md:16`). Это же утверждение — в `BLUEPRINT.md:93` («Markdown; the tracker skill formats it for its tracker.») и в README:20. Проходы оценили high, medium и high, полный проход — high; взят high.
-  Fix (выбирает человек, вопрос 1). (а) В этом ките: «Comments are drafted in Markdown; when the skill `tracker` names its own markup, write them in it without changing the content, and show that text in `merge-report`». (б) Вне кита: сначала научить tracker-jira-server принимать Markdown, а в README назвать нужную версию. Passes: 3/3 (а также полный проход)
-
-- **F5.8** [medium] `skills/sdlc-settings/SKILL.md:28`
-  > `| **Tracker** | the label for "waiting for release", the issue types the routine skips, the merge comment's template | analyst, developer, integrator |`
-  Раздел переименован, шаблон переведён в Markdown, но проект, настроенный под 0.1.x (Clens), хранит в `.lado/sdlc.md` раздел `## Jira` со словами статусов и шаблоном в wiki-разметке. Роли наткнутся на «When the file is missing, or lacks a section your step needs, stop and send the» (`:18`). Супервайзер проверяет только, что файла нет, а в README нет ни строки об обновлении. Если человек просто переименует раздел, старый wiki-шаблон столкнётся с «in Markdown» (`agents/integrator.md:29`).
-  Fix: строка в README об обновлении с 0.1.x (переименовать **Jira** в **Tracker**, убрать слова статусов, переписать шаблон в Markdown). Супервайзер в «Before the first run» предлагает это сделать, когда видит **Jira**. Passes: 2/3
-
-- **F5.9** [low] `skills/sdlc-settings/SKILL.md:52`
-  > `URL. Never use one tracker's commands, settings files or markup: the project may use any`
-  Если читать буквально, это запрещает то, что велит скил `tracker` тому же агенту: запускать свой скрипт (tracker SKILL.md:16) и читать свои настройки («Read it when you need the project's words; the user changes it, not you.», `:112`). Имелось в виду «кит не называет их сам». То же в R16 (`BLUEPRINT.md:90-91`).
-  Fix: «Name no tracker's commands, settings files or markup yourself; use them only as the skill `tracker` says.» Passes: 3/3 (а также полный проход)
-
-- **F5.10** [low] `README.md:21`
-  > `task and label it. sdlc reads no tracker settings of its own.`
-  Через десять строк README сам перечисляет настройки трекера в `.lado/sdlc.md`: «tracker's label and skipped issue types, check commands, the external reviewer, review traps and free-form extra» (`:32`).
-  Fix: «sdlc reads no settings file of the tracker kit.» Passes: full pass, confirmed
+- **F5.11** [medium] `skills/sdlc-settings/SKILL.md:74-75`
+  > `yourself to lowercase letters, digits and `-`, and put `task-` before a key of digits`
+  > `only (`ABC-123` → `abc-123`, `#123` → `task-123`, `owner/repo#123` → `repo-123`).`
+  Третий пример правилу не следует. По правилу из `owner/repo#123` получится `owner-repo-123` или `ownerrepo123`, а пример отбрасывает владельца. Не сказано и о том, превращаются ли `/` и `#` в `-` или исчезают. Ран называет супервайзер, а изменение и ветку — аналитик, каждый применяет правило сам. На таком ключе имена разойдутся между ролями и между ранами. Строка 73 к тому же говорит, что ветки «start with» ключ («Runs, openspec changes and branches start with the task key as a name: convert the key»), а шаблоны ветвей — «- Pull request branch: full `feat/<key>-<slug>`, hotfix `hotfix/<key>-<slug>`,» (`skills/sdlc-settings/sdlc.example.md:21`). Проходы оценили low, low и medium, полный проход — medium; взят medium.
+  Fix: «drop everything up to the last `/`, turn other characters into `-`, collapse repeated `-`, put `task-` before a key of digits only»; «start with» → «carry» (у веток — `<key>` в шаблоне). Passes: 3/3 (а также полный проход и проверка вырезанных правил)
 
 ### 6. Дублирование
 
-- **F6.3** [medium] `agents/supervisor.md:33`
-  > `form the change's name starts with: lowercase letters, digits and `-` (`ABC-123` →`
-  Правило имени из ключа записано дважды, и копии уже расходятся. Полное правило в `skills/openspec-changes/SKILL.md:38` («to lowercase letters, digits and `-` (`ABC-123` → `abc-123`, `#123` → `gh-123`,»), но у супервайзера этого скила нет (только `sdlc-settings` и `tracker`). Для ключа `#123` он назовёт ран `123`, а изменение и ветка станут `gh-123`, хотя правило требует «key in the same form.» (`:40`). Префикс `gh-` — соглашение одного трекера: GitLab-ключ `#123` тоже станет `gh-123`. Автор отметил это отступление в `build-report`. Проходы оценили low, low и low, полный проход — medium; взят medium.
-  Fix: правило с нейтральным случаем «ключ из одних цифр» держать в `sdlc-settings` (его читают все роли) и сослаться на него из `openspec-changes` и супервайзера. Passes: 3/3 (а также полный проход)
+- **F6.4** [low] `agents/developer.md:58`
+  > `   "review" status, once. Read the task back after each write.`
+  Повторяет `skills/sdlc-settings/SKILL.md:56`, на которое строка 55 уже ссылается. Строку задел diff (убрано «settings'»), но сама фраза старая.
+  Fix: убрать вторую фразу. Passes: full pass, confirmed
 
 ### 7. Когда звать человека
 
-Маршруты к человеку сохранены. «Ask the human» в `sdlc-settings` (статус, которому ничего не подходит; назначение или метка, которые `tracker` не умеет) идёт у воркеров через записку или супервайзера: «A question for the human, also where a skill says "ask your human partner", goes to the» (`agents/developer.md:35`). Напрямую с человеком говорит только аналитик.
+- **F7.2** [low] `agents/supervisor.md:24`
+  > `there and tells you when it is missing, with the target. Then ask the human to put it on`
+  Теперь аналитик шлёт супервайзеру ещё и ошибку `tracker` на целевой ветке («origin/<target>`. Check that `.lado/sdlc.md` is on it and that `tracker` reads the», `agents/analyst.md:32`). Абзац супервайзера разбирает только пропавший файл. Ошибка трекера попадёт под общее «A failure outside the kit», но супервайзер может попросить человека запушить `.lado/sdlc.md`, хотя дело в другом.
+  Fix: «…tells you when it is missing or when `tracker` fails there, with the target; then ask the human to put the missing file on that branch, or show them the error». Passes: 2/3
 
 ### 8. Циклы на повторном визите
 
-Повторы безопасны: «Move it to the "in progress" status, unless it is there already» (`agents/analyst.md:27`); `max_visits` и петли не менялись.
+Дельта не трогает текст повторных визитов. Повтор проверки на ветке ограничен: «once it answers, fetch, reset and check again» (`agents/analyst.md:34`).
 
 ### 9. Краткость и «зачем»
 
-- **F9.3** [low] `README.md:20`
-  > `status, post a comment (written in Markdown), link a URL, and, when it can, assign the`
-  «link a URL» стоит среди обязательных действий, а у правила есть обход: «**A link** to a pull request: when `tracker` cannot link a URL, post it as a comment.» (`skills/sdlc-settings/SKILL.md:67`). Автор трекер-кита решит, что ссылка обязательна.
-  Fix: перенести «link a URL» в «when it can». Passes: 1/3, confirmed (`skills/sdlc-settings/SKILL.md:67`)
-
-- **F9.4** [low] `BLUEPRINT.md:64-66`
-  > `  task, the integrator asks the human, in its note after the merge, to set the label by hand`
-  У фразы R10 о ручной метке пропал источник «(round 5 answer 2: a patch of `tracker-jira-server`)». Требование блупринта осталось без источника.
-  Fix: дописать «*Source:* round 5 answer 2; session kit-sdlc (R16).» Passes: cut-rule check
+- **F9.5** [low] `BLUEPRINT.md:190` (row `task.design`)
+  > `| `task.design` | work step | R3, R5, R7, R11, R16 | Takes the task ("in progress"; assigns it through `tracker`, or asks the human to), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks `.lado/sdlc.md` is on it. Reads `build-report` on a return. Produces `design`. |`
+  Строка блупринта не упоминает новую проверку `tracker` на целевой ветке. В журнале нет строки о правках визитов 2–3: проверка трекера, `#123` → `task-123` с правилом в `sdlc-settings`, требование Markdown в README. Журнал читается так, будто проверки трекера не осталось («no `.lado/tracker.yaml` check», `:262`).
+  Fix: дописать в строку «and that `tracker` reads the task there»; добавить строку журнала 0.2.0 с находками отчёта 0.2.0 (F3.2, F4.2, F5.7, F5.8, F6.3, F9.3, F5.10). Passes: 2/3
 
 ### 10. Описания скилов
 
-Описание `sdlc-settings` обновлено и не пересекается с `tracker`: «how an agent writes to the tracker through the skill `tracker`». В README названы tracker-jira-server и команда `lado start`. `expects.skills: [tracker]` при `lado: ">=0.29"`.
+- **F10.3** [low] `skills/sdlc-settings/SKILL.md:7`
+  > `  how an agent writes to the tracker through the skill `tracker`. Use at the start of`
+  В описании нет нового раздела «The task key as a name», хотя на него ссылаются супервайзер, `openspec-changes` и `sdlc.example.md`.
+  Fix: добавить «and how a task key becomes a run, change or branch name». Passes: 3/3 (а также полный проход)
 
 ### 11. Нейтральность к провайдеру
 
-`grep -rni jira kit.yaml agents flows skills` ничего не находит. Новых инструментов одного CLI нет. Префикс `gh-` разобран в F6.3.
+`grep -rni jira kit.yaml agents flows skills` ничего не находит. В README Jira есть только в примере tracker-jira-server. Префикса `gh-` больше нет: «only (`ABC-123` → `abc-123`, `#123` → `task-123`, `owner/repo#123` → `repo-123`).» (`skills/sdlc-settings/SKILL.md:75`).
 
 ### 12. Безопасность и рамки
 
-Новая задача и любая запись, которую рутина не называет, по-прежнему требуют явного «да»: «human's explicit "yes, create" for that very action; having shown them a draft or asked» (`skills/sdlc-settings/SKILL.md:58`). Мерж и записи в трекер после него стоят за `merge_ok`. Ни одна роль не стала делать больше, чем решил человек.
+Новая задача и любая запись, которую рутина не называет, требуют явного «yes, create» (`skills/sdlc-settings/SKILL.md:58`). Мерж и записи в трекер после него — только после `merge_ok`. Условие публикации — выше, в карточке.
 
 ## Известные дыры
 
 | Известная дыра | Находка или чем кит её закрывает |
 |---|---|
-| 1. Красная проверка отправлена назад без поиска причины в окружении | Закрыта: «- **A failure outside the kit** (the tracker unreachable, no `openspec`, a missing setting):» (`agents/supervisor.md:46`); у скила `tracker` своя таблица выходов, и воркер отправляет супервайзеру. Поздняя ошибка настроек трекера — F3.2 |
-| 2. Работа вне флоу, мерж без гейта | Закрыта: супервайзер пишет в трекер только по просьбе человека, мерж только после `merge_ok` (`flows/task.yaml:110`) |
-| 3. Путь вне worktree рана | Закрыта: `.lado/sdlc.md` проверяется на целевой ветке (`agents/analyst.md:32`). Относительный путь к `references/` оставлен планом (F11.1) |
-| 4. Вердикт без порога серьёзности | Изменение не трогает: «- the last round found no blocker and no confirmed important finding;» (`skills/review-loop/SKILL.md:131`) |
-| 5. Зависимый скил пишет или спрашивает там, где роли нельзя | Закрыта: `tracker` нет у ревьюера. Свою ошибку скил отдаёт воркеру по правилу «as a worker, send the supervisor». Противоречие разметки между скилами — F5.7 |
+| 1. Красная проверка отправлена назад без поиска причины в окружении | Закрыта: ошибка `tracker` на целевой ветке идёт супервайзеру («task from there; when either fails, send the supervisor the missing file or the error», `agents/analyst.md:33`), у супервайзера есть «A failure outside the kit». Разбор этого случая у супервайзера — F7.2 |
+| 2. Работа вне флоу, мерж без гейта | Закрыта: мерж только после `merge_ok`; супервайзер пишет в трекер только по просьбе человека |
+| 3. Путь вне worktree рана | Закрыта: проверки аналитика идут в worktree рана после `git reset --keep origin/<target>` (`agents/analyst.md:31-33`) |
+| 4. Вердикт без порога серьёзности | Изменение не трогает: `skills/review-loop/SKILL.md:131` |
+| 5. Зависимый скил пишет или спрашивает там, где роли нельзя | Закрыта: `tracker` нет у ревьюера; «ask your human partner» разработчика идёт через супервайзера (`agents/developer.md:35`). Расхождение разметки с tracker-jira-server v1.0.0 — решение человека, см. условие релиза |
 
 ## Не прослежено
 
-Нет. `--compare`: «same as the plan in BLUEPRINT.md». R16 связан с элементами: `sdlc-settings`, `tracker`, `supervisor`, `analyst`, `integrator`, `openspec-changes` (`BLUEPRINT.md`, обратная проверка). Единственная жёлтая мера (Worker roles = 4) обоснована. Раздел 4 совпадает с выводом скрипта. Утверждение R16 о Markdown — F5.7.
+Нет. `--compare`: «same as the plan in BLUEPRINT.md». Жёлтая мера (Worker roles = 4) обоснована. Раздел 4 совпадает с выводом скрипта (analyst 798, integrator 640, supervisor 753). Расхождение строки `task.design` с ролью — F9.5.
 
 ## Прежние находки
 
-Отчёт 0.1.3 (`assessment`), 18 находок. Список автора в `build-report` сверен с файлами, всё совпадает.
+Отчёт визита 1 (61892b4), 9 находок, все RESOLVED. Список автора в `build-report` сверен с файлами.
+- **F5.7** RESOLVED решением человека (вариант б): правило Markdown осталось, README требует его от трекер-кита (`README.md:21`), блупринт ставит публикацию после релиза tracker-jira-server (`BLUEPRINT.md:94-95`). См. условие релиза.
+- **F5.8** RESOLVED решением человека: пути обновления с 0.1.x нет, «the kit yet (session kit-sdlc, 2026-10-09).» (`BLUEPRINT.md:105`). Раздел README и предложение супервайзера убраны.
+- **F6.3** RESOLVED: правило в одном месте, `skills/sdlc-settings/SKILL.md:71-75`. Супервайзер ссылается: «(`sdlc-settings`, "The task key as a name": `ABC-123` → `abc-123`).» (`agents/supervisor.md:33`). Пробел в самом правиле — F5.11.
+- **F3.2** RESOLVED: «origin/<target>`. Check that `.lado/sdlc.md` is on it and that `tracker` reads the» (`agents/analyst.md:32`).
+- **F4.2** RESOLVED: `agents/integrator.md:36` «say which».
+- **F5.9** RESOLVED: «URL. Name no tracker's commands, settings files or markup yourself, and use them only as» (`skills/sdlc-settings/SKILL.md:52`); то же в R16.
+- **F5.10** RESOLVED: «sdlc reads no settings file of the tracker kit» (`README.md:21-22`).
+- **F9.3** RESOLVED: «status and post a comment, and, when it can, link a URL, assign the task and label it.» (`README.md:20`).
+- **F9.4** RESOLVED: «(R11). *Source:* round 5 answer 2; session kit-sdlc (R16).» (`BLUEPRINT.md:66`).
 
-- **F5.1** RESOLVED: `grep -rn "tracker.yaml" kit.yaml agents flows skills` ничего не находит. Проверяется только `.lado/sdlc.md` (`agents/analyst.md:32`).
-- **F10.1** RESOLVED: «1. Read the task with its comments (skill `tracker`) and each task it links to.» (`agents/analyst.md:22`). Синтаксиса `get`/`link`/`comment` в ролях нет.
-- **F5.2** RESOLVED как текст: wiki-разметки нет, шаблон в Markdown. Новое противоречие с tracker-jira-server — F5.7.
-- **F5.3** RESOLVED: слова статусов из настроек убраны, правило «**Statuses** go by meaning» одно (`skills/sdlc-settings/SKILL.md:62`).
-- **F5.4** RESOLVED: одно правило «**Assigning the task or labelling it**: when `tracker` can, do it; otherwise ask the» (`skills/sdlc-settings/SKILL.md:68`).
-- **F5.5** RESOLVED: правило имени есть (`skills/openspec-changes/SKILL.md:37-40`), эпик — «when the tracker has epics». Копия у супервайзера — F6.3.
-- **F9.2** RESOLVED: «## Writing to the tracker» (`skills/sdlc-settings/SKILL.md:48`), раздел **Tracker**.
-- **F10.2** RESOLVED: «Day-to-day development of a project whose tasks live in a task tracker, one task per» (`kit.yaml:4`). README называет tracker-jira-server только как пример.
-- **F2.1, F3.1, F4.1, F5.6, F6.1, F6.2, F7.1, F8.1, F9.1, F11.1** STILL OPEN: их оставил план, см. ниже. Их текст не менялся, например «    reads: [design, merge-report]» (`flows/task.yaml:113`).
+Отчёт 0.1.3: 8 находок про трекер RESOLVED (визит 1). 10 оставленных планом — STILL OPEN, их текст не менялся.
 
 ## Вырезанные правила
 
-| Убранное правило (файл:строка в базе) | Где оно сейчас |
+| Убранное правило (файл:строка на d77b2d6) | Где оно сейчас |
 |---|---|
-| analyst.md:27-28 «ask them in your `ready` note to assign it by hand» | `agents/analyst.md:27-28` + `skills/sdlc-settings/SKILL.md:68-69` «ask the human in your note». Заметки аналитика бывают только на `ready`/`dropped`, так что смысл тот же |
-| analyst.md:33 проверка `.lado/tracker.yaml` на целевой ветке | убрана по решению человека (R16); последствие — F3.2 |
-| integrator.md:35 «a request to the human to set the waiting-for-release label by hand» (в `merge-report`) | частично потеряно — F4.2 |
-| integrator.md:63 «posted as it is», перечитать | `agents/integrator.md:63` «as it is, read it back» |
-| sdlc-settings:52 «an exit code is not proof that Jira took it» | `skills/sdlc-settings/SKILL.md:56` «a reported success is not proof that the» |
-| sdlc-settings:53-55 «yes, create»; пропуск по типу задачи | `skills/sdlc-settings/SKILL.md:58-60` |
-| sdlc-settings:57-58 «Until `tracker` can…» | `skills/sdlc-settings/SKILL.md:68-69` |
-| supervisor.md:33 имя рана в нижнем регистре | `agents/supervisor.md:33` (копия — F6.3) |
-| supervisor.md:61 «the label the human must set by hand» | `agents/supervisor.md:61` «what the human must do there by hand» |
-| BLUEPRINT.md:64 источник «round 5 answer 2» | потерян — F9.4 |
-| BLUEPRINT R11 «asks the human, in its note, to assign it to themselves» | `BLUEPRINT.md` R11 «asked in the agent's note»; «to the human» — в `agents/analyst.md:28` |
+| openspec-changes:37-38 правило имени и примеры | `skills/sdlc-settings/SKILL.md:73-75`; `gh-123` → `task-123` намеренно |
+| openspec-changes:39-40 «Run and branch names take the key in the same form» | `skills/sdlc-settings/SKILL.md:73` (оговорка про «start with» — F5.11) |
+| supervisor.md:32-33 форма ключа для рана | ссылка `agents/supervisor.md:33` + `skills/sdlc-settings/SKILL.md:73-75` |
+| analyst.md:33-34 «put the branch on the target again and check again» | `agents/analyst.md:34` «fetch, reset and check again» |
+| analyst.md:33 «send the supervisor the file's name and the target» | `agents/analyst.md:33` «the missing file or the error and the target» |
+| README.md:20 «link a URL» среди обязательных | `README.md:20` под «when it can»; обход — `skills/sdlc-settings/SKILL.md:67` |
+| README.md:21 «sdlc reads no tracker settings of its own» | `README.md:21-22` «no settings file of the tracker kit» |
+| sdlc-settings:52 «Never use one tracker's commands, settings files or markup» | `skills/sdlc-settings/SKILL.md:52-53` |
 
-Остальные удаления (синтаксис `jira.py`, wiki-разметка, слова статусов, `.lado/tracker.yaml`) предусмотрены планом. Сверено по `git diff --word-diff 4b7d998`.
+Раздел README «Upgrading from sdlc 0.1.x» и предложение супервайзера появились в 735eefe и убраны в d8150dc. На d77b2d6 их не было, решение человека записано в R16. Ничего не потеряно.
 
 ## Пропущено раньше
 
-Нет: все находки полного прохода — в строках, которые изменил diff.
+Нет: все находки — в строках, которые изменил diff.
 
 ## Оставлено планом
 
 Человек: «we do not take them, we handle them later»; записаны в BACKLOG.md.
 - F2.1 `merge` не читает `ledger`.
-- F3.1 согласие на противоречащую дельту на `merge_ok` (F3.17 отчёта 0.1.2).
-- F4.1 макеты не показаны на `design_ok`.
+- F3.1 согласие на противоречащую дельту на `merge_ok`.
+- F4.1 макеты на `design_ok`.
 - F5.6 ревьюер и файлы, переписанные сборкой.
 - F6.1 выбор прохода в трёх местах.
-- F6.2 правило cleanup пересказано в `do` шага `review`.
+- F6.2 правило cleanup в `do` шага `review`.
 - F7.1 `review-loop` спрашивает человека напрямую.
 - F8.1 `archive` молчит о повторном визите.
-- F9.1 правило minor `fix` одной цепочкой.
+- F9.1 правило minor `fix`.
 - F11.1 относительный путь к `references/lenses.md`.
 
 ## Вопросы к человеку
 
-1. Markdown и tracker-jira-server (F5.7). Человек решил: «the tracker skill formats it». Но tracker-jira-server v1.0.0 этого не делает: он велит писать в wiki-разметке и отправляет текст как есть.
-   - (а) Правило в sdlc: черновик в Markdown, а если скил `tracker` называет свою разметку, агент пишет в ней с тем же содержанием и показывает в `merge-report` готовый к публикации текст.
-   - (б) Сначала патч tracker-jira-server (Markdown → wiki), потом 0.2.0 с требованием этой версии в README.
-   Рекомендация: (а). Это одна фраза в `sdlc-settings` и одна в R16, и решение человека остаётся в силе: разметку для своего трекера по-прежнему определяет скил `tracker`. (б) можно сделать позже и независимо.
-2. Обновление Clens с 0.1.x (F5.8). Рекомендация: строка в README и предложение супервайзера переделать раздел **Jira** в **Tracker**.
+1. Публиковать 0.2.0 только после релиза tracker-jira-server с Markdown (так записано в R16)? Рекомендация: да, на `release_ok` проверить, что он вышел, или выпустить локальный тег без публикации.
+2. Правило остановки не выполнено из-за одной medium (F5.11, пример `owner/repo#123`). Рекомендация: ещё один короткий круг только по F5.11 и F10.3 (две строки в `sdlc-settings`) либо выпуск с F5.11 в бэклоге. Сейчас нет трекер-кита с ключами `owner/repo#123`, так что вред пока теоретический.
