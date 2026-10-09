@@ -13,3 +13,6 @@
   F2.1, F3.2, F3.3, F10.2 of kit-reports/sdlc-0.2.0-2026-10-09.md (commit 29a4c8f).
 - Low findings of that report left out of 0.2.1: F6.1 (`merge` do retells the role's
   "Merge"), F6.3 (`review` do retells the stop criterion).
+- Low findings of kit-reports/sdlc-0.2.1-2026-10-09.md (visit 2) left out of 0.2.1, for the
+  archive-path run: F3.7 (the analyst cannot always tell the assignee is `tracker`'s account),
+  F5.3 (the read-back lead sentence vs. the items that accept `tracker`'s report).
