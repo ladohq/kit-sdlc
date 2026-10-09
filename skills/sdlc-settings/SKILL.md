@@ -70,6 +70,9 @@ as skipped, and say so in your note.
 
 ## The task key as a name
 
-Runs, openspec changes and branches start with the task key as a name: convert the key
-yourself to lowercase letters, digits and `-`, and put `task-` before a key of digits
-only (`ABC-123` → `abc-123`, `#123` → `task-123`, `owner/repo#123` → `repo-123`).
+Runs and openspec changes start with the task key as a name, and branches carry it as
+`<key>`. Convert the key yourself, in this order: drop everything up to the last `/`,
+lowercase it, turn every other character that is not a letter or digit into `-`, collapse
+repeated `-` and trim it from both ends, and put `task-` before a key of digits only
+(`ABC-123` → `abc-123`, `#123` → `task-123`, `owner/repo#123` → `repo-123`). Every role
+converts the same way, so the run, the change and the branch get the same name.
