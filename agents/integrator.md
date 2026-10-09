@@ -20,10 +20,14 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
 ## Archive
 
 1. Check the review converged: the ledger says its last round met the stop criterion,
-   or that the human accepted the open findings.
-2. Archive as `openspec-changes` says ("Archive"), with the closing report from the
-   ledger, and push as the developer does: `git push origin HEAD:refs/heads/<the
-   design's pull request branch>`, never force.
+   or that the human accepted the open findings (in `merge`: at `merge_ok`). When it did
+   not, archive nothing.
+2. Archive as `openspec-changes` says ("Archive"), and push as the developer does: `git
+   push origin HEAD:refs/heads/<the design's pull request branch>`, never force. The
+   closing report is the one in the ledger. When the ledger holds none, write it
+   yourself from the ledger's rows: the rounds, the confirmed findings with their fixing
+   commits, the refuted ones, the declined ones and why, the residual risk, and the
+   human's acceptance of the open findings at `merge_ok`, quoted.
 3. Read the pull request's state: its CI, whether it can be merged, its target.
 4. Draft the tracker comment from the settings' merge comment template, in the
    settings' tracker comment language, as `sdlc-settings` says ("Writing to the
@@ -31,7 +35,9 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    proposal and design, by layer, not by retelling the diff; for QA say what to check,
    in plain words.
 
-Write the artifact `merge-report` whole, in the settings' chat language: the archive
+Write the artifact `merge-report` whole, in the settings' chat language: at the top,
+when nothing was archived, that and why (an unconverged review, a task not checked
+without a reason, a contradiction with a living spec, a failed validation); the archive
 commit and the validation's result; the pull request, its target and CI; what `merge`
 will do in git and in the tracker (base branch: the comment and the waiting-for-release
 label, set through `tracker` or asked of the human when it cannot, say which; epic
@@ -40,13 +46,18 @@ posted; the ledger's residual risk and declined findings.
 
 ## Merge
 
-1. `git fetch origin`, note `git rev-parse HEAD`, and merge `origin/<target>` into the
+1. When `merge-report` says nothing was archived because the review did not converge,
+   and the human accepted its open findings at `merge_ok`, archive first ("Archive").
+   When nothing was archived for any other reason, or that archive fails, leave no
+   uncommitted file behind (restore it as `openspec-changes` says), merge nothing and
+   report `conflicts` with the reason in note_body: only the developer can fix it.
+2. `git fetch origin`, note `git rev-parse HEAD`, and merge `origin/<target>` into the
    run's branch. On a conflict, `git merge --abort` and report `conflicts`. When it
    merges cleanly and brought changes, run the settings' **Checks**. A red check whose
    cause is in the work (`engineering-rules`, "A red check") is `conflicts` too: first
    `git reset --keep <the noted commit>`, so the unpushed merge commit goes. A red check
    whose cause is outside the work follows "A red check". With every check green, push as in "Archive".
-2. Wait for the pull request's CI, at most the CI time ceiling of **Checks**, then merge
+3. Wait for the pull request's CI, at most the CI time ceiling of **Checks**, then merge
    it with a merge commit, never squash or rebase: `gh pr merge <n> --merge` or the
    settings' tool's equivalent. A red CI comes after the push, so the merge commit is
    already on the remote: leave it, never reset or rewrite it. When the cause is in the
@@ -55,12 +66,12 @@ posted; the ledger's residual risk and declined findings.
    merge (branch protection, missing approvals) goes to the supervisor with
    `send_message`, with the command and its output; stay in `merge` and go on when it
    answers.
-3. Check the merge by the pull request's state (merged, with its merge commit), never by
+4. Check the merge by the pull request's state (merged, with its merge commit), never by
    the command's exit code: the merge often succeeds while a local step of the tool
    fails.
-4. Delete the pull request's remote branch. The run's worktree and local branch are
+5. Delete the pull request's remote branch. The run's worktree and local branch are
    LADO's; the supervisor removes them when the run ends.
-5. The tracker, for a merge into the base branch: post the comment from your
+6. The tracker, for a merge into the base branch: post the comment from your
    `merge-report` as it is, read it back, and set the waiting-for-release label, or ask
    the human in your note to set it (`sdlc-settings`, "Writing to the tracker"). For a
    merge into an epic branch: the comment only; the task stays in review. Change nothing else on the task.

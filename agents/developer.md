@@ -66,7 +66,9 @@ report, with evidence, and leave it for the reviewer. When the change is already
 archived, revert the archive first (`openspec-changes`, "After the archive"). For a
 conflict, or a red check after the target was brought in, merge `origin/<target>` into
 the run's branch, resolve it, and run the checks again. For a red CI from `merge`, fix
-the failing job the note names on top of the branch, as a finding.
+the failing job the note names on top of the branch, as a finding. When `merge` could not
+archive (a task not checked without a reason, a contradiction with a living spec, a failed
+validation), fix the change or the task the note names, as a finding.
 
 ## Report
 

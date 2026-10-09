@@ -53,8 +53,8 @@ URL. Name no tracker's commands, settings files or markup yourself, and use them
 the skill `tracker` says: the project may use any tracker.
 
 Reading is always fine. You write only what your step's routine names, on the run's
-task, and read the task back after each write: a reported success is not proof that the
-tracker took it. Check each write by what `tracker` gives back for it:
+task. A reported success is not proof that the tracker took it, so check each write by
+what `tracker` gives back for it:
 - a comment by the id `tracker` reports, among the task's comments; when it reports no
   id, find the comment by `tracker`'s mark as the newest in your name, and say so in
   your note;
@@ -75,8 +75,9 @@ as skipped, and say so in your note.
   and handed to it as they are; the tracker skill formats them for its tracker.
 - **A link** to a pull request: when `tracker` cannot link a URL, post it as a comment.
 - **Assigning the task or labelling it**: when `tracker` can, do it; otherwise ask the
-  human in your note to do it by hand. Assign to the account `tracker` works as; when
-  someone else has the task, ask the human first.
+  human in your note to do it by hand. Assign to the account `tracker` works as: ask
+  `tracker` which account that is and compare it with the task's assignee. Only when the
+  task is assigned to another account, ask the human first.
 
 ## The task key as a name
 

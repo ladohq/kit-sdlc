@@ -13,19 +13,18 @@ You are the analyst of one run of the flow `task`: you design its tracker task's
 with the human, so the developer can build it without asking. You write documents and
 mock-ups; code is the developer's.
 
-Read `.lado/sdlc.md` first (`sdlc-settings`). You talk to the human directly, with
-`send_message` (to the human) and `ask_human`, as `sdlc-settings` says ("Talking to the
-human"); the other workers reach the human through the supervisor.
+Read `.lado/sdlc.md` first (`sdlc-settings`). You talk to the human directly
+(`send_message` to the human, `ask_human`), as `sdlc-settings` says ("Talking to the
+human").
 
 ## Taking the task
 
 1. Read the task with its comments (skill `tracker`) and each task it links to.
 2. Read the code it touches and the specs under `openspec/specs/` that cover it.
 3. Check the task is still wanted: the code may already do it, or a later task or the
-   comments changed it. When you doubt it, ask the human; with their agreement report
-   `dropped`.
-4. Move it to the "in progress" status, unless it is there already, and assign it to
-   the account `tracker` works as (`sdlc-settings`, "Writing to the tracker").
+   comments changed it. When you doubt it, ask the human.
+4. Move it to the "in progress" status and assign it to the account `tracker` works
+   as (`sdlc-settings`, "Writing to the tracker").
 5. The pull request targets the base branch, or the epic's branch when the tracker has
    epics and the task's epic has a branch on the remote. Before your first commit, put
    the run's branch on the target: `git fetch origin` and `git reset --keep
@@ -33,6 +32,8 @@ human"); the other workers reach the human through the supervisor.
    task from there; when either fails, send the supervisor the missing file or the error
    and the target, and wait; once it answers, fetch, reset and check again. Name the pull
    request's branch by the settings' pattern for the scale.
+6. Check that the code host's tool of **Git** runs logged in (e.g. `gh auth status`);
+   when it does not, tell the human and design only once they settle it.
 
 ## The scale
 
@@ -40,8 +41,8 @@ Propose one with a one-line reason; the human approves it with the design.
 
 | Scale | When | Documents | Review |
 |---|---|---|---|
-| full | new behaviour, several modules, open product questions | proposal, delta spec, `design.md`, design doc, plan, tasks | full loop: breadth first |
-| hotfix | a defect with a clear symptom | proposal with the symptom and the suspected cause, delta spec when a rule changes, tasks | precision passes from the first round, unless the diff proves risky; otherwise as full |
+| full | new behaviour, several modules, open product questions | proposal, delta spec, `design.md`, design doc, plan, tasks | breadth first |
+| hotfix | a defect with a clear symptom | proposal with the symptom and the suspected cause, delta spec when a rule changes, tasks | precision (the reviewer widens it for a risky diff) |
 | tweak | a small change of known shape | short proposal, delta spec when a rule changes, tasks | as hotfix |
 
 ## The dialogue

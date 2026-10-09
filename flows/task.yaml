@@ -53,7 +53,8 @@ states:
       human's reason for rejecting the merge at `merge_ok` (quote it at the top of
       `build-report` and fix it like a finding; when it is only that the review did not
       converge, with nothing in the code to fix, quote it and report `ready`), or a
-      conflict or red check from `merge`, as your role describes ("Fixing").
+      conflict, a red check or a refused archive from `merge`, as your role describes
+      ("Fixing").
       Done when every task of the change's `tasks.md` is checked or says why not, the
       project's checks pass with their numbers in `build-report`, the work is committed
       and pushed and the pull request's description matches the diff. Report `ready`:
@@ -76,8 +77,8 @@ states:
       findings RESOLVED or STILL OPEN first, against the developer's `build-report`.
       The visits hold the first local round, the external rounds up to the round cap, the
       cleanup and final rounds, and a return after `merge_ok` or `conflicts`; reaching the
-      limit is rare. In the visit where correctness converges, run the cleanup pass too;
-      when it leaves nothing to fix, that visit's round is the final one.
+      limit is rare. When to run the cleanup pass and the final round is `review-loop`,
+      "Stop criterion".
       Done when every finding of this round has a verdict, a tier and a fate with its
       evidence, and `ledger` is written whole. Report `converged` when the stop criterion
       of `review-loop` holds, or the human accepted the open findings, recorded in
@@ -90,14 +91,13 @@ states:
     produces: [merge-report]
     do: |
       Archive the change inside the pull request (`openspec-changes`, "Archive") and
-      prepare the merge, as your role describes.
-      Done when the archive commit is pushed, `openspec validate --specs --strict` passes,
-      and `merge-report` holds the archive's result, the pull request's state, what the
-      merge will do in git and the tracker, the drafted tracker comment and the ledger's residual
-      risk. When the change cannot be archived as it is (the ledger does not show the
-      review converged, a task not checked without a reason, a delta that contradicts a
-      living spec), archive nothing and say so at the top of `merge-report`: the human
-      sends it back, or accepts the open findings there, at `merge_ok`. Report `ready`:
+      prepare the merge, as your role describes ("Archive").
+      Done when the archive commit is pushed, or nothing was archived and no uncommitted
+      file is left, and `merge-report` holds what your role lists ("Archive"). When the
+      change cannot be archived (the review did not converge, a task not checked without a
+      reason, a delta that contradicts a living spec, a failed validation), say so at the
+      top of `merge-report`. Only an unconverged review can be accepted at `merge_ok`;
+      for any other cause the human rejects the merge back to `build`. Report `ready`:
       note_summary is the pull request and its target; note_body what the human should
       look at.
     outcomes: {ready: merge_ok}
@@ -106,25 +106,24 @@ states:
     reads: [ledger, merge-report]
     ask: >-
       Merge the pull request into its target branch? The integrator brings the target in,
-      merges with a merge commit and updates the tracker.
+      merges with a merge commit and updates the tracker. When `merge-report` says nothing
+      was archived, approving accepts its open findings: approve only an unconverged
+      review; reject any other cause back to the developer.
     outcomes: {approved: merge, rejected: build}
   merge:
     agent: integrator
-    reads: [design, merge-report]
+    reads: [design, ledger, merge-report]
     do: |
       Merge the pull request as your role describes ("Merge"), with the plan and the tracker
       comment of your `merge-report` artifact; a comment of the human at `merge_ok` binds.
-      When `merge-report` says nothing was archived and the human accepted the findings at
-      `merge_ok`, archive first ("Archive"), then merge.
       Report `merged` once the pull request's state is merged and the tracker routine is
       done: note_summary is the pull request and the merge commit; note_body what was
-      done in the tracker and what is left for the human. Report `conflicts` when bringing the
-      target in conflicts or a local check is red for a cause in the work: undo the merge
-      as your role says, push nothing, and name the files or the failing check in
-      note_body. A CI red for a cause in the work is `conflicts` too, but the merge is
-      already pushed: leave it (your role, "Merge"). A cause outside the work, a CI past
-      its time ceiling or a host that refuses the merge is no outcome: send it to the supervisor and stay in
-      `merge` (your role, "Merge").
+      done in the tracker and what is left for the human. Report `conflicts` when the
+      change cannot be archived, bringing the target in conflicts, or a local check or CI
+      is red for a cause in the work: what to undo and what to leave is your role's
+      ("Merge"); name the reason, the files or the failing check in note_body. A cause
+      outside the work, a CI past its time ceiling or a host that refuses the merge is no
+      outcome: send it to the supervisor and stay in `merge` (your role, "Merge").
     outcomes: {merged: done, conflicts: build}
   done:
     end: true

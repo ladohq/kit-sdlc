@@ -68,12 +68,15 @@ Archive after the review has converged and before the merge, on the pull request
 branch, so the archive rides inside the pull request and every review fix belongs to the
 change it fixes.
 
-1. Every task of `tasks.md` is checked, or its line says why not.
+1. Every task of `tasks.md` is checked, or its line says why not, and the grep for
+   contradictions (above) finds none. When either fails, do not archive.
 2. `openspec archive <name> --yes` (add `--skip-specs` for a change without a delta). It
    merges the delta into `openspec/specs/` and moves the change to
    `openspec/changes/archive/<today>-<name>/`.
-3. `openspec validate --specs --strict` passes, and the grep for contradictions (above)
-   finds none.
+3. `openspec validate --specs --strict` passes. When it fails, undo the archive before
+   any commit: `git restore --staged --worktree -- openspec/` and delete the folder it
+   created under `openspec/changes/archive/`; `git status` then shows no change under
+   `openspec/`. Commit nothing and say so at the top of `merge-report`.
 4. Write the review's closing report (`review-loop`, "Closing report") to
    `docs/superpowers/reports/`.
 5. Commit these paths alone, message `archive(<KEY>): <name>`, and push. The pull
