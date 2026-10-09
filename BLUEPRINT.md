@@ -29,7 +29,11 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   `openspec/changes/<name>/`, `openspec/changes/archive/<date>-<name>/`, the living
   `openspec/specs/`, design and plan documents in `docs/superpowers/{specs,plans,reports}/`,
   `openspec validate --specs --strict` passing. The openspec CLI is a prerequisite; the
-  Comet state file `.comet.yaml` is not written. *Source:* round 2 answer 1 ("very important:
+  Comet state file `.comet.yaml` is not written. `openspec` and `git` run in every run on
+  any project, so `kit.yaml` declares them in `expects.commands` and a session without them
+  does not start; the code host's CLI (e.g. `gh`) comes from the project's settings
+  (section **Git**), so it is not declared and the analyst checks it when it takes the
+  task. *Source:* round 2 answer 1 ("very important:
   compatibility with the existing specifications"); round 3 answer 1.
 - **R4** Work goes in phases; after any interruption the run goes on from the phase it
   stopped in, and each phase is done by an agent focused on it, with a fresh context.
@@ -54,7 +58,13 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   commands). *Source:* round 1 (the review routine); round 4 answer 4; round 6 ("our own
   skills for code review"); dump §2 (`pr-converge`), §6 rules 10–16.
 - **R9** The openspec change is archived after review converges and before the merge, by a
-  commit inside the pull request. *Source:* round 4 answer 2; dump §5 pattern 1 (35 of 53
+  commit inside the pull request. Only an unconverged review can be accepted at `merge_ok`;
+  a task not checked without a reason or a delta that contradicts a living spec goes back
+  to `build`. When a check after `openspec archive` fails, the archive is undone before
+  anything is committed. Without a closing report in the ledger, the integrator writes it
+  from the ledger. When `merge` cannot archive, it merges nothing and the work goes back to
+  `build` (`conflicts`). *Source:* session kit-sdlc, 2026-10-09 (the task of run
+  `improve/sdlc-3`, from kit-reports/sdlc-0.2.0-2026-10-09.md F3.2, F3.3, F10.2); round 4 answer 2; dump §5 pattern 1 (35 of 53
   tweak changes were review-fix rounds caused by archiving before review).
 - **R10** Merge follows the human's routine: bring the base branch in, merge with a merge
   commit (never squash), check the merge by the pull request's state, delete the branch and
@@ -72,7 +82,8 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   the human does it by hand, asked in the agent's note (a link goes in as a comment). The kit does not bring `tracker` itself: another kit of the
   session does (now `tracker-jira-server`; another tracker kit with a skill of the same
   name fits as well), so `kit.yaml` declares it in `expects.skills` and the roles that use
-  it name it in their `skills:`. `expects` needs LADO 0.29 or newer, so `kit.yaml` sets `dependencies.lado: ">=0.29"`
+  it name it in their `skills:`. `expects.skills` needs LADO 0.29 and `expects.commands`
+  (R3) LADO 0.30, so `kit.yaml` sets `dependencies.lado: ">=0.30"`
   (round 7: a LADO change made for this kit, released in LADO 0.29.0). *Source:* brief
   ("Known so far: the tracker"); dump §1.1, §6 rules 3–5; round 7 (B1).
 - **R12** Specialised roles, each good at one kind of work with its own rights: analyst,
@@ -193,13 +204,13 @@ from `merge` names; after `redesign` it builds the newly approved design.
 | `reviewer` | role | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). Read-only on code. |
 | `integrator` | role | R9, R10, R11, R12, R16 | Other rights (merge, tracker writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
 | `task` | flow | R1, R4 | One run per task; LADO keeps its state, so it resumes after any stop. |
-| `task.design` | work step | R3, R5, R7, R11, R16 | Takes the task ("in progress"; assigns it through `tracker`, or asks the human to), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks `.lado/sdlc.md` is on it. Reads `build-report` on a return. Produces `design`. |
+| `task.design` | work step | R3, R5, R7, R11, R16 | Takes the task ("in progress"; assigns it through `tracker`, or asks the human to), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks `.lado/sdlc.md` is on it, and that the code host's CLI of **Git** runs and is logged in. Reads `build-report` on a return. Produces `design`. |
 | `task.design_ok` | gate | R5, R6 | Code starts only on the human's approval of scope, scale and design. Reads `design`. |
 | `task.build` | work step | R8, R11, R13 | TDD and the change; the project's checks; push; the pull request, its link in the tracker, "review" on the last PR. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec; `max_visits: 8` (the first local round, up to the round cap of external rounds, cleanup, final round and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
-| `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the tracker comment in Markdown. Reads `design`, `ledger`. Produces `merge-report`. |
+| `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the tracker comment in Markdown; when the change cannot be archived or a check after the archive fails, commits nothing and says so at the top of `merge-report`. Reads `design`, `ledger`. Produces `merge-report`. |
 | `task.merge_ok` | gate | R6, R10 | The merge to the base branch is hard to undo (stage deploys from it on Clens). Reads `ledger`, `merge-report`. |
-| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, tracker label and comment; `conflicts` back to build when bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
+| `task.merge` | work step | R9, R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, tracker label and comment; `conflicts` back to build when bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Archives first when the human accepted an unconverged review at `merge_ok`; when that archive fails or `merge-report` says nothing was archived for another reason, restores the files, merges nothing and reports `conflicts` with the reason. Reads `design`, `ledger`, `merge-report`. |
 | `sdlc-settings` | skill | R2, R11, R14, R16 | The format of `.lado/sdlc.md` and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
 | `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator). |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
@@ -207,13 +218,15 @@ from `merge` names; after `redesign` it builds the newly approved design.
 | superpowers skills (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion) | dependency skills | R5, R7, R8 | The methods Comet Classic used; published, so declared in `dependencies.skills`, not copied. |
 | `grilling` | dependency skill | R7 | The human's grilling step at design. |
 | `tracker` (a tracker kit, now `tracker-jira-server`) | skill of another kit | R2, R11, R16 | The task tracker, whatever it is; the roles ask it for actions by meaning and never use its syntax or settings files; declared in `kit.yaml` `expects.skills` (LADO >= 0.29), named in the `skills:` of analyst, developer, integrator and supervisor; the session adds a kit that provides it. |
+| `openspec` | command (expects) | R3 | The openspec CLI every run uses to create, validate and archive the change; declared in `expects.commands` (LADO >= 0.30), so the session does not start without it. |
+| `git` | command (expects) | R1, R9, R10, R13 | Branches, commits, the archive commit and the merge in every run; declared in `expects.commands`. The code host's CLI is not: it comes from the project's settings (R3). |
 
 Reverse check:
 - R1: `supervisor`, `task`. R2: `sdlc-settings`. R3: `task.design`, `openspec-changes`,
-  `task.archive`. R4: `task`, `developer`, the four roles' fresh contexts. R5: `analyst`,
+  `task.archive`, `openspec`. R4: `task`, `developer`, the four roles' fresh contexts. R5: `analyst`,
   `task.design`, `task.design_ok`. R6: `task.design_ok`, `task.merge_ok`, `supervisor`.
   R7: `analyst`, `task.design`, brainstorming, `grilling`. R8: `reviewer`, `task.review`,
-  `task.build`, `review-loop`. R9: `task.archive`, `openspec-changes`. R10: `integrator`,
+  `task.build`, `review-loop`. R9: `task.archive`, `task.merge`, `openspec-changes`, `git`. R10: `integrator`,
   `task.archive`, `task.merge_ok`, `task.merge`. R11: `analyst`, `task.design`, `task.build`,
   `task.merge`, `tracker`, `sdlc-settings`. R12: the four roles. R13: `engineering-rules`, `review-loop`,
   `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`. R15: section 5. R16:
@@ -271,6 +284,11 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.2.1, 2026-10-09).
 | 2026-10-09 | 0.2.1 | README: tracker-jira-server 1.1.0 or newer, assign and label no longer shown as missing; R16 names the released tracker | kit-reports/sdlc-0.2.0-2026-10-09.md (commit 29a4c8f) F10.1 |
 | 2026-10-09 | 0.2.1 | A tracker write is checked by what `tracker` gives back (comment by id, status, assignee, label by meaning), never by comparing text; the developer's copy of the rule removed | same report, F3.1, F6.2 |
 | 2026-10-09 | 0.2.1 | The merge comment is written as the skill `tracker` asks; the analyst assigns the task to the account `tracker` works as | same report, F5.1, F5.2 |
+| 2026-10-09 | 0.3.0 | `expects.commands: [git, openspec]`, `dependencies.lado: ">=0.30"`; README and R3, R11 to match; the code host's CLI stays in the settings, and the analyst checks it runs and is logged in when it takes the task | kit-reports/sdlc-0.2.1-2026-10-09.md (commit d345e4d) F10.1, F10.2 |
+| 2026-10-09 | 0.3.0 | Archive path, one rule: grep for contradictions before `openspec archive`; a failed check after it restores the files and commits nothing; only an unconverged review can be accepted at `merge_ok`, the gate's question says so; `merge` that cannot archive merges nothing and reports `conflicts` | same report, F3.1, F3.2 (were F3.2, F3.3 of kit-reports/sdlc-0.2.0-2026-10-09.md, commit 29a4c8f); session kit-sdlc, triage of `improve/sdlc-3` answer 1 |
+| 2026-10-09 | 0.3.0 | `merge` reads `ledger`; without a closing report in the ledger the integrator writes it from the ledger's rows, the residual risk and the human's acceptance at `merge_ok` | same report, F2.1, F2.2 |
+| 2026-10-09 | 0.3.0 | One place for the `merge` routine, the review's stop criterion and the contents of `merge-report` (the role or `review-loop`; the flow points to them) | same report, F6.1, F6.2, F6.3 |
+| 2026-10-09 | 0.3.0 | `sdlc-settings`: the assignee rule says how to tell the task is held by `tracker`'s account; the read-back lead sentence matches the items that accept `tracker`'s report | kit-reports/sdlc-0.2.1-2026-10-09.md (commit b0573e6) F3.7, F5.3 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
