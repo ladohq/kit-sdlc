@@ -133,7 +133,7 @@ same as the plan in BLUEPRINT.md
 
 ### 12. Безопасность и границы
 
-Без находок. Удаление неотслеживаемых путей ограничено `openspec/`. Оно происходит только при красном `openspec validate` до коммита, и только то, что показывает `git status --short -- openspec/` (`skills/openspec-changes/SKILL.md:76-79`). В worktree рана под `openspec/` до архива нет неотслеживаемых файлов: работа закоммичена (`flows/task.yaml` `build`: «the work is committed and pushed»).
+Без находок. Удаление неотслеживаемых путей ограничено `openspec/`. Оно происходит только при красном `openspec validate` до коммита, и только то, что показывает `git status --short -- openspec/` (`skills/openspec-changes/SKILL.md:76-80`). В worktree рана под `openspec/` до архива нет неотслеживаемых файлов: работа закоммичена (условие готовности `build`, `flows/task.yaml:58-60`).
 
 ## Известные дыры
 
