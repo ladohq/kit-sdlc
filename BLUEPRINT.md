@@ -1,27 +1,28 @@
 # Blueprint: sdlc
 
-A process kit for one developer's day-to-day work on a project whose tasks live in Jira
-Server: one Jira task becomes one run that takes the task, designs the change with the human
+A process kit for one developer's day-to-day work on a project whose tasks live in a task
+tracker (any tracker a kit of the session brings the skill `tracker` for; Jira Server through
+`tracker-jira-server` is the one in use now): one tracker task becomes one run that takes the task, designs the change with the human
 as an openspec change, builds it, drives the pull request through local and external review,
 archives the change into the project's spec archive and merges. It carries over the human's
 long-standing process on the project Clens (built on the Comet framework, Classic mode:
 OpenSpec + Superpowers), without Comet's runtime, so that the kit can be improved on its own
-and reused on other projects. It leads the session; the kit `tracker-jira-server` gives its
-roles the skill `tracker`:
-`lado start <repo> --kit sdlc --kit tracker-jira-server`.
+and reused on other projects. It leads the session; a tracker kit gives its roles the skill
+`tracker`, for example: `lado start <repo> --kit sdlc --kit tracker-jira-server`.
 
 Sources: the interview in LADO session `kit-comet` (rounds 1–7, 2026-10-08), the brief
 `BRIEF.md` of this repository, and the human's process dump `clens-process-dump.md`
 (session artifact, 2026-10-08: memory routines, the `pr-converge` skill, 326 session
-transcripts, 147 archived changes), cited below as "dump §N".
+transcripts, 147 archived changes), cited below as "dump §N"; for 0.2.0, the human's answers
+in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
 
 ## 1. Requirements
 
-- **R1** One Jira task is one run: from taking the task to a merged pull request and the
-  task updated in Jira. Several tasks run in parallel, each run in its own worktree.
+- **R1** One tracker task is one run: from taking the task to a merged pull request and the
+  task updated in the tracker. Several tasks run in parallel, each run in its own worktree.
   *Source:* round 2 answer 3 (the process from task to merge); dump §3.4 (a worktree per task).
 - **R2** The kit is universal, not for Clens only. Everything a project differs in lives in
-  the project's file `.lado/sdlc.md`: languages, Jira transitions and labels, branch naming
+  the project's file `.lado/sdlc.md`: languages, the tracker's labels, branch naming
   and base branch, check commands, the external reviewer, and free-form extra instructions
   that change the kit's work. *Source:* round 1 answer 5; round 3 answer 7; dump §8.
 - **R3** Specifications go on in the openspec format, compatible with the project's archive:
@@ -57,18 +58,18 @@ transcripts, 147 archived changes), cited below as "dump §N".
   tweak changes were review-fix rounds caused by archiving before review).
 - **R10** Merge follows the human's routine: bring the base branch in, merge with a merge
   commit (never squash), check the merge by the pull request's state, delete the branch and
-  the worktree; in Jira, the label for "waiting for release" and a two-part comment (for QA,
-  for the developer) in wiki markup. A task merged into an epic branch gets the comment but
-  no label and stays in Code Review. *Source:* round 1 (merge procedure); dump §1.2 «Мерж PR»,
-  «Мерж PR в эпик»; round 5 answer 1. Until the skill `tracker` can label an existing task
-  (round 5 answer 2: a patch of `tracker-jira-server`), the integrator asks the human, in its
-  note after the merge, to set the label by hand.
-- **R11** Agents write to Jira only as the routine says: take the task (assign, In Progress),
-  link each pull request, move to Code Review only on the task's last pull request, the
-  merge label and comment. A new Jira task only after the human's explicit yes. All of it
-  through the skill `tracker`. Until `tracker` can assign a task (as with labels, R10), the
-  analyst moves the task to In Progress itself and asks the human, in its note, to assign
-  it to themselves by hand. The kit does not bring `tracker` itself: another kit of the
+  the worktree; in the tracker, the label for "waiting for release" and a two-part comment
+  (for QA, for the developer) in Markdown (R16). A task merged into an epic branch gets the comment but
+  no label and stays in review. *Source:* round 1 (merge procedure); dump §1.2 «Мерж PR»,
+  «Мерж PR в эпик»; round 5 answer 1. When the skill `tracker` cannot label an existing
+  task, the integrator asks the human, in its note after the merge, to set the label by hand
+  (R11).
+- **R11** Agents write to the tracker only as the routine says: take the task (assign, "in
+  progress"), link each pull request, move to "review" only on the task's last pull request,
+  the merge label and comment. A new tracker task only after the human's explicit yes. All of
+  it through the skill `tracker`. One rule for what `tracker` may lack: when it has the
+  action (assign a task, label an existing one, link a URL), the routine does it; otherwise
+  the human does it by hand, asked in the agent's note (a link goes in as a comment). The kit does not bring `tracker` itself: another kit of the
   session does (now `tracker-jira-server`; another tracker kit with a skill of the same
   name fits as well), so `kit.yaml` declares it in `expects.skills` and the roles that use
   it name it in their `skills:`. `expects` needs LADO 0.29 or newer, so `kit.yaml` sets `dependencies.lado: ">=0.29"`
@@ -85,6 +86,19 @@ transcripts, 147 archived changes), cited below as "dump §N".
 - **R14** Everything the human reads is in the language the project's settings name, and
   whatever they must read is the last message before a question, not hidden before it.
   *Source:* dump §6 rules 32, 35.
+- **R16** The kit works with any task tracker. Its roles never reach a tracker themselves and
+  never use one tracker's commands, files, markup or key format: they know only that the
+  skill `tracker` is there and ask it for actions by meaning (read the task with its
+  comments, change its status, comment, link the pull request). Text for the tracker is
+  Markdown; the tracker skill formats it for its tracker. Statuses are named by their
+  common meaning ("in progress", "review"); the agent may ask `tracker` which statuses the
+  task has and picks by meaning (a shared contract of status words between `sdlc` and
+  tracker kits is left for later). Run, change and branch names are made from the task key
+  converted to lowercase letters, digits and `-` (`ABC-123` → `abc-123`, `#123` →
+  `gh-123`); an epic only when the tracker has them. *Source:* session kit-sdlc, 2026-10-09
+  ("sdlc must not go to any tracker itself … only know it has the skill tracker and ask it";
+  "markup in universal Markdown … the tracker formats it"; "use common statuses … adapt by
+  meaning"; "convert the key to the format we need").
 - **R15** The kit grows in versions; the plan of versions is kept in this blueprint
   (section 5). *Source:* round 1 ("break the build into phases … save the plan and follow it").
 
@@ -114,7 +128,7 @@ reviewer; gates before the work and before the merge). What changed and why:
   against its spec as well as the code (R8).
 - Archive moves after the review, so review fixes belong to the original change (R9).
 - Per-round triage with the human becomes a rule (R8) plus the merge gate.
-- An integrator takes archive, merge and Jira: other rights (merge, Jira writes) and a fresh
+- An integrator takes archive, merge and the tracker: other rights (merge, tracker writes) and a fresh
   context after the review loop (R4, R12).
 - Comet's state file, guards and resume are LADO's run state, step outcomes and `max_visits`.
 
@@ -163,26 +177,26 @@ from `merge` names; after `redesign` it builds the newly approved design.
 
 | Element | Kind | Covers | Why it exists / why nothing simpler |
 |---|---|---|---|
-| `supervisor` | role (lead) | R1, R6, R14 | Starts one run of `task` per Jira key the human names, in the human's language; answers blocked workers; brings the human to the gates. |
-| `analyst` | role | R5, R7, R11, R12 | Takes the task in Jira and runs the design dialogue with the human directly (the other workers reach the human through the supervisor); writes documents only, never code. |
+| `supervisor` | role (lead) | R1, R6, R14, R16 | Starts one run of `task` per tracker task the human names (the run named after its key, converted), in the human's language; answers blocked workers; brings the human to the gates. |
+| `analyst` | role | R5, R7, R11, R12, R16 | Takes the task in the tracker and runs the design dialogue with the human directly (the other workers reach the human through the supervisor); writes documents only, never code. |
 | `developer` | role | R4, R8, R12, R13 | Builds from the approved artifacts with a fresh context; fixes what the review, a rejection or a conflict names. |
 | `reviewer` | role | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). Read-only on code. |
-| `integrator` | role | R9, R10, R11, R12 | Other rights (merge, Jira writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
+| `integrator` | role | R9, R10, R11, R12, R16 | Other rights (merge, tracker writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
 | `task` | flow | R1, R4 | One run per task; LADO keeps its state, so it resumes after any stop. |
-| `task.design` | work step | R3, R5, R7, R11 | Takes the task (In Progress; asks the human to assign it), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks the settings files are on it. Reads `build-report` on a return. Produces `design`. |
+| `task.design` | work step | R3, R5, R7, R11, R16 | Takes the task ("in progress"; assigns it through `tracker`, or asks the human to), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks `.lado/sdlc.md` is on it. Reads `build-report` on a return. Produces `design`. |
 | `task.design_ok` | gate | R5, R6 | Code starts only on the human's approval of scope, scale and design. Reads `design`. |
-| `task.build` | work step | R8, R11, R13 | TDD and the change; the project's checks; push; the pull request, its Jira link, Code Review on the last PR. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
+| `task.build` | work step | R8, R11, R13 | TDD and the change; the project's checks; push; the pull request, its link in the tracker, "review" on the last PR. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec; `max_visits: 8` (the first local round, up to the round cap of external rounds, cleanup, final round and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
-| `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the Jira comment. Reads `design`, `ledger`. Produces `merge-report`. |
+| `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the tracker comment in Markdown. Reads `design`, `ledger`. Produces `merge-report`. |
 | `task.merge_ok` | gate | R6, R10 | The merge to the base branch is hard to undo (stage deploys from it on Clens). Reads `ledger`, `merge-report`. |
-| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, Jira label and comment; `conflicts` back to build when bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
-| `sdlc-settings` | skill | R2, R14 | The format of `.lado/sdlc.md` and how every role reads it; one place instead of five roles. |
-| `openspec-changes` | skill | R3, R9 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator). |
+| `task.merge` | work step | R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, tracker label and comment; `conflicts` back to build when bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `merge-report`. |
+| `sdlc-settings` | skill | R2, R11, R14, R16 | The format of `.lado/sdlc.md` and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
+| `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator). |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
 | `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer, reviewer and integrator. |
 | superpowers skills (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion) | dependency skills | R5, R7, R8 | The methods Comet Classic used; published, so declared in `dependencies.skills`, not copied. |
 | `grilling` | dependency skill | R7 | The human's grilling step at design. |
-| `tracker` (kit `tracker-jira-server`) | skill of another kit | R2, R11 | Jira through one script; declared in `kit.yaml` `expects.skills` (LADO >= 0.29), named in the `skills:` of analyst, developer, integrator and supervisor; the session adds a kit that provides it. |
+| `tracker` (a tracker kit, now `tracker-jira-server`) | skill of another kit | R2, R11, R16 | The task tracker, whatever it is; the roles ask it for actions by meaning and never use its syntax or settings files; declared in `kit.yaml` `expects.skills` (LADO >= 0.29), named in the `skills:` of analyst, developer, integrator and supervisor; the session adds a kit that provides it. |
 
 Reverse check:
 - R1: `supervisor`, `task`. R2: `sdlc-settings`. R3: `task.design`, `openspec-changes`,
@@ -191,8 +205,9 @@ Reverse check:
   R7: `analyst`, `task.design`, brainstorming, `grilling`. R8: `reviewer`, `task.review`,
   `task.build`, `review-loop`. R9: `task.archive`, `openspec-changes`. R10: `integrator`,
   `task.archive`, `task.merge_ok`, `task.merge`. R11: `analyst`, `task.design`, `task.build`,
-  `task.merge`, `tracker`. R12: the four roles. R13: `engineering-rules`, `review-loop`,
-  `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`. R15: section 5.
+  `task.merge`, `tracker`, `sdlc-settings`. R12: the four roles. R13: `engineering-rules`, `review-loop`,
+  `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`. R15: section 5. R16:
+  `sdlc-settings`, `tracker`, `supervisor`, `analyst`, `integrator`, `openspec-changes`.
 
 ## 4. Complexity budget
 
@@ -200,7 +215,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.2, 2026-10-08).
 
 | Measure | Where | Value | Green / yellow up to | Zone | Reason, when not green |
 |---|---|---|---|---|---|
-| Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and Jira writes are rights the developer does not otherwise need. |
+| Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and tracker writes are rights the developer does not otherwise need. |
 | Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green | |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
 | Words in a role prompt | agents/analyst.md | 798 | 800 / 1500 | green | |
@@ -239,10 +254,14 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.1.2, 2026-10-08).
 | 2026-10-08 | 0.1.2 | `review-loop`: a remote head ahead or diverged goes to the developer with both heads; a return from `merge_ok` or `conflicts` gets a precision pass and an external round; the human's answer on a skipped round is followed either way | same report, F3.16, F8.4, F7.5 |
 | 2026-10-08 | 0.1.2 | Reviewer makes no probe edits: a check it cannot see fail goes into the ledger as unverifiable | same report, F5.18 |
 | 2026-10-08 | 0.1.2 | `dropped` asks about moving the task back from "review" too; `build` wording on the first visit; blueprint `task.merge` prose | same report, F12.10, F9.4, F5.19 |
+| 2026-10-09 | 0.1.3 | README installs the kit from the official marketplace (`lado kits add sdlc -m official`) | human, session kit-sdlc (publishing) |
+| 2026-10-09 | 0.2.0 | Any task tracker (R16): no `.lado/tracker.yaml` check; roles name tracker actions by meaning, never `jira.py` syntax; one rule for an action `tracker` lacks (assign, label, link); "Writing to the tracker" and settings section **Tracker** | kit-reports/sdlc-0.1.3-2026-10-09.md F5.1, F10.1, F5.4, F9.2 |
+| 2026-10-09 | 0.2.0 | Merge comment in Markdown, the tracker skill formats it; statuses by common meaning, no status words in `.lado/sdlc.md`; names from the task key converted to lowercase letters, digits and `-`, epics only when the tracker has them | same report, F5.2, F5.3, F5.5; session kit-sdlc answers 1–3 |
+| 2026-10-09 | 0.2.0 | kit.yaml description, README and the flow's description: a task tracker, `tracker-jira-server` as the example | same report, F10.2 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
-- **v1** (this blueprint): R1–R15, flow `task`.
-- **v2**: ranking the Jira backlog; the QA hand-off (release) as its own flow; checking the
+- **v1** (this blueprint): R1–R16, flow `task`.
+- **v2**: ranking the tracker's backlog; a shared contract of status words between `sdlc` and tracker kits (R16); the QA hand-off (release) as its own flow; checking the
   change on a preview environment with e2e as part of the review; what v1's use shows.
 - **Later, if needed**: from the reference's SDLC process — checking that the plan covers
   every acceptance criterion of the task; HTML reports at the gates.
