@@ -1,11 +1,11 @@
 name: task
 description: >-
-  One Jira task from taking it to a merged pull request: the analyst takes the task and
+  One tracker task from taking it to a merged pull request: the analyst takes the task and
   designs the change with the human as an openspec change, the human approves the design,
   the developer builds it and opens the pull request, the reviewer runs local and external
   review rounds until they converge, the integrator archives the change inside the pull
-  request, the human approves the merge, the integrator merges and updates Jira. The run's
-  task is the Jira key, with anything the human said about it.
+  request, the human approves the merge, the integrator merges and updates the tracker. The
+  run's task is the tracker task's key, with anything the human said about it.
 start: design
 states:
   design:
@@ -13,7 +13,7 @@ states:
     reads: [build-report]
     produces: [design]
     do: |
-      Take the Jira task the run's task names and design its change with the human, as your
+      Take the tracker task the run's task names and design its change with the human, as your
       role describes: take the task, check it is still wanted, propose the scale, then the
       dialogue and the documents of that scale.
       On a later visit the previous step's note says why you are back: the human's reason
@@ -27,10 +27,10 @@ states:
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
       agreed the task is no longer wanted; `design` then says why, and nothing new is
-      committed. When the task is already in the settings' "in progress" or "review"
+      committed. When the task is already in the "in progress" or "review"
       status, ask, in the message where you propose dropping it, whether to move it back
       and to which status, and move it only on their yes (`sdlc-settings`, "Writing to
-      Jira").
+      the tracker").
     outcomes: {ready: design_ok, dropped: dropped}
   design_ok:
     gate: approval
@@ -93,7 +93,7 @@ states:
       prepare the merge, as your role describes.
       Done when the archive commit is pushed, `openspec validate --specs --strict` passes,
       and `merge-report` holds the archive's result, the pull request's state, what the
-      merge will do in git and Jira, the drafted Jira comment and the ledger's residual
+      merge will do in git and the tracker, the drafted tracker comment and the ledger's residual
       risk. When the change cannot be archived as it is (the ledger does not show the
       review converged, a task not checked without a reason, a delta that contradicts a
       living spec), archive nothing and say so at the top of `merge-report`: the human
@@ -106,19 +106,19 @@ states:
     reads: [ledger, merge-report]
     ask: >-
       Merge the pull request into its target branch? The integrator brings the target in,
-      merges with a merge commit and updates Jira.
+      merges with a merge commit and updates the tracker.
     outcomes: {approved: merge, rejected: build}
   merge:
     agent: integrator
     reads: [design, merge-report]
     do: |
-      Merge the pull request as your role describes ("Merge"), with the plan and the Jira
+      Merge the pull request as your role describes ("Merge"), with the plan and the tracker
       comment of your `merge-report` artifact; a comment of the human at `merge_ok` binds.
       When `merge-report` says nothing was archived and the human accepted the findings at
       `merge_ok`, archive first ("Archive"), then merge.
-      Report `merged` once the pull request's state is merged and the Jira routine is
+      Report `merged` once the pull request's state is merged and the tracker routine is
       done: note_summary is the pull request and the merge commit; note_body what was
-      done in Jira and what is left for the human. Report `conflicts` when bringing the
+      done in the tracker and what is left for the human. Report `conflicts` when bringing the
       target in conflicts or a local check is red for a cause in the work: undo the merge
       as your role says, push nothing, and name the files or the failing check in
       note_body. A CI red for a cause in the work is `conflicts` too, but the merge is

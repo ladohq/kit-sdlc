@@ -7,7 +7,7 @@ at the start of every step.
 
 - Chat with the human: English
 - Pull request description and comments: English
-- Jira comments: English
+- Tracker comments: English
 - Commit messages: English, `<type>(<KEY>): <subject>`; the body says why, not what;
   code and documentation in separate commits
 - openspec documents and design docs: English
@@ -16,27 +16,26 @@ at the start of every step.
 
 - Remote: `origin`
 - Base branch: `main`
-- Epic branches: `epic/<key>-<slug>`, lowercase key
+- Epic branches (when the tracker has epics): `epic/<key>-<slug>`
+- `<key>` is the task key as a name (`openspec-changes`, "Layout"): `ABC-123` → `abc-123`
 - Pull request branch: full `feat/<key>-<slug>`, hotfix `hotfix/<key>-<slug>`,
   tweak `fix/<key>-<slug>`; no date in the name
 - Code host: GitHub, command-line tool `gh`
 
-## Jira
+## Tracker
 
-- In progress: `In Progress`
-- Review: `Code Review`
 - Waiting for release label: `waiting_for_release`
 - Skipped issue types: none
-- Merge comment (wiki markup):
+- Merge comment (Markdown):
 
-  ```
-  *Merge report for PR #<n>*
+  ```markdown
+  **Merge report for PR #<n>**
 
-  *For QA: what to check*
-  * <2-4 points: visible changes, scenarios, edge cases, regression risks>
+  **For QA: what to check**
+  - <2-4 points: visible changes, scenarios, edge cases, regression risks>
 
-  *For developers: what was done*
-  * <by layer: key decisions, new API fields, migrations yes/no>
+  **For developers: what was done**
+  - <by layer: key decisions, new API fields, migrations yes/no>
   ```
 
 ## Checks

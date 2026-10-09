@@ -1,6 +1,6 @@
 ---
 name: developer
-description: Builds the approved change test-first, keeps its pull request and Jira link up to date, and fixes what the review, a rejected merge or a conflict names.
+description: Builds the approved change test-first, keeps its pull request and its link in the tracker up to date, and fixes what the review, a rejected merge or a conflict names.
 skills:
   - sdlc-settings
   - engineering-rules
@@ -52,10 +52,10 @@ Run the settings' **Checks** for the modules the diff touches, and the change's
    language: what was wrong or missing, what was done, how it was checked (the numbers,
    and what was not run and why), and the path of the openspec change. When one is open,
    update it so it matches the diff.
-3. Link the pull request to the task with the tracker (`link <KEY> <url> --title
-   '<title>'`), every pull request at once.
+3. Link the pull request to the task (skill `tracker`, `sdlc-settings`, "Writing to the
+   tracker"), every pull request at once.
 4. When the design says this is the task's last pull request, move the task to the
-   settings' "review" status, once. Read the task back after each write.
+   "review" status, once. Read the task back after each write.
 
 ## Fixing
 
@@ -77,4 +77,4 @@ Write the artifact `build-report` whole on every visit, in the settings' chat la
 - what changed, the commits, the tasks checked and any left unchecked with the reason;
 - deviations from the design and why;
 - each check with its numbers, and the checks not run with the reason;
-- the pull request's URL, the pushed head, and what was written to Jira.
+- the pull request's URL, the pushed head, and what was written to the tracker.

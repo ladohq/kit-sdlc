@@ -1,11 +1,11 @@
 ---
 name: sdlc-settings
 description: >-
-  The project's settings for the sdlc kit in `.lado/sdlc.md` (languages, branches, Jira
-  words and label, checks, the external reviewer, extra instructions, review traps), how
-  each role reads them, how to talk to the human, and when an agent may write to Jira.
-  Use at the start of every step, and before any message to the human or any Jira write.
-  Jira's own settings (project key, statuses) are the tracker's `.lado/tracker.yaml`.
+  The project's settings for the sdlc kit in `.lado/sdlc.md` (languages, branches, the
+  tracker's label and skipped issue types, checks, the external reviewer, extra
+  instructions, review traps), how each role reads them, how to talk to the human, and
+  how an agent writes to the tracker through the skill `tracker`. Use at the start of
+  every step, and before any message to the human or any tracker write.
 ---
 
 # Project settings: `.lado/sdlc.md`
@@ -13,7 +13,7 @@ description: >-
 Everything a project differs in lives in one file of its repository, `.lado/sdlc.md`,
 written by the human. Read it whole at the start of your step: its **Extra
 instructions** change how the kit works on this project and win over this kit's
-defaults, except over a gate or the rules in "Writing to Jira".
+defaults, except over a gate or the rules in "Writing to the tracker".
 
 When the file is missing, or lacks a section your step needs, stop and send the
 supervisor the section's name with `send_message`; never fill it in with a guess. The
@@ -23,9 +23,9 @@ supervisor drafts a missing file with the human from `${SKILL_DIR}/sdlc.example.
 
 | Section | What it holds | Who needs it |
 |---|---|---|
-| **Languages** | the language of the chat with the human, of pull requests and their comments, of Jira comments, of commit messages and of the openspec documents | everyone |
+| **Languages** | the language of the chat with the human, of pull requests and their comments, of tracker comments, of commit messages and of the openspec documents | everyone |
 | **Git** | the remote, the base branch, how epic branches are named, the pull request branch name for each scale, the code host and its command-line tool | analyst, developer, integrator |
-| **Jira** | the tracker's status words for "in progress" and "review", the label for "waiting for release", the issue types the routine skips, the merge comment's template | analyst, developer, integrator |
+| **Tracker** | the label for "waiting for release", the issue types the routine skips, the merge comment's template | analyst, developer, integrator |
 | **Checks** | the commands that must pass, where each runs, what is excluded from a normal round and why, what CI proves, how long to wait for CI | developer, reviewer, integrator |
 | **External reviewer** | how to request a round, how to tell it finished, a time ceiling, the round cap | reviewer |
 | **Review traps** | the project's known false greens and pitfalls, one per entry: symptom, how to spot it, how to get round it | developer, reviewer |
@@ -45,14 +45,25 @@ name it in your report so the human fixes the file.
 - Name things in plain words, not in internal names: what the user of the product will
   see, not "variant A2".
 
-## Writing to Jira
+## Writing to the tracker
 
-Reading Jira is always fine. You write only what your step's routine names, on the run's
-task, through the skill `tracker`, and read the task back with `get` after each write:
-an exit code is not proof that Jira took it. Creating a new task, or any write the
-routine does not name, needs the human's explicit "yes, create" for that very action;
-having shown them a draft or asked "confirm?" earlier is not that yes. Skip the routine
-for an issue type **Jira** lists as skipped, and say so in your note.
+You reach the tracker only through the skill `tracker`, asking it for each action by its
+meaning: read the task with its comments, move it to a status, post a comment, link a
+URL. Never use one tracker's commands, settings files or markup: the project may use any
+tracker.
 
-Until `tracker` can assign a task or set a label on an existing one, the human does both
-by hand: the analyst asks them to assign the task, the integrator to set the label.
+Reading is always fine. You write only what your step's routine names, on the run's
+task, and read the task back after each write: a reported success is not proof that the
+tracker took it. Creating a new task, or any write the routine does not name, needs the
+human's explicit "yes, create" for that very action; having shown them a draft or asked
+"confirm?" earlier is not that yes. Skip the routine for an issue type **Tracker** lists
+as skipped, and say so in your note.
+
+- **Statuses** go by meaning: "in progress", "review". Ask `tracker` to move the task to
+  the status that means it. When you are unsure which one that is, ask `tracker` which
+  statuses the task can move to and pick by meaning; when none fits, ask the human.
+- **Comments** are written in Markdown and handed to `tracker` as they are; the tracker
+  skill formats them for its tracker.
+- **A link** to a pull request: when `tracker` cannot link a URL, post it as a comment.
+- **Assigning the task or labelling it**: when `tracker` can, do it; otherwise ask the
+  human in your note to do it by hand.

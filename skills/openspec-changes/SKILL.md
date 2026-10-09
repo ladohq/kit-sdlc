@@ -34,7 +34,10 @@ supervisor. `openspec --help` names the commands of the installed version. Never
 | `docs/superpowers/plans/<YYYY-MM-DD>-<topic>.md` | the implementation plan (full scale) |
 | `docs/superpowers/reports/<YYYY-MM-DD>-<name>-review.md` | the review's closing report, written at archive |
 
-`<name>` is kebab-case and starts with the task key in lowercase: `abc-123-export-csv`.
+`<name>` is kebab-case and starts with the task key as a name: convert the key yourself
+to lowercase letters, digits and `-` (`ABC-123` → `abc-123`, `#123` → `gh-123`,
+`owner/repo#123` → `repo-123`), so `abc-123-export-csv`. Run and branch names take the
+key in the same form.
 
 ## Writing the delta
 
