@@ -16,6 +16,12 @@
 - Low findings of kit-reports/sdlc-0.2.1-2026-10-09.md (visit 2) left out of 0.2.1, for the
   archive-path run: F3.7 (the analyst cannot always tell the assignee is `tracker`'s account),
   F5.3 (the read-back lead sentence vs. the items that accept `tracker`'s report).
+- F5.1 of kit-reports/sdlc-0.3.0-2026-10-09.md (the human at release_ok of `improve/sdlc-3`,
+  2026-10-09: "write the requirements for tracker in the artifacts; we will release a new
+  version"): the session artifact `tracker-requirements` (a "who am I" action for `tracker`).
+  Once a tracker kit gives it: sdlc's README names that version, `sdlc-settings` gets the
+  fallback "when `tracker` cannot say which account it works as and the task has an
+  assignee, ask the human first", R16 names the version.
 
 ## Next run: the task for `improve` (the human, 2026-10-09)
 
