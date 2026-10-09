@@ -26,9 +26,10 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    design's pull request branch>`, never force.
 3. Read the pull request's state: its CI, whether it can be merged, its target.
 4. Draft the tracker comment from the settings' merge comment template, in the
-   settings' tracker comment language, in Markdown. Write it from the pull request's
-   description and the change's proposal and design, by layer, not by retelling the
-   diff; for QA say what to check, in plain words.
+   settings' tracker comment language, in Markdown, written as the skill `tracker` asks
+   text to be written. Write it from the pull request's description and the change's
+   proposal and design, by layer, not by retelling the diff; for QA say what to check,
+   in plain words.
 
 Write the artifact `merge-report` whole, in the settings' chat language: the archive
 commit and the validation's result; the pull request, its target and CI; what `merge`

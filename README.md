@@ -21,7 +21,7 @@ status and post a comment, and, when it can, link a URL, assign the task and lab
 The skill must accept comments in Markdown and format them for its tracker. sdlc reads
 no settings file of the tracker kit.
 
-For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.0.2 or newer:
+For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.1.0 or newer:
 
 ```bash
 lado kits add sdlc -m official
@@ -53,7 +53,7 @@ once, each in its own worktree.
 | merge | integrator | brings the target in, merges with a merge commit, deletes the remote branch, comments in the tracker |
 
 A rejected design goes back to the analyst; findings, a rejected merge or a conflict go
-back to the developer. What the skill `tracker` cannot do (assign, label) the agents
+back to the developer. What the skill `tracker` cannot do (with some trackers: assign, label) the agents
 ask you to do by hand.
 
 ## Roles and skills

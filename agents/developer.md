@@ -55,7 +55,7 @@ Run the settings' **Checks** for the modules the diff touches, and the change's
 3. Link the pull request to the task (skill `tracker`, `sdlc-settings`, "Writing to the
    tracker"), every pull request at once.
 4. When the design says this is the task's last pull request, move the task to the
-   "review" status, once. Read the task back after each write.
+   "review" status, once.
 
 ## Fixing
 

@@ -54,7 +54,11 @@ the skill `tracker` says: the project may use any tracker.
 
 Reading is always fine. You write only what your step's routine names, on the run's
 task, and read the task back after each write: a reported success is not proof that the
-tracker took it. Creating a new task, or any write the routine does not name, needs the
+tracker took it. Check each write by what `tracker` gives back for it: a comment by the id
+it reports, among the task's comments; a status, assignee or label as the task now shows
+it, by meaning. Never compare the text you sent with the text the tracker keeps: it
+formats it and adds its mark. A write the task does not show (a link) is confirmed by
+`tracker`'s own result; say so in your note. Creating a new task, or any write the routine does not name, needs the
 human's explicit "yes, create" for that very action; having shown them a draft or asked
 "confirm?" earlier is not that yes. Skip the routine for an issue type **Tracker** lists
 as skipped, and say so in your note.
