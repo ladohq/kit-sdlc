@@ -58,7 +58,7 @@ what `tracker` gives back for it:
 - a comment by the id `tracker` reports, among the task's comments; when it reports no
   id, find the comment by `tracker`'s mark as the newest in your name, and say so in
   your note;
-- a status as the task now shows it, by meaning;
+- a status as the task now shows it, by meaning, or that it already was there;
 - an assignee or label as `tracker` reports it after the write, or its "already so";
 - a write the task does not show (a link) by `tracker`'s own result; say so in your note.
 

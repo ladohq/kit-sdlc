@@ -93,11 +93,10 @@ states:
       Archive the change inside the pull request (`openspec-changes`, "Archive") and
       prepare the merge, as your role describes ("Archive").
       Done when the archive commit is pushed, or nothing was archived and no uncommitted
-      file is left, and `merge-report` holds what your role lists ("Archive"). When the
-      change cannot be archived (the review did not converge, a task not checked without a
-      reason, a delta that contradicts a living spec, a failed validation), say so at the
-      top of `merge-report`. Only an unconverged review can be accepted at `merge_ok`;
-      for any other cause the human rejects the merge back to `build`. Report `ready`:
+      file is left, and `merge-report` holds what your role lists ("Archive"). When nothing
+      can be archived, `merge-report` says why at its top (your role, "Archive"). Only an
+      unconverged review can be accepted at `merge_ok`; for any other cause the human
+      rejects the merge back to `build`. Report `ready`:
       note_summary is the pull request and its target; note_body what the human should
       look at.
     outcomes: {ready: merge_ok}

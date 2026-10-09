@@ -289,6 +289,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.3.0, 2026-10-09).
 | 2026-10-09 | 0.3.0 | `merge` reads `ledger`; without a closing report in the ledger the integrator writes it from the ledger's rows, the residual risk and the human's acceptance at `merge_ok` | same report, F2.1, F2.2 |
 | 2026-10-09 | 0.3.0 | One place for the `merge` routine, the review's stop criterion and the contents of `merge-report` (the role or `review-loop`; the flow points to them) | same report, F6.1, F6.2, F6.3 |
 | 2026-10-09 | 0.3.0 | `sdlc-settings`: the assignee rule says how to tell the task is held by `tracker`'s account; the read-back lead sentence matches the items that accept `tracker`'s report | kit-reports/sdlc-0.2.1-2026-10-09.md (commit b0573e6) F3.7, F5.3 |
+| 2026-10-09 | 0.3.0 | Undoing a failed archive deletes every untracked path under `openspec/` (a new capability's spec too); a status write accepts "already there"; `archive` `do` points to the role for why nothing was archived | kit-reports/sdlc-0.3.0-2026-10-09.md F3.1, F3.2, F6.1; human's comment at `release_ok` |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.

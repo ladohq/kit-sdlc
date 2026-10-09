@@ -74,9 +74,10 @@ change it fixes.
    merges the delta into `openspec/specs/` and moves the change to
    `openspec/changes/archive/<today>-<name>/`.
 3. `openspec validate --specs --strict` passes. When it fails, undo the archive before
-   any commit: `git restore --staged --worktree -- openspec/` and delete the folder it
-   created under `openspec/changes/archive/`; `git status` then shows no change under
-   `openspec/`. Commit nothing and say so at the top of `merge-report`.
+   any commit: `git restore --staged --worktree -- openspec/`, then delete every
+   untracked path under `openspec/` that `git status --short -- openspec/` lists (the
+   folder under `archive/`, the spec of a new capability); `git status` then shows no
+   change under `openspec/`. Commit nothing and say so at the top of `merge-report`.
 4. Write the review's closing report (`review-loop`, "Closing report") to
    `docs/superpowers/reports/`.
 5. Commit these paths alone, message `archive(<KEY>): <name>`, and push. The pull
