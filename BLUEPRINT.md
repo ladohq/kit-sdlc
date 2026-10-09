@@ -91,8 +91,13 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   the skill `tracker` says. They know only that the skill `tracker` is there and ask it for actions by meaning (read the task with its
   comments, change its status, comment, link the pull request). Text for the tracker is
   Markdown; the tracker skill formats it for its tracker. A tracker kit used with `sdlc`
-  must therefore accept Markdown: `tracker-jira-server` gets this in its next release (in
-  work, 2026-10-09), and `sdlc` 0.2.0 is published after it. Statuses are named by their
+  must therefore accept Markdown: `tracker-jira-server` does from 1.0.1; the README names
+  1.1.0 or newer, the first that can also assign a task, label an existing one and show
+  each comment's id. A write is checked by what `tracker` gives back for it (a comment by
+  its id, a status, assignee or label as the task shows it, by meaning), never by
+  comparing the text sent with the text kept, which the tracker formats and marks. The
+  task is assigned to the account `tracker` works as, never to a guessed login. Text for
+  the tracker is written as the skill `tracker` asks (for Jira, a paragraph per line). Statuses are named by their
   common meaning ("in progress", "review"); the agent may ask `tracker` which statuses the
   task has and picks by meaning (a shared contract of status words between `sdlc` and
   tracker kits is left for later). Run, change and branch names are made from the task key
@@ -101,7 +106,8 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   ("sdlc must not go to any tracker itself … only know it has the skill tracker and ask it";
   "markup in universal Markdown … the tracker formats it"; "use common statuses … adapt by
   meaning"; "convert the key to the format we need"; on F5.7 of the 0.2.0 check: "we are
-  implementing it in the tracker right now"). No upgrade path from 0.1.x: no project uses
+  implementing it in the tracker right now"; 2026-10-09: "v1.1.0 is released: assign, label,
+  comment ids, status words"). No upgrade path from 0.1.x: no project uses
   the kit yet (session kit-sdlc, 2026-10-09).
 - **R15** The kit grows in versions; the plan of versions is kept in this blueprint
   (section 5). *Source:* round 1 ("break the build into phases … save the plan and follow it").
@@ -262,6 +268,9 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.2.0, 2026-10-09).
 | 2026-10-09 | 0.2.0 | Any task tracker (R16): no `.lado/tracker.yaml` check; roles name tracker actions by meaning, never `jira.py` syntax; one rule for an action `tracker` lacks (assign, label, link); "Writing to the tracker" and settings section **Tracker** | kit-reports/sdlc-0.1.3-2026-10-09.md F5.1, F10.1, F5.4, F9.2 |
 | 2026-10-09 | 0.2.0 | Merge comment in Markdown, the tracker skill formats it; statuses by common meaning, no status words in `.lado/sdlc.md`; names from the task key converted to lowercase letters, digits and `-`, epics only when the tracker has them | same report, F5.2, F5.3, F5.5; session kit-sdlc answers 1–3 |
 | 2026-10-09 | 0.2.0 | kit.yaml description, README and the flow's description: a task tracker, `tracker-jira-server` as the example | same report, F10.2 |
+| 2026-10-09 | 0.2.1 | README: tracker-jira-server 1.1.0 or newer, assign and label no longer shown as missing; R16 names the released tracker | kit-reports/sdlc-0.2.0-2026-10-09.md (commit 29a4c8f) F10.1 |
+| 2026-10-09 | 0.2.1 | A tracker write is checked by what `tracker` gives back (comment by id, status, assignee, label by meaning), never by comparing text; the developer's copy of the rule removed | same report, F3.1, F6.2 |
+| 2026-10-09 | 0.2.1 | The merge comment is written as the skill `tracker` asks; the analyst assigns the task to the account `tracker` works as | same report, F5.1, F5.2 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
