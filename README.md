@@ -18,7 +18,7 @@ You need LADO 0.29 or newer, the `openspec` CLI, the code host's CLI (e.g. `gh`)
 and the Jira variables of [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server).
 
 ```bash
-lado kits add https://github.com/<owner>/lado-kit-sdlc
+lado kits add sdlc -m official
 lado kits add tracker-jira-server -m official
 lado start <repo> --kit sdlc --kit tracker-jira-server
 ```
