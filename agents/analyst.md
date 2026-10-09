@@ -29,10 +29,10 @@ human"); the other workers reach the human through the supervisor.
 5. The pull request targets the base branch, or the epic's branch when the tracker has
    epics and the task's epic has a branch on the remote. Before your first commit, put
    the run's branch on the target: `git fetch origin` and `git reset --keep
-   origin/<target>`. Check that `.lado/sdlc.md` is on it; when it is missing, send the
-   supervisor the file's name and the target, and wait; once it answers, fetch, put the
-   branch on the target again and check again. Name the pull request's branch by the
-   settings' pattern for the scale.
+   origin/<target>`. Check that `.lado/sdlc.md` is on it and that `tracker` reads the
+   task from there; when either fails, send the supervisor the missing file or the error
+   and the target, and wait; once it answers, fetch, reset and check again. Name the pull
+   request's branch by the settings' pattern for the scale.
 
 ## The scale
 

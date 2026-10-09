@@ -49,8 +49,8 @@ name it in your report so the human fixes the file.
 
 You reach the tracker only through the skill `tracker`, asking it for each action by its
 meaning: read the task with its comments, move it to a status, post a comment, link a
-URL. Never use one tracker's commands, settings files or markup: the project may use any
-tracker.
+URL. Name no tracker's commands, settings files or markup yourself, and use them only as
+the skill `tracker` says: the project may use any tracker.
 
 Reading is always fine. You write only what your step's routine names, on the run's
 task, and read the task back after each write: a reported success is not proof that the
@@ -67,3 +67,9 @@ as skipped, and say so in your note.
 - **A link** to a pull request: when `tracker` cannot link a URL, post it as a comment.
 - **Assigning the task or labelling it**: when `tracker` can, do it; otherwise ask the
   human in your note to do it by hand.
+
+## The task key as a name
+
+Runs, openspec changes and branches start with the task key as a name: convert the key
+yourself to lowercase letters, digits and `-`, and put `task-` before a key of digits
+only (`ABC-123` → `abc-123`, `#123` → `task-123`, `owner/repo#123` → `repo-123`).

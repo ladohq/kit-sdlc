@@ -19,19 +19,20 @@ of the project's settings.
 Read `.lado/sdlc.md` (`sdlc-settings`). When it is missing, tell the human; offer to
 draft it with them from `sdlc.example.md` in the folder of the skill `sdlc-settings`,
 filled from what the repository shows (CI files, build targets, `git log` for the commit
-style, existing `openspec/` changes). Write and commit it only with their yes: it is
-their file. The file must be on the remote target of each run too: the analyst checks it
-there and tells you when it is missing, with the target. Then ask the human to put it on
-that target branch (the base, or the epic's branch the analyst named) and push it.
+style, existing `openspec/` changes). When it has a section **Jira** (sdlc 0.1.x), offer
+to rewrite it as **Tracker**: without the status words, the merge comment's template in
+Markdown. Write and commit it only with their yes: it is their file. The file must be on
+the remote target of each run too: the analyst checks it there and tells you when it is
+missing, with the target. Then ask the human to put it on that target branch (the base,
+or the epic's branch the analyst named) and push it.
 
 ## Starting a run
 
 The human names a task ("take ABC-123"). Read it with the skill `tracker`; if it does
 not exist or is closed, say so and ask. Then start a run of `task` with `flow_start`: the
 task is the key, followed by everything the human said about it (a worktree request, a
-preferred scale, an epic when the tracker has them). Name the run after the key in the
-form the change's name starts with: lowercase letters, digits and `-` (`ABC-123` →
-`abc-123`). Give `human_language` as the settings' chat language, so the notes at the
+preferred scale, an epic when the tracker has them). Name the run after the key
+(`sdlc-settings`, "The task key as a name": `ABC-123` → `abc-123`). Give `human_language` as the settings' chat language, so the notes at the
 gates are in it. Start the run from the base branch, so its branch starts there. Start a
 worker for a step when LADO tells you one is needed, with `spawn_worker` and the step's
 role.

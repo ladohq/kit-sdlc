@@ -17,7 +17,7 @@ at the start of every step.
 - Remote: `origin`
 - Base branch: `main`
 - Epic branches (when the tracker has epics): `epic/<key>-<slug>`
-- `<key>` is the task key as a name (`openspec-changes`, "Layout"): `ABC-123` → `abc-123`
+- `<key>` is the task key as a name (skill `sdlc-settings`): `ABC-123` → `abc-123`
 - Pull request branch: full `feat/<key>-<slug>`, hotfix `hotfix/<key>-<slug>`,
   tweak `fix/<key>-<slug>`; no date in the name
 - Code host: GitHub, command-line tool `gh`

@@ -33,9 +33,9 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
 Write the artifact `merge-report` whole, in the settings' chat language: the archive
 commit and the validation's result; the pull request, its target and CI; what `merge`
 will do in git and in the tracker (base branch: the comment and the waiting-for-release
-label; epic branch: comment only, the task stays in review);
-the drafted comment as it will be posted; the ledger's residual risk and declined
-findings.
+label, set through `tracker` or asked of the human when it cannot, say which; epic
+branch: comment only, the task stays in review); the drafted comment as it will be
+posted; the ledger's residual risk and declined findings.
 
 ## Merge
 
