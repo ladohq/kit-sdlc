@@ -63,7 +63,7 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   no label and stays in review. *Source:* round 1 (merge procedure); dump §1.2 «Мерж PR»,
   «Мерж PR в эпик»; round 5 answer 1. When the skill `tracker` cannot label an existing
   task, the integrator asks the human, in its note after the merge, to set the label by hand
-  (R11).
+  (R11). *Source:* round 5 answer 2; session kit-sdlc (R16).
 - **R11** Agents write to the tracker only as the routine says: take the task (assign, "in
   progress"), link each pull request, move to "review" only on the task's last pull request,
   the merge label and comment. A new tracker task only after the human's explicit yes. All of
@@ -87,18 +87,22 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   whatever they must read is the last message before a question, not hidden before it.
   *Source:* dump §6 rules 32, 35.
 - **R16** The kit works with any task tracker. Its roles never reach a tracker themselves and
-  never use one tracker's commands, files, markup or key format: they know only that the
-  skill `tracker` is there and ask it for actions by meaning (read the task with its
+  name no tracker's commands, settings files, markup or key format; they use them only as
+  the skill `tracker` says. They know only that the skill `tracker` is there and ask it for actions by meaning (read the task with its
   comments, change its status, comment, link the pull request). Text for the tracker is
-  Markdown; the tracker skill formats it for its tracker. Statuses are named by their
+  Markdown; the tracker skill formats it for its tracker. A tracker kit used with `sdlc`
+  must therefore accept Markdown: `tracker-jira-server` gets this in its next release (in
+  work, 2026-10-09), and `sdlc` 0.2.0 is published after it. Statuses are named by their
   common meaning ("in progress", "review"); the agent may ask `tracker` which statuses the
   task has and picks by meaning (a shared contract of status words between `sdlc` and
   tracker kits is left for later). Run, change and branch names are made from the task key
   converted to lowercase letters, digits and `-` (`ABC-123` → `abc-123`, `#123` →
-  `gh-123`); an epic only when the tracker has them. *Source:* session kit-sdlc, 2026-10-09
+  `task-123`; the rule is in `sdlc-settings`); an epic only when the tracker has them. *Source:* session kit-sdlc, 2026-10-09
   ("sdlc must not go to any tracker itself … only know it has the skill tracker and ask it";
   "markup in universal Markdown … the tracker formats it"; "use common statuses … adapt by
-  meaning"; "convert the key to the format we need").
+  meaning"; "convert the key to the format we need"; on F5.7 of the 0.2.0 check: "we are
+  implementing it in the tracker right now"). No upgrade path from 0.1.x: no project uses
+  the kit yet (session kit-sdlc, 2026-10-09).
 - **R15** The kit grows in versions; the plan of versions is kept in this blueprint
   (section 5). *Source:* round 1 ("break the build into phases … save the plan and follow it").
 
