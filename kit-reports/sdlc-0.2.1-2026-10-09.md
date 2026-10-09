@@ -2,10 +2,11 @@
 
 - Дата: 2026-10-09
 - Кит: worktree рана `improve/sdlc-2` (`.lado/worktrees/kit-sdlc/improve-sdlc-2`), путь дан задачей
-- Коммит: bf57458 (визит 1 шага `evaluate`)
+- Коммит: ead915c (визит 2 шага `evaluate`). Визит 1 оценивал bf57458 (отчёт — коммит 4d931b4).
 - Оценил: критик kit-builder (слои a и b)
-- Режим: повторная оценка относительно `kit-reports/sdlc-0.2.0-2026-10-09.md` (артефакт `assessment`, коммит 29a4c8f) и плана (`plan`). База — коммит, который оценивал этот отчёт, b6fe2b7. Изменение: `git diff b6fe2b7 bf57458 -- kit.yaml README.md BLUEPRINT.md agents flows skills` — 7 файлов, 31 строка добавлена, 16 убрано (коммиты c3809bf, блупринт, и bf57458, кит).
-- Проходы: изменение короткое (6 мест в 5 файлах кита и R16, раздел 4, журнал блупринта), поэтому три прохода по изменённому тексту и местам, которые на него ссылаются (`flows/task.yaml` state `merge`, `agents/developer.md` «Fixing», tracker SKILL.md v1.1.0), критик сделал сам; проверку вырезанных правил — по `git diff --word-diff`. Полный проход по 7 файлам целиком дал суб-агент; его 4 находки критик проверил по файлам и `jira.py` трекера v1.1.0: 3 оставлены в изменённом тексте, 1 перенесена в «Пропущено ранее» (её слова диф не трогал), уровень двух понижен (почему — в находках). Одиночных находок проходов по изменению нет, отброшено 0.
+- Режим: повторная оценка относительно `kit-reports/sdlc-0.2.0-2026-10-09.md` (артефакт `assessment`, коммит 29a4c8f), плана (`plan`) и отчёта визита 1. База — коммит из плана, b6fe2b7. Правки после визита 1: `git diff bf57458 ead915c -- kit.yaml README.md BLUEPRINT.md agents flows skills` — 5 файлов: `skills/sdlc-settings/SKILL.md` (раздел «Writing to the tracker»), по строке в `README.md`, `agents/analyst.md`, `agents/integrator.md`, раздел 4 `BLUEPRINT.md`. Мерж 4b561b7 принёс с main только `BACKLOG.md` (`git diff --name-only bf57458 4b561b7`), текста кита не трогал.
+- Проходы, визит 2: дельта — один раздел скила и три строки ролей, поэтому три прохода по ней и по местам, которые на неё ссылаются (`agents/analyst.md` «Taking the task», `agents/integrator.md` «Archive» и «Merge» шаг 5, tracker SKILL.md v1.1.0 и его `jira.py`), критик сделал сам, без суб-агентов. Затем проверка вырезанных правил по `git diff --word-diff bf57458 ead915c` и полный проход: `skills/sdlc-settings/SKILL.md` целиком, `agents/analyst.md` и `agents/integrator.md` целиком, `README.md` раздел «Install and start», `BLUEPRINT.md` раздел 4 (остальной блупринт дельта не трогала; полный проход визита 1 по всем этим файлам — суб-агент). Новых находок 2, обе low; одиночных отброшенных нет.
+- Визит 1: три прохода критика по дельте и полный проход суб-агента по 7 файлам; 4 находки полного прохода подтверждены (F3.4, F3.5, F6.4, F3.6).
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
 
@@ -16,8 +17,8 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | 3 находки в изменённом тексте (0 high, 0 medium, 3 low), потерянных правил нет; 10 из 12 критериев без находок |
-| Охват | повторная оценка изменённого текста, с полным проходом по 7 файлам, которые трогает диф |
+| b. Рубрика | 2 находки в изменённом тексте (0 high, 0 medium, 2 low), потерянных правил нет; 10 из 12 критериев без находок |
+| Охват | повторная оценка изменённого текста (визит 2: раздел «Writing to the tracker» и три строки ролей и README), с полным проходом по `sdlc-settings`, аналитику и интегратору |
 | Правило остановки | выполнено: 0 high, 0 medium в изменённом тексте |
 
 Счёт относится только к тому, что указано в строке «Охват». С полной оценкой (`assessment`) его сравнивать нельзя.
@@ -39,9 +40,9 @@ expects skills: tracker
 | Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow |
 | Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green |
-| Words in a role prompt | agents/analyst.md | 800 | 800 / 1500 | green |
+| Words in a role prompt | agents/analyst.md | 797 | 800 / 1500 | green |
 | Words in a role prompt | agents/developer.md | 606 | 800 / 1500 | green |
-| Words in a role prompt | agents/integrator.md | 650 | 800 / 1500 | green |
+| Words in a role prompt | agents/integrator.md | 646 | 800 / 1500 | green |
 | Words in a role prompt | agents/reviewer.md | 419 | 800 / 1500 | green |
 | Words in the lead's prompt | agents/supervisor.md | 753 | 1000 / 1500 | green |
 | Own skills | kit | 4 | 5 / 10 | green |
@@ -65,13 +66,13 @@ same as the plan in BLUEPRINT.md
 
 ## Исправить первым
 
-Блокирующего нет. Если делать ещё круг — F3.4 (одна фраза), остальное по желанию.
+Блокирующего нет. Обе новые находки — low, по фразе каждая; ещё круг ради них не нужен.
 
 ## Находки
 
 ### 1. Границы ролей
 
-Изменение прав не трогает. Без находок.
+Изменение прав не трогает. Назначает задачу только аналитик (`agents/analyst.md:27-28`); правило назначения в `sdlc-settings` его не расширяет. Без находок.
 
 ### 2. Передача между шагами
 
@@ -79,15 +80,10 @@ same as the plan in BLUEPRINT.md
 
 ### 3. Готовность и исходы
 
-- **F3.4** [low] `skills/sdlc-settings/SKILL.md:57`
-  > `tracker took it. Check each write by what `tracker` gives back for it: a comment by the id`
-  Проверка комментария опирается на id, который сообщает `tracker`, а README не требует его от трекер-кита: «sdlc asks the skill, by meaning, to read a task with its comments, list and change its» (`README.md:19-20`, без id). С трекером, который id не даёт, агент не может подтвердить комментарий (сравнивать текст запрещено) и то считает его неподтверждённым, то постит снова. С tracker-jira-server 1.1.0 из README этого не бывает: «print the new comment's id; `get` shows the same id on each comment» (tracker SKILL.md:60-61). Поэтому low, а не medium, как предложил полный проход.
-  Fix: назвать id среди того, что трекер-кит даёт (`README.md:19-21`: «…post a comment and report its id…»), или в правиле: «when `tracker` reports no id, find your comment by `tracker`'s mark, as the newest in your name, and say so in your note». Passes: full pass, confirmed
-
-- **F3.5** [low] `skills/sdlc-settings/SKILL.md:58`
-  > `it reports, among the task's comments; a status, assignee or label as the task now shows`
-  Исполнителя «as the task now shows it» не с чем сравнить: чтение задачи показывает отображаемое имя, а назначение печатает логин (`jira.py`: `print("Assignee: %s   Reporter: %s" % (` с `_name(...)`, `:546-547`; `print("%s: assignee %s -> %s" % (args.key, _user(current), _user(login)))`, `:794`). Агенты будут засчитывать по-разному: любой исполнитель, смена исполнителя или «не проверить».
-  Fix: «an assignee or label as `tracker` reports it after the write, or its "already so"». Passes: full pass, confirmed
+- **F3.7** [low] `skills/sdlc-settings/SKILL.md:78`
+  > `  human in your note to do it by hand. Assign to the account `tracker` works as; when`
+  «when someone else has the task, ask the human first» требует знать, что текущий исполнитель — не аккаунт `tracker`. Чтение задачи показывает исполнителя отображаемым именем (`jira.py`: `print("Assignee: %s   Reporter: %s" % (` с `_name(...)`, `:546-547`), а имя своего аккаунта агенту не дано. Аналитик то спросит человека о задаче, которая уже на нём (лишний вопрос), то сочтёт её своей. Вред мал: в худшем случае лишний вопрос, чужую задачу молча он не заберёт.
+  Fix: «…when the task has an assignee and you cannot tell it is that account, ask the human first». Passes: 3/3 (проходы критика)
 
 ### 4. Независимая проверка
 
@@ -95,18 +91,18 @@ same as the plan in BLUEPRINT.md
 
 ### 5. Противоречия
 
-Без находок. «a reported success is not proof that the» (`:56`) и «A write the task does not show (a link) is confirmed by» (`:60`) не противоречат: второе — названное исключение. Комментарий интегратора постится «as it is» (`agents/integrator.md:64`), а черновик теперь пишется «written as the skill `tracker` asks» (`:29`) — сходится. Цель назначения «(`tracker`'s account)» (`agents/analyst.md:28`) совпадает с `me` трекера (tracker SKILL.md:40).
+- **F5.3** [low] `skills/sdlc-settings/SKILL.md:56`
+  > `task, and read the task back after each write: a reported success is not proof that the`
+  Вводная фраза требует перечитывать задачу и не верить сообщению об успехе, а пункты под ней для исполнителя, метки и ссылки принимают именно сообщение `tracker`: «- an assignee or label as `tracker` reports it after the write, or its "already so";» (`:62`), «- a write the task does not show (a link) by `tracker`'s own result; say so in your note.» (`:63`). Агент, следующий пунктам, прав; следующий вводной — лишний раз читает задачу. Вредного исхода нет.
+  Fix: «…and check each write after it: a success line alone is not proof unless the list below says so. Check each write by…». Passes: 2/3 (проходы критика)
 
 ### 6. Дублирование
 
-- **F6.4** [low] `agents/integrator.md:29`
-  > `   settings' tracker comment language, in Markdown, written as the skill `tracker` asks`
-  Правило «текст для трекера пишется так, как просит `tracker`» (R16, `BLUEPRINT.md:99-100`) есть только у интегратора, а общее правило для комментариев о нём молчит: «skill formats them for its tracker.» (`skills/sdlc-settings/SKILL.md:70`). Другой комментарий (ссылка разработчика, когда трекер не умеет ссылки; комментарий по просьбе человека) правила не получит. Сейчас вред мал: такие комментарии — одна строка.
-  Fix: перенести оговорку в пункт **Comments** `sdlc-settings` («written in Markdown as the skill `tracker` asks, and handed to it as they are…»), у интегратора оставить ссылку. Passes: full pass, confirmed
+Без находок. Оговорка «как просит `tracker`» теперь в одном месте: «- **Comments** are written in Markdown as the skill `tracker` asks text to be written,» (`skills/sdlc-settings/SKILL.md:74`); интегратор ссылается: «tracker", **Comments**). Write it from the pull request's description and the change's» (`agents/integrator.md:30`).
 
 ### 7. Когда звать человека
 
-Изменение не трогает. Без находок.
+Без находок. Новый случай «someone else has the task» ведёт к человеку («ask the human first», `skills/sdlc-settings/SKILL.md:78-79`); у аналитика, единственного, кто назначает, прямой разговор с человеком (`agents/analyst.md:16-18`).
 
 ### 8. Циклы на повторном визите
 
@@ -114,19 +110,19 @@ same as the plan in BLUEPRINT.md
 
 ### 9. Краткость и «почему»
 
-Без находок. Новое правило несёт причину: «formats it and adds its mark» (`skills/sdlc-settings/SKILL.md:60`). Сокращение формулировки плана у аналитика удержало промпт в зелёной зоне (800 слов) без потери смысла.
+Без находок. Пункты списка короче прежнего абзаца; причина «it formats it and adds its mark» на месте (`skills/sdlc-settings/SKILL.md:65-66`). Аналитик 797 слов, в зелёной зоне.
 
 ### 10. Описания скилов
 
-Без находок. README называет «1.1.0 or newer» (`README.md:24`) и «(with some trackers: assign, label)» (`:56`); R16 — вышедший трекер (`BLUEPRINT.md:94-96`).
+Без находок. README требует id комментария от трекер-кита: «status and post a comment and report its id, and, when it can, link a URL, assign the task and label it.» (`README.md:20`); tracker-jira-server 1.1.0 его даёт (tracker SKILL.md:60-61).
 
 ### 11. Нейтральность к провайдеру
 
-Без находок. Новые строки называют действия по смыслу («a comment by the id it reports», «`tracker`'s account»), без команд, флагов и файлов tracker-jira-server; «for Jira, a paragraph per line» есть только в блупринте, не в ролях и скилах.
+Без находок. Новые строки — по смыслу: «`tracker`'s mark», «the account `tracker` works as», «its "already so"»; ни команд, ни флагов, ни файлов tracker-jira-server.
 
 ### 12. Безопасность и рамки
 
-Без находок. Изменение не добавляет записей вне рутины; «yes, create» на месте (`skills/sdlc-settings/SKILL.md:61-62`, «human's explicit "yes, create" for that very action» — `:62`).
+Без находок. Новое правило делает назначение безопаснее: чужую задачу — только после вопроса человеку. «yes, create» на месте (`skills/sdlc-settings/SKILL.md:67`).
 
 ## Известные дыры
 
@@ -140,44 +136,46 @@ same as the plan in BLUEPRINT.md
 
 ## Не прослежено
 
-Нет. `--compare`: «same as the plan in BLUEPRINT.md». Жёлтая мера (Worker roles = 4) обоснована. Раздел 4 блупринта совпадает с выводом скрипта (analyst 800, developer 606, integrator 650). Журнал (раздел 5) имеет три строки 0.2.1 с находками F10.1, F3.1, F6.2, F5.1, F5.2.
+Нет. `--compare`: «same as the plan in BLUEPRINT.md». Жёлтая мера (Worker roles = 4) обоснована. Раздел 4 блупринта совпадает с выводом скрипта (analyst 797, integrator 646). R16 (`BLUEPRINT.md:94-100`) по-прежнему описывает правило: «A write is checked by what `tracker` gives back for it» — правка визита 2 его уточняет, не меняет.
 
 ## Прежние находки
 
-Отчёт `assessment` (29a4c8f), 11 находок. Список автора в `build-report` сверен с файлами.
+Отчёт визита 1 (4d931b4): 3 находки и 1 в «Пропущено ранее». Список автора (заметка `build`, `build-report`) сверен с файлами.
 
-- **F10.1** RESOLVED: «For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.1.0 or newer:» (`README.md:24`); «back to the developer. What the skill `tracker` cannot do (with some trackers: assign, label) the agents» (`:56`); R16: «must therefore accept Markdown: `tracker-jira-server` does from 1.0.1; the README names» (`BLUEPRINT.md:94`, верно: Markdown пришёл в tracker-jira-server 1.0.1 по его журналу).
-- **F3.1** RESOLVED: «tracker took it. Check each write by what `tracker` gives back for it: a comment by the id» (`skills/sdlc-settings/SKILL.md:57`), далее «Never compare the text you sent with the text the tracker keeps» и подтверждение ссылки ответом `tracker`. Остатки — F3.4, F3.5.
-- **F6.2** RESOLVED: `agents/developer.md:58` теперь «"review" status, once.»
-- **F5.1** RESOLVED: «settings' tracker comment language, in Markdown, written as the skill `tracker` asks» (`agents/integrator.md:29`). `sdlc.example.md` уже по абзацу в строку — автор не менял, верно.
-- **F5.2** RESOLVED: «the human (`tracker`'s account) when it is not (`sdlc-settings`, "Writing to the» (`agents/analyst.md:28`).
-- **F2.1, F3.2, F3.3, F10.2** STILL OPEN, оставлены планом (отдельный ран по пути архивации): диф не трогает `flows/` и `skills/openspec-changes/`.
-- **F6.1, F6.3** STILL OPEN, оставлены планом (в `BACKLOG.md`): `flows/task.yaml` не менялся.
+- **F3.4** RESOLVED: README — «status and post a comment and report its id, and, when it can, link a URL, assign the task and label it.» (`README.md:20`); `sdlc-settings` — «  id, find the comment by `tracker`'s mark as the newest in your name, and say so in» (`skills/sdlc-settings/SKILL.md:59`).
+- **F3.5** RESOLVED: «- an assignee or label as `tracker` reports it after the write, or its "already so";» (`skills/sdlc-settings/SKILL.md:62`).
+- **F6.4** RESOLVED: оговорка в пункте **Comments** (`skills/sdlc-settings/SKILL.md:74-75`), у интегратора ссылка (`agents/integrator.md:29-30`).
+- **F3.6** (Пропущено ранее) RESOLVED: «   the account `tracker` works as (`sdlc-settings`, "Writing to the tracker").» (`agents/analyst.md:28`); чужая задача — «someone else has the task, ask the human first.» (`skills/sdlc-settings/SKILL.md:79`).
+
+Находки плана (из `assessment`), RESOLVED в визите 1, проверены снова: F10.1 (`README.md:24`, `:56`), F3.1 (`skills/sdlc-settings/SKILL.md:57-66`, теперь списком), F6.2 (`agents/developer.md:58`), F5.1 (теперь через **Comments**, `agents/integrator.md:29-30`), F5.2 (`agents/analyst.md:28`) — все по-прежнему RESOLVED.
+
+F2.1, F3.2, F3.3, F10.2, F6.1, F6.3 — STILL OPEN, оставлены планом (см. ниже); `flows/` и `skills/openspec-changes/` не менялись.
 
 ## Вырезанные правила
 
-| Убранное правило (файл:строка в b6fe2b7) | Где оно теперь |
+Визит 2 (`git diff --word-diff bf57458 ead915c`):
+
+| Убранное правило (файл:строка в bf57458) | Где оно теперь |
 |---|---|
-| «Read the task back after each write.» (`agents/developer.md:58`) | `skills/sdlc-settings/SKILL.md:56` «read the task back after each write»; разработчик идёт туда по ссылке шага 3 (`agents/developer.md:55-56`) и по описанию скила («before … any tracker write») |
-| «(assign, label)» (`README.md:56`) | `README.md:56`, с оговоркой «with some trackers» |
-| «`tracker-jira-server` gets this in its next release (in work, 2026-10-09), and `sdlc` 0.2.0 is published after it» (`BLUEPRINT.md:94-95`) | порядок публикации исполнен (трекер 1.1.0 вышел); `BLUEPRINT.md:94-96` называет вышедшие версии |
-| «in Markdown.» и перенос строк (`agents/integrator.md:29-31`) | `agents/integrator.md:29-32`, тот же текст с добавкой; по `--word-diff` больше ничего не убрано |
-| значения раздела 4 (`BLUEPRINT.md`, analyst 798, developer 613, integrator 640) | заменены выводом скрипта на 0.2.1 |
+| «a status, assignee or label as the task now shows it, by meaning» (`skills/sdlc-settings/SKILL.md:58-59`) | статус — «- a status as the task now shows it, by meaning;» (`:61`); исполнитель и метка — по сообщению `tracker` (`:62`), это и есть F3.5 |
+| «A write the task does not show (a link) is confirmed by `tracker`'s own result; say so in your note.» (`:60-61`) | `:63`, тем же смыслом, пунктом списка |
+| «Never compare the text you sent with the text the tracker keeps: it formats it and adds its mark.» (`:59-60`) | `:65-66`, без изменений |
+| «Comments are written in Markdown and handed to `tracker` as they are» (`:69-70`) | `:74-75`, с добавкой «as the skill `tracker` asks» |
+| «in Markdown, written as the skill `tracker` asks text to be written» (`agents/integrator.md:29-30`) | пункт **Comments** `sdlc-settings` (`:74`), интегратор ссылается (`agents/integrator.md:29-30`) |
+| «the human (`tracker`'s account) when it is not» (`agents/analyst.md:28`) | «the account `tracker` works as» (`agents/analyst.md:28`); «when it is not» заменено повтором без вреда (`tracker` отвечает «already so») и вопросом человеку при чужом исполнителе (`skills/sdlc-settings/SKILL.md:78-79`) |
+| значения раздела 4 (`BLUEPRINT.md`: analyst 800, integrator 650) | вывод скрипта: 797, 646 |
 
 Ни одно правило не потеряно.
 
 ## Пропущено ранее
 
-- **F3.6** [low] `agents/analyst.md:27`
-  > `4. Move it to the "in progress" status, unless it is there already, and assign it to`
-  «…assign it to the human … when it is not» читается двояко: «когда у задачи нет исполнителя» или «когда она не на аккаунте `tracker`». Во втором прочтении аналитик молча забирает задачу у коллеги, в первом — оставляет её коллеге. Слова «when it is not» были и в 0.2.0; диф добавил только «(`tracker`'s account)».
-  Fix: «assign it to the account `tracker` works as; when someone else has it, ask the human first». Passes: full pass, confirmed
+Нет.
 
 ## Оставлено планом
 
-- F2.1, F3.2, F3.3, F10.2 — человек: «a separate run right after this one, for the archive path as a whole» (план, «Answers»); записано в `BACKLOG.md` на main (6923c79).
+- F2.1, F3.2, F3.3, F10.2 — человек: «a separate run right after this one, for the archive path as a whole» (план, «Answers»); записано в `BACKLOG.md` (6923c79, в ветке рана после мержа 4b561b7).
 - F6.1, F6.3 — low, в `BACKLOG.md` (план, «Leave (low, to BACKLOG.md)»).
 
 ## Вопросы человеку
 
-1. Делать ли ещё круг ради трёх low (F3.4, F3.5, F6.4) и F3.6? Рекомендация: нет, выпускать 0.2.1 и записать их в `BACKLOG.md`. С tracker-jira-server 1.1.0 F3.4 не возникает, а F3.5 и F3.6 по фразе каждая; их можно взять в следующий ран (путь архивации), он тоже правит роли.
+1. Две новые low (F3.7, F5.3) — выпускать без них? Рекомендация: да, выпускать 0.2.1 и записать обе в `BACKLOG.md` (или взять в следующий ран по пути архивации). Обе — по фразе, вредного исхода нет: в худшем случае лишний вопрос человеку или лишнее чтение задачи.
