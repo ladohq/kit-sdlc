@@ -25,8 +25,7 @@ human"); the other workers reach the human through the supervisor.
    comments changed it. When you doubt it, ask the human; with their agreement report
    `dropped`.
 4. Move it to the "in progress" status, unless it is there already, and assign it to
-   the human (`tracker`'s account) when it is not (`sdlc-settings`, "Writing to the
-   tracker").
+   the account `tracker` works as (`sdlc-settings`, "Writing to the tracker").
 5. The pull request targets the base branch, or the epic's branch when the tracker has
    epics and the task's epic has a branch on the remote. Before your first commit, put
    the run's branch on the target: `git fetch origin` and `git reset --keep

@@ -17,7 +17,7 @@ it works on a project that already has one.
 You need LADO 0.29 or newer, the `openspec` CLI, the code host's CLI (e.g. `gh`) logged
 in, and a tracker kit: any kit that brings the skill `tracker`, set up as that kit says.
 sdlc asks the skill, by meaning, to read a task with its comments, list and change its
-status and post a comment, and, when it can, link a URL, assign the task and label it.
+status and post a comment and report its id, and, when it can, link a URL, assign the task and label it.
 The skill must accept comments in Markdown and format them for its tracker. sdlc reads
 no settings file of the tracker kit.
 
