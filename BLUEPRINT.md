@@ -123,9 +123,16 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   the tracker is written as the skill `tracker` asks (for Jira, a paragraph per line). Statuses are named by their
   common meaning ("in progress", "review"); the agent may ask `tracker` which statuses the
   task has and picks by meaning (a shared contract of status words between `sdlc` and
-  tracker kits is left for later). Run, change and branch names are made from the task key
+  tracker kits is left for later). Run and branch names are made from the task key
   converted to lowercase letters, digits and `-` (`ABC-123` → `abc-123`, `#123` →
-  `task-123`; the rule is in `sdlc-settings`); an epic only when the tracker has them. *Source:* session kit-sdlc, 2026-10-09
+  `task-123`; the rule is in `sdlc-settings`); an epic only when the tracker has them.
+  An openspec change is named by its meaning (`git-check`), never by the key: the key
+  would outlive the tracker in the openspec archive. Its `proposal.md` names the task in
+  a first line `Task: <KEY>`, the key as the tracker shows it, and the artifact `design`
+  names the change for the later steps; a name taken by an open or an archived change
+  gives way to another of the same meaning, and the human is asked only when the open
+  change that holds it is the same task's (session kit-sdlc, 2026-10-12, task LAD-11;
+  the clash rule as Comet's `comet-open` has it). *Source:* session kit-sdlc, 2026-10-09
   ("sdlc must not go to any tracker itself … only know it has the skill tracker and ask it";
   "markup in universal Markdown … the tracker formats it"; "use common statuses … adapt by
   meaning"; "convert the key to the format we need"; on F5.7 of the 0.2.0 check: "we are
@@ -226,7 +233,7 @@ design. On its first visit it runs the cleanup lens on its own diff before `read
 | `task.merge_ok` | gate | R6, R9, R10 | The archive and the merge to the base branch are hard to undo (stage deploys from it on Clens). Approving means "archive and merge" with the ledger's open findings. Reads `ledger`. |
 | `task.merge` | work step | R3, R9, R10, R11 | Archives the openspec change inside the PR (`openspec-changes`), brings the base in, merges with a merge commit, checks by state, cleans up, posts the tracker comment in Markdown and sets the label, and says in its note what it did; `conflicts` back to build when the change cannot be archived (files restored, nothing merged), bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `ledger`. |
 | `sdlc-settings` | skill | R2, R11, R14, R16 | The format of `.lado/sdlc.md` and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
-| `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator); undoing a pushed archive only for a red CI after the merge's push. |
+| `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator); undoing a pushed archive when a fix after it changes the spec; the change named by its meaning, with its `Task:` line. |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, round caps by scale, closing report with its metrics line, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
 | `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer, reviewer and integrator. |
 | superpowers skills (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion) | dependency skills | R5, R7, R8 | The methods Comet Classic used; published, so declared in `dependencies.skills`, not copied. |
@@ -310,6 +317,8 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.4.0, 2026-10-11).
 | 2026-10-11 | 0.4.0 | Reviewer `read_only: true`; `dependencies.lado: ">=0.34"`; README: no Codex CLI | kit-reports/sdlc-0.3.0-2026-10-09.md F12.1; triage answer 5 |
 | 2026-10-11 | 0.4.0 | Rule freeze until real runs (R15) | same review, proposal 1 |
 | 2026-10-11 | 0.4.0 | Archive undone by `git revert` whenever a fix after it changes the spec, whatever the return; a return with the change already archived rewrites the closing report file | kit-reports/sdlc-0.4.0-2026-10-11.md F8.1, F8.2; human's comment at `release_ok` |
+| 2026-10-12 | 0.5.0 | An openspec change is named by its meaning, not by the task key; `proposal.md` starts with `Task: <KEY>`; a taken name gives way to another of the same meaning, the human asked only when the open change holding it is the same task's; run and branch names keep the key | real run `task/lad-5` of the project lado: its change `openspec/changes/lad-5-git-check/` carries the key into the archive; task LAD-11; triage of `improve/sdlc-5` answers 2–4 |
+| 2026-10-12 | 0.5.0 | Section 3: the `openspec-changes` row matches the archive undo of 0.4.0 | kit-reports/sdlc-0.4.0-2026-10-11.md F6.1; triage answer 1 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
