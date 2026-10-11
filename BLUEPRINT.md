@@ -52,20 +52,32 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   *Source:* round 1 (grill-me at design); dump §6 rules 33–34, §7.3 items 8 and 11.
 - **R8** Review is a loop of a local review pass and an external reviewer's round with a
   delta comment, recorded in a findings ledger. Confirmed blockers and important findings,
-  and cheap minor ones, are fixed in the same branch; no follow-up tasks are filed. At most
-  3 external rounds; once correctness converges, a cleanup (simplify) pass and one final
-  round. The review know-how is the kit's own, provider-neutral (no one CLI's review
+  and cheap minor ones, are fixed in the same branch; no follow-up tasks are filed. The
+  developer runs the cleanup (simplify) lens on its own diff once, before the first review,
+  without changing tests; there is no cleanup pass or final round after convergence. At
+  most 2 external rounds for full and 1 for hotfix and tweak; another only on the human's
+  decision. The reviewer reads the diff and the spec before the developer's `build-report`,
+  and a dispute in the ledger is closed by evidence (code, test, spec), not argument;
+  `build-report` lists every existing test changed or removed, with its reason, and the
+  reviewer reads that test diff first. The closing report carries one line of metrics:
+  rounds (local, external, substitute), findings confirmed and refuted by source (local,
+  external), and what the review found after the developer's cleanup. The reviewer is
+  read-only (`read_only: true`), so the kit does not run on Codex CLI and needs LADO 0.34.
+  The review know-how is the kit's own, provider-neutral (no one CLI's review
   commands). *Source:* round 1 (the review routine); round 4 answer 4; round 6 ("our own
-  skills for code review"); dump §2 (`pr-converge`), §6 rules 10–16.
-- **R9** The openspec change is archived after review converges and before the merge, by a
-  commit inside the pull request. Only an unconverged review can be accepted at `merge_ok`;
-  a task not checked without a reason or a delta that contradicts a living spec goes back
-  to `build`. When a check after `openspec archive` fails, the archive is undone before
-  anything is committed. Without a closing report in the ledger, the integrator writes it
-  from the ledger. When `merge` cannot archive, it merges nothing and the work goes back to
-  `build` (`conflicts`). *Source:* session kit-sdlc, 2026-10-09 (the task of run
-  `improve/sdlc-3`, from kit-reports/sdlc-0.2.0-2026-10-09.md F3.2, F3.3, F10.2); round 4 answer 2; dump §5 pattern 1 (35 of 53
-  tweak changes were review-fix rounds caused by archiving before review).
+  skills for code review"); dump §2 (`pr-converge`), §6 rules 10–16; session kit-sdlc,
+  2026-10-11 (the human's process review, proposals 3, 4, 6, 7; triage of `improve/sdlc-4`
+  answers 3–5; kit-reports/sdlc-0.3.0-2026-10-09.md F12.1).
+- **R9** The openspec change is archived after the human's approval at `merge_ok`, in
+  `merge`, by a commit inside the pull request before the merge. The human decides the
+  merge from the ledger and its closing report, which the reviewer writes whenever it
+  reports `converged`; approving means "archive and merge" with the findings the ledger
+  leaves open. When the change cannot be archived (a task not checked without a reason, a
+  delta that contradicts a living spec, a failed validation), the files are restored,
+  nothing is merged and the work goes back to `build` (`conflicts`). *Source:* round 4
+  answer 2; dump §5 pattern 1 (35 of 53 tweak changes were review-fix rounds caused by
+  archiving before review); session kit-sdlc, 2026-10-11 (the human's process review,
+  proposal 2; triage of `improve/sdlc-4` answers 1–2).
 - **R10** Merge follows the human's routine: bring the base branch in, merge with a merge
   commit (never squash), check the merge by the pull request's state, delete the branch and
   the worktree; in the tracker, the label for "waiting for release" and a two-part comment
@@ -121,7 +133,11 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   comment ids, status words"). No upgrade path from 0.1.x: no project uses
   the kit yet (session kit-sdlc, 2026-10-09).
 - **R15** The kit grows in versions; the plan of versions is kept in this blueprint
-  (section 5). *Source:* round 1 ("break the build into phases … save the plan and follow it").
+  (section 5). From 0.4.0 the rules are frozen until the kit has real runs: a new rule
+  enters only with a fact from a real run of the kit (a run, its ledger or metrics), not
+  from a critic's report; a row of section 5 names that fact. *Source:* round 1 ("break
+  the build into phases … save the plan and follow it"); session kit-sdlc, 2026-10-11 (the
+  human's process review, proposal 1).
 
 ## 2. Starting point
 
@@ -147,7 +163,8 @@ reviewer; gates before the work and before the merge). What changed and why:
   Comet's open and design confirmations become one gate, `design_ok` (R6).
 - Comet's verify (an artifact check) moves into the review: the reviewer checks the change
   against its spec as well as the code (R8).
-- Archive moves after the review, so review fixes belong to the original change (R9).
+- Archive moves after the review and the merge gate, into `merge`, so review fixes belong
+  to the original change and a rejected merge has no archive to undo (R9).
 - Per-round triage with the human becomes a rule (R8) plus the merge gate.
 - An integrator takes archive, merge and the tracker: other rights (merge, tracker writes) and a fresh
   context after the review loop (R4, R12).
@@ -168,11 +185,8 @@ states:
     outcomes: {ready: review, redesign: design}
   review:
     agent: reviewer
-    max_visits: 8
-    outcomes: {changes: build, converged: archive}
-  archive:
-    agent: integrator
-    outcomes: {ready: merge_ok}
+    max_visits: 6
+    outcomes: {changes: build, converged: merge_ok}
   merge_ok:
     gate: approval
     outcomes: {approved: merge, rejected: build}
@@ -187,12 +201,13 @@ states:
 
 ![task](blueprint-flows/task.svg)
 
-`review` visits (`max_visits: 8`): the first local round, the external rounds up to the
-round cap of the project's settings, the cleanup and final rounds, and a re-entry after a
-rejection at `merge_ok` or `conflicts`; the limit is a rare stop. On a
+`review` visits (`max_visits: 6`): the first local round, a local round after its fixes,
+the external rounds up to the round cap (2 for full, 1 for hotfix and tweak), and a
+re-entry after a rejection at `merge_ok` or `conflicts`; the limit is a rare stop. On a
 later visit the reviewer marks its previous findings RESOLVED or STILL OPEN. `build` on a
-later visit fixes what the ledger, the human's rejection, the merge conflict or a red CI
-from `merge` names; after `redesign` it builds the newly approved design.
+later visit fixes what the ledger, the human's rejection, the merge conflict, a refused
+archive or a red CI from `merge` names; after `redesign` it builds the newly approved
+design. On its first visit it runs the cleanup lens on its own diff before `ready`.
 
 ## 3. Traceability
 
@@ -200,20 +215,19 @@ from `merge` names; after `redesign` it builds the newly approved design.
 |---|---|---|---|
 | `supervisor` | role (lead) | R1, R6, R14, R16 | Starts one run of `task` per tracker task the human names (the run named after its key, converted), in the human's language; answers blocked workers; brings the human to the gates. |
 | `analyst` | role | R5, R7, R11, R12, R16 | Takes the task in the tracker and runs the design dialogue with the human directly (the other workers reach the human through the supervisor); writes documents only, never code. |
-| `developer` | role | R4, R8, R12, R13 | Builds from the approved artifacts with a fresh context; fixes what the review, a rejection or a conflict names. |
-| `reviewer` | role | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). Read-only on code. |
-| `integrator` | role | R9, R10, R11, R12, R16 | Other rights (merge, tracker writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
+| `developer` | role | R4, R8, R12, R13 | Builds from the approved artifacts with a fresh context; runs the cleanup lens on its diff before the first review; fixes what the review, a rejection or a conflict names. |
+| `reviewer` | role (read-only) | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). `read_only: true`: it shares the worktree with the developer, and the rule is the CLI's, not only the prompt's (R8). |
+| `integrator` | role | R9, R10, R11, R12, R16 | Other rights (archive, merge, tracker writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
 | `task` | flow | R1, R4 | One run per task; LADO keeps its state, so it resumes after any stop. |
 | `task.design` | work step | R3, R5, R7, R11, R16 | Takes the task ("in progress"; assigns it through `tracker`, or asks the human to), checks it is still relevant (`dropped` otherwise), proposes the scale, writes the openspec change, and for full the design doc and plan; names the target branch (base or epic) and checks `.lado/sdlc.md` is on it, and that the code host's CLI of **Git** runs and is logged in. Reads `build-report` on a return. Produces `design`. |
 | `task.design_ok` | gate | R5, R6 | Code starts only on the human's approval of scope, scale and design. Reads `design`. |
-| `task.build` | work step | R8, R11, R13 | TDD and the change; the project's checks; push; the pull request, its link in the tracker, "review" on the last PR. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
-| `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec; `max_visits: 8` (the first local round, up to the round cap of external rounds, cleanup, final round and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
-| `task.archive` | work step | R3, R9, R10 | Archives the openspec change inside the PR, validates the specs, drafts the tracker comment in Markdown; when the change cannot be archived or a check after the archive fails, commits nothing and says so at the top of `merge-report`. Reads `design`, `ledger`. Produces `merge-report`. |
-| `task.merge_ok` | gate | R6, R10 | The merge to the base branch is hard to undo (stage deploys from it on Clens). Reads `ledger`, `merge-report`. |
-| `task.merge` | work step | R9, R10, R11 | Brings the base in, merges with a merge commit, checks by state, cleans up, tracker label and comment; `conflicts` back to build when bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Archives first when the human accepted an unconverged review at `merge_ok`; when that archive fails or `merge-report` says nothing was archived for another reason, restores the files, merges nothing and reports `conflicts` with the reason. Reads `design`, `ledger`, `merge-report`. |
+| `task.build` | work step | R8, R11, R13 | TDD and the change; the cleanup lens on the first visit; the project's checks; push; the pull request, its link in the tracker, "review" on the last PR; changed or removed existing tests listed in `build-report`. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
+| `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec, the closing report with its metrics line on `converged`; `max_visits: 6` (the first local round, a local round after its fixes, up to 2 external rounds and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
+| `task.merge_ok` | gate | R6, R9, R10 | The archive and the merge to the base branch are hard to undo (stage deploys from it on Clens). Approving means "archive and merge" with the ledger's open findings. Reads `ledger`. |
+| `task.merge` | work step | R3, R9, R10, R11 | Archives the openspec change inside the PR (`openspec-changes`), brings the base in, merges with a merge commit, checks by state, cleans up, posts the tracker comment in Markdown and sets the label, and says in its note what it did; `conflicts` back to build when the change cannot be archived (files restored, nothing merged), bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `ledger`. |
 | `sdlc-settings` | skill | R2, R11, R14, R16 | The format of `.lado/sdlc.md` and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
-| `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator). |
-| `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
+| `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator); undoing a pushed archive only for a red CI after the merge's push. |
+| `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, round caps by scale, closing report with its metrics line, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
 | `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer, reviewer and integrator. |
 | superpowers skills (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion) | dependency skills | R5, R7, R8 | The methods Comet Classic used; published, so declared in `dependencies.skills`, not copied. |
 | `grilling` | dependency skill | R7 | The human's grilling step at design. |
@@ -223,11 +237,11 @@ from `merge` names; after `redesign` it builds the newly approved design.
 
 Reverse check:
 - R1: `supervisor`, `task`. R2: `sdlc-settings`. R3: `task.design`, `openspec-changes`,
-  `task.archive`, `openspec`. R4: `task`, `developer`, the four roles' fresh contexts. R5: `analyst`,
+  `task.merge`, `openspec`. R4: `task`, `developer`, the four roles' fresh contexts. R5: `analyst`,
   `task.design`, `task.design_ok`. R6: `task.design_ok`, `task.merge_ok`, `supervisor`.
   R7: `analyst`, `task.design`, brainstorming, `grilling`. R8: `reviewer`, `task.review`,
-  `task.build`, `review-loop`. R9: `task.archive`, `task.merge`, `openspec-changes`, `git`. R10: `integrator`,
-  `task.archive`, `task.merge_ok`, `task.merge`. R11: `analyst`, `task.design`, `task.build`,
+  `task.build`, `review-loop`. R9: `task.merge_ok`, `task.merge`, `openspec-changes`, `git`. R10: `integrator`,
+  `task.merge_ok`, `task.merge`. R11: `analyst`, `task.design`, `task.build`,
   `task.merge`, `tracker`, `sdlc-settings`. R12: the four roles. R13: `engineering-rules`, `review-loop`,
   `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`. R15: section 5. R16:
   `sdlc-settings`, `tracker`, `supervisor`, `analyst`, `integrator`, `openspec-changes`.
@@ -239,7 +253,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.3.0, 2026-10-09).
 | Measure | Where | Value | Green / yellow up to | Zone | Reason, when not green |
 |---|---|---|---|---|---|
 | Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and tracker writes are rights the developer does not otherwise need. |
-| Work steps in a flow | flows/task.yaml | 5 | 5 / 8 | green | |
+| Work steps in a flow | flows/task.yaml | 4 (planned for 0.4.0; 5 in 0.3.0) | 5 / 8 | green | |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
 | Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green | |
 | Words in a role prompt | agents/developer.md | 639 | 800 / 1500 | green | |
@@ -290,6 +304,11 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.3.0, 2026-10-09).
 | 2026-10-09 | 0.3.0 | One place for the `merge` routine, the review's stop criterion and the contents of `merge-report` (the role or `review-loop`; the flow points to them) | same report, F6.1, F6.2, F6.3 |
 | 2026-10-09 | 0.3.0 | `sdlc-settings`: the assignee rule says how to tell the task is held by `tracker`'s account; the read-back lead sentence matches the items that accept `tracker`'s report | kit-reports/sdlc-0.2.1-2026-10-09.md (commit b0573e6) F3.7, F5.3 |
 | 2026-10-09 | 0.3.0 | Undoing a failed archive deletes every untracked path under `openspec/` (a new capability's spec too); a status write accepts "already there"; `archive` `do` points to the role for why nothing was archived | kit-reports/sdlc-0.3.0-2026-10-09.md F3.1, F3.2, F6.1; human's comment at `release_ok` |
+| 2026-10-11 | 0.4.0 | Step `archive` and artifact `merge-report` dropped: `merge` archives after `merge_ok`; approving `merge_ok` means "archive and merge"; the reviewer always writes the closing report; a refused archive is `conflicts` | session kit-sdlc, the human's process review (2026-10-11) proposal 2; triage of `improve/sdlc-4` answers 1–2 |
+| 2026-10-11 | 0.4.0 | Lighter review: the developer's cleanup before the first review, no cleanup pass or final round; round cap 2 for full, 1 for hotfix and tweak; `review.max_visits` 8 → 6 | same review, proposal 3; triage answer 3 |
+| 2026-10-11 | 0.4.0 | Reviewer reads the diff and spec before `build-report`, disputes closed by evidence; changed or removed existing tests listed in `build-report` and read first; metrics line in the closing report | same review, proposals 4, 6, 7; triage answer 4 |
+| 2026-10-11 | 0.4.0 | Reviewer `read_only: true`; `dependencies.lado: ">=0.34"`; README: no Codex CLI | kit-reports/sdlc-0.3.0-2026-10-09.md F12.1; triage answer 5 |
+| 2026-10-11 | 0.4.0 | Rule freeze until real runs (R15) | same review, proposal 1 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
