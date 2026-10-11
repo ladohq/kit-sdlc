@@ -2,12 +2,16 @@
 
 - Дата: 2026-10-11
 - Кит: worktree рана `improve/sdlc-4` (`.lado/worktrees/kit-sdlc/improve-sdlc-4`), путь дан задачей
-- Коммит: 77d4dc1 (визит 1 шага `evaluate`)
+- Коммит: 5e0eccc (визит 2 шага `evaluate`). Визит 1 оценивал 77d4dc1; его отчёт — коммит b8907b2.
 - Оценил: критик kit-builder (слои a и b)
 - Режим: повторная оценка.
   - Сравнивается с `kit-reports/sdlc-0.3.0-2026-10-09.md` (артефакт `assessment`, коммит 0985152), планом (`plan`) и `build-report`.
   - База — коммит из плана, 0985152 (текст кита как в cc15ba4). Изменение — `git diff 0985152 -- kit.yaml README.md BLUEPRINT.md agents flows skills`: 12 файлов, +180 −197 строк. Сюда входит и блупринт из `triage` (acde552).
-- Проходы: критик сам, без суб-агентов. Три прохода по дельте и связанным местам, каждый со своей точки входа: 1 — `kit.yaml` и роли; 2 — `flows/task.yaml` по состояниям; 3 — `openspec-changes`, `review-loop` с `lenses.md`, потом снова роли. Связанные места: «Fixing» и «Report» разработчика, «Merge» интегратора, «Each visit» и «The ledger» ревьюера, «After the archive», «Stop criterion» и «Closing report».
+- Проходы, визит 2:
+  - Дельта: `git diff b8907b2 5e0eccc` — 3 файла, +6 −5 строк. Это правки F8.1 и F8.2 по комментарию человека на `release_ok` («чиним оба»).
+  - Три прохода критика по дельте и связанным местам (шаг 1 «Merge» интегратора, «Archive» и «After the archive» `openspec-changes`, «Fixing» разработчика, разделы 3 и 5 блупринта), затем проверка вырезанных правил по `git diff --word-diff b8907b2 5e0eccc`, затем полный проход по 3 файлам дельты.
+  - Одиночных отброшенных нет; подтверждённых оставлено 2 (F6.1, F8.3).
+- Проходы, визит 1: критик сам, без суб-агентов. Три прохода по дельте и связанным местам, каждый со своей точки входа: 1 — `kit.yaml` и роли; 2 — `flows/task.yaml` по состояниям; 3 — `openspec-changes`, `review-loop` с `lenses.md`, потом снова роли. Связанные места: «Fixing» и «Report» разработчика, «Merge» интегратора, «Each visit» и «The ledger» ревьюера, «After the archive», «Stop criterion» и «Closing report».
   - Проходы шли в одном контексте, поэтому независимыми их считать нельзя. Каждую находку критик подтвердил по файлам (`grep -nF`, `git diff`); в находках так и помечено.
   - Затем проверка вырезанных правил по `git diff --word-diff 0985152 77d4dc1` и таблице «Cut text» из `build-report`.
   - Затем полный проход по всем 12 файлам дельты целиком (правило 5 «Re-evaluation»).
@@ -22,9 +26,9 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | 2 находки в изменённом тексте (0 high, 1 medium, 1 low); F12.1 закрыта; F5.1 оставлена планом; 10 из 12 критериев без находок |
-| Охват | повторная оценка изменённого текста, с полным проходом по 12 файлам дельты |
-| Правило остановки | не выполнено: 0 high, 1 medium (F8.1). Это совет к гейту релиза, не блок |
+| b. Рубрика | 2 открытые находки в изменённом тексте (0 high, 0 medium, 2 low: F6.1, F8.3); F8.1, F8.2 визита 1 и F12.1 закрыты; F5.1 оставлена планом; 10 из 12 критериев без находок |
+| Охват | повторная оценка изменённого текста; визит 1 — с полным проходом по 12 файлам дельты, визит 2 — по 3 файлам правок |
+| Правило остановки | выполнено: 0 high, 0 medium |
 
 Счёт относится только к тому, что указано в строке «Охват». С полной оценкой его сравнивать нельзя.
 
@@ -77,7 +81,7 @@ same as the plan in BLUEPRINT.md
 
 ## Исправить в первую очередь
 
-1. Отмена архива только при красном CI: конфликт или красная локальная проверка после архива, если правка меняет спеку, правила не имеют (F8.1). Самая короткая правка — убрать уточнение про CI.
+1. Строка `openspec-changes` в разделе 3 блупринта всё ещё говорит «only for a red CI» (F6.1). Это одна фраза; на агентов не влияет.
 
 ## Находки
 
@@ -103,7 +107,14 @@ same as the plan in BLUEPRINT.md
 
 ### 6. Дублирование
 
-Без находок. Правило «отказ архива → `conflicts`» стоит в трёх местах: роль, скил, do. В скиле и do это короткие указатели, полный текст — в роли (`agents/integrator.md:24-26`). Скрипт похожих абзацев не нашёл.
+- **F6.1** [low] `BLUEPRINT.md:229`
+  > | `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator); undoing a pushed archive only for a red CI after the merge's push. |
+  - После F8.1 кит откатывает архив при любой правке, меняющей спеку: «<archive commit>` only when a fix after it changes the spec: a new commit brings back the» (`skills/openspec-changes/SKILL.md:89`).
+  - Строка раздела 3 блупринта осталась от визита 1 и с этим расходится. Раздел 5 изменение записал, а раздел 3 — нет. Агенты блупринт не читают, но следующий план будет сверяться с ним.
+
+  Fix: «…; undoing a pushed archive when a fix after it changes the spec.» Passes: 1/3, confirmed (`grep -nF` находит строку в `BLUEPRINT.md:229`; `git diff b8907b2 5e0eccc -- BLUEPRINT.md` меняет только разделы 4 и 5)
+
+Других находок нет. Правило «отказ архива → `conflicts`» стоит в трёх местах: роль, скил, do. В скиле и do это короткие указатели, полный текст — в роли (`agents/integrator.md:24-26`). Скрипт похожих абзацев не нашёл.
 
 ### 7. Когда звать человека
 
@@ -111,22 +122,15 @@ same as the plan in BLUEPRINT.md
 
 ### 8. Циклы на повторном визите
 
-- **F8.1** [medium] `skills/openspec-changes/SKILL.md:89`
-  > <archive commit>` only when a red CI after the merge's push needs a fix that changes the
-  - Архив теперь коммитится и пушится на шаге 1 «Merge», до того как интегратор вливает цель. Поэтому каждый конфликт и каждая красная локальная проверка шага 2 возвращаются разработчику уже после архива.
-  - Откат разрешён только при красном CI. Если правку после конфликта или красной локальной проверки нужно внести в спеку, правило говорит «Otherwise fix on top» (`:91`). Разработчик тогда правит живую спеку напрямую, а заархивированная дельта остаётся старой. Либо он откатывает архив вопреки тексту. В истории спеки получится то так, то эдак.
-  - В 0.3.0 правило было общим: «A fix that comes after the archive (the human rejected the merge, the target branch» / «conflicts) belongs to the same change. Undo the archive with `git revert <archive» (`git show 0985152:skills/openspec-changes/SKILL.md`, строки 408-410 диффа). Сужение до CI пришло из плана (C1), а причины, почему конфликт исключён, ни в плане, ни в блупринте нет.
-  - Тот же частный случай в роли: «`openspec/changes/archive/` (a return after a red CI), skip this step.» (`agents/integrator.md:27`). Условие «уже под `archive/`» верное, но пример называет только CI.
+F8.1 и F8.2 визита 1 закрыты (см. «Прежние находки»).
 
-  Fix: «Undo the archive with `git revert <archive commit>` only when a fix after it changes the spec» — текст станет короче. В `agents/integrator.md:27` — «(a return from `conflicts`)». Passes: 1/3, confirmed (цитаты найдены `grep -nF`; порядок шагов — `agents/integrator.md:22-29`: push архива в шаге 1, `conflicts` при конфликте в шаге 2)
+- **F8.3** [low] `agents/developer.md:71`
+  > it, and run the checks again. For a red CI from `merge`, fix the failing job the note
+  > names on top of the branch, as a finding (`openspec-changes`, "After the archive"). When
+  - После F8.1 откат архива касается любого возврата из `merge`, если правка меняет спеку, в том числе после конфликта. Но ссылку на «After the archive» роль разработчика даёт только для красного CI.
+  - Разработчик, правящий конфликт, найдёт правило только через описание скила: «or must fix something» / «after its archive» (`skills/openspec-changes/SKILL.md:7-8`).
 
-- **F8.2** [low] `skills/openspec-changes/SKILL.md:81`
-  > 4. Write the review's closing report from the ledger to `docs/superpowers/reports/`.
-  - Файл итогового отчёта в репозитории пишется только при архиве.
-  - После возврата из `conflicts` (красный CI, конфликт) правка идёт поверх, и ревьюер пишет новый итоговый отчёт в `ledger`. Но интегратор пропускает шаг 1 («skip this step», `agents/integrator.md:27`), и файл в `docs/superpowers/reports/` остаётся с прошлым отчётом, без раунда исправления.
-  - В 0.3.0 любой возврат откатывал архив, и при новом архиве файл переписывался.
-
-  Fix: в `agents/integrator.md:27`: «…skip the archive, but rewrite the closing report (`openspec-changes`, "Archive" 4), commit and push it». Passes: 1/3, confirmed (`git diff 0985152 77d4dc1 -- skills/openspec-changes/SKILL.md`: убрано «Undo the archive with `git revert`» для всех возвратов, кроме CI)
+  Fix: перенести ссылку в конец абзаца: «…as a finding. A fix after the archive follows `openspec-changes` ("After the archive").» Passes: 1/3, confirmed (цитаты найдены `grep -nF`; `git diff b8907b2 5e0eccc -- agents/developer.md` пуст)
 
 Ревьюер на повторном визите отмечает прежние находки: «findings RESOLVED or STILL OPEN first.» (`flows/task.yaml:77`). `max_visits: 6` (`:69`) покрывает перечисленные визиты (`:78-80`).
 
@@ -181,9 +185,25 @@ same as the plan in BLUEPRINT.md
 | C6 Заморозка правил | RESOLVED | `BACKLOG.md:3-4`; R15 блупринта |
 | C7 Счёт и проза | RESOLVED | README (таблица шагов без `archive`), `version: 0.4.0`, `agents/supervisor.md:49`; раздел 4 блупринта совпадает с выводом скрипта |
 
-Список автора «fixed / not fixed» в `build-report` совпадает с файлами.
+Находки визита 1 этого отчёта:
+
+| Находка | Статус | Чем подтверждено |
+|---|---|---|
+| F8.1 [medium] Откат архива только при красном CI | RESOLVED | «<archive commit>` only when a fix after it changes the spec: a new commit brings back the» (`skills/openspec-changes/SKILL.md:89`); «`openspec/changes/archive/` (a return from `conflicts`), skip the archive, but» (`agents/integrator.md:27`). Следы: F6.1, F8.3 |
+| F8.2 [low] Файл итогового отчёта не обновляется | RESOLVED | «rewrite the closing report (`openspec-changes`, "Archive" 4), commit and push it.» (`agents/integrator.md:28`) |
+
+Список автора «fixed / not fixed» в `build-report` совпадает с файлами (визиты 1 и 2).
 
 ## Вырезанные правила
+
+Визит 2 (`git diff --word-diff b8907b2 5e0eccc`):
+
+| Вырезанное правило (файл:строка в b8907b2) | Где оно сейчас |
+|---|---|
+| откат «only when a red CI after the merge's push needs a fix that changes the spec» (`skills/openspec-changes/SKILL.md:89`) | шире: «only when a fix after it changes the spec» (`:89`) |
+| «skip this step» при изменении под `archive/` (`agents/integrator.md:27`) | «skip the archive, but rewrite the closing report» (`:27-28`) |
+
+Визит 1:
 
 `git diff --word-diff 0985152 77d4dc1`, сверено с таблицей «Cut text» автора:
 
@@ -211,4 +231,4 @@ same as the plan in BLUEPRINT.md
 
 ## Вопросы человеку
 
-1. F8.1 и F8.2 нашёл критик, а не реальный ран, а с 0.4.0 правила заморожены (R15). Чинить их в этом релизе или записать в BACKLOG.md до факта из рана? Рекомендация: F8.1 починить сейчас. Правка не добавляет правило, а возвращает в общем виде то, что было в 0.3.0, и текст становится короче. F8.2 — в BACKLOG.
+Нет вопросов. Вопрос визита 1 (чинить ли F8.1 и F8.2 при заморозке правил) человек решил на `release_ok`: «чиним оба». F6.1 и F8.3 — низкие следы этой правки; чинить их сейчас или нет, решать на гейте релиза.
