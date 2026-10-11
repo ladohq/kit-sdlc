@@ -26,3 +26,10 @@
 - Two open changes of different tasks MODIFY the same requirement: the one archived second
   overwrites the first's edit (neither sdlc nor Comet's skill text covers it); waits for a
   fact from a real run (R15). Triage of improve/sdlc-5, 2026-10-12.
+- F3.1 of kit-reports/sdlc-0.5.0-2026-10-12.md (the human approved the release at `release_ok`
+  of `improve/sdlc-5`, 2026-10-12): the analyst sees taken change names only on its own
+  branch, so two parallel runs can pick the same meaning name; merged the same day, the
+  second archive fails ("Archive '<date>-<name>' already exists") and `conflicts` returns
+  the run to `build` with no rule for the developer. Fix once a real run hits it (R15): a
+  refused archive because the name is taken is `conflicts`; in `build` the developer renames
+  the change to another of the same meaning.
