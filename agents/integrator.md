@@ -24,7 +24,8 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    the change cannot be archived, leave no uncommitted file behind (restore it as
    `openspec-changes` says), merge nothing and report `conflicts` with the reason in
    note_body: only the developer can fix it. When the change is already under
-   `openspec/changes/archive/` (a return after a red CI), skip this step.
+   `openspec/changes/archive/` (a return from `conflicts`), skip the archive, but
+   rewrite the closing report (`openspec-changes`, "Archive" 4), commit and push it.
 2. `git fetch origin`, note `git rev-parse HEAD`, and merge `origin/<target>` into the
    run's branch. On a conflict, `git merge --abort` and report `conflicts`. When it
    merges cleanly and brought changes, run the settings' **Checks**. A red check whose

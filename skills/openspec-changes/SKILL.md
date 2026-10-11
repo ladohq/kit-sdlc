@@ -86,7 +86,6 @@ belongs to the change it fixes.
 ## After the archive
 
 A fix after the archive belongs to the same change. Undo the archive with `git revert
-<archive commit>` only when a red CI after the merge's push needs a fix that changes the
-spec: a new commit brings back the active change and the living specs as they were;
-never rewrite pushed history. Otherwise fix on top: the change stays under `archive/`,
+<archive commit>` only when a fix after it changes the spec: a new commit brings back the
+active change and the living specs as they were; never rewrite pushed history. Otherwise fix on top: the change stays under `archive/`,
 and `merge` does not archive it again.

@@ -257,7 +257,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.4.0, 2026-10-11).
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
 | Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green | |
 | Words in a role prompt | agents/developer.md | 693 | 800 / 1500 | green | |
-| Words in a role prompt | agents/integrator.md | 553 | 800 / 1500 | green | |
+| Words in a role prompt | agents/integrator.md | 563 | 800 / 1500 | green | |
 | Words in a role prompt | agents/reviewer.md | 463 | 800 / 1500 | green | |
 | Words in the lead's prompt | agents/supervisor.md | 751 | 1000 / 1500 | green | |
 | Own skills | kit | 4 | 5 / 10 | green | |
@@ -309,6 +309,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.4.0, 2026-10-11).
 | 2026-10-11 | 0.4.0 | Reviewer reads the diff and spec before `build-report`, disputes closed by evidence; changed or removed existing tests listed in `build-report` and read first; metrics line in the closing report | same review, proposals 4, 6, 7; triage answer 4 |
 | 2026-10-11 | 0.4.0 | Reviewer `read_only: true`; `dependencies.lado: ">=0.34"`; README: no Codex CLI | kit-reports/sdlc-0.3.0-2026-10-09.md F12.1; triage answer 5 |
 | 2026-10-11 | 0.4.0 | Rule freeze until real runs (R15) | same review, proposal 1 |
+| 2026-10-11 | 0.4.0 | Archive undone by `git revert` whenever a fix after it changes the spec, whatever the return; a return with the change already archived rewrites the closing report file | kit-reports/sdlc-0.4.0-2026-10-11.md F8.1, F8.2; human's comment at `release_ok` |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
