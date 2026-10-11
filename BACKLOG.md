@@ -19,3 +19,7 @@
   fallback "when `tracker` cannot say which account it works as and the task has an
   assignee, ask the human first", R16 names the version.
 
+- Low findings of kit-reports/sdlc-0.4.0-2026-10-11.md (visit 2) left out of 0.4.0 (the human
+  approved the release at `release_ok` of `improve/sdlc-4`, 2026-10-11): F6.1 (section 3 of
+  BLUEPRINT.md, the `openspec-changes` row still says "only for a red CI"), F8.3 (the
+  developer's pointer to "After the archive" sits only at the red-CI case).
