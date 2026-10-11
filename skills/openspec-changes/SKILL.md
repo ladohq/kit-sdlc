@@ -1,7 +1,7 @@
 ---
 name: openspec-changes
 description: >-
-  How an openspec change is laid out, written, validated, archived and reopened so that it
+  How an openspec change is named, laid out, written, validated, archived and reopened so that it
   stays compatible with the project's spec archive (`openspec/changes/`,
   `openspec/changes/archive/`, `openspec/specs/`, `docs/superpowers/`). Use when you
   create or edit a change, check code against its spec, archive it, or must fix something
@@ -34,8 +34,17 @@ supervisor. `openspec --help` names the commands of the installed version. Never
 | `docs/superpowers/plans/<YYYY-MM-DD>-<topic>.md` | the implementation plan (full scale) |
 | `docs/superpowers/reports/<YYYY-MM-DD>-<name>-review.md` | the review's closing report, from the ledger, written at archive |
 
-`<name>` is kebab-case and starts with the task key as a name (`sdlc-settings`, "The task
-key as a name"): `abc-123-export-csv`.
+`<name>` is kebab-case and names the change by its meaning (`export-csv`), never by the
+task key: the archive outlives the tracker. The first line of `proposal.md` names the
+task instead: `Task: <KEY>`, the key as the tracker shows it (`Task: ABC-123`), no URL.
+Later steps find the change by the name the artifact `design` gives, not by a prefix.
+Changes named otherwise before stay as they are; never rename one or the archive.
+
+A name taken by an open change (`openspec/changes/<name>/`) or an archived one
+(`openspec/changes/archive/*-<name>/`) gives way to another name of the same meaning
+(`git-check-remote`), never a number suffix. Only when the open change that holds it has
+the same `Task:` line (left from an earlier run of the same task), ask the human whether
+to continue it or start anew.
 
 ## Writing the delta
 

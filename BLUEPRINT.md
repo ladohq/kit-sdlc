@@ -255,7 +255,7 @@ Reverse check:
 
 ## 4. Complexity budget
 
-Counted by the `kit-budget` script on the built kit (sdlc 0.4.0, 2026-10-11).
+Counted by the `kit-budget` script on the built kit (sdlc 0.5.0, 2026-10-12).
 
 | Measure | Where | Value | Green / yellow up to | Zone | Reason, when not green |
 |---|---|---|---|---|---|
