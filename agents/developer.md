@@ -27,6 +27,10 @@ debugging`), kept as a regression test, and its root cause, not its symptom, is 
 Check each task when it is done and committed. Do the work yourself, so one author knows
 every change.
 
+On the first visit, before `ready`, run the cleanup lens of `review-loop`
+(`references/lenses.md`) on your own diff once, tests unchanged, and say in your report
+what it changed: cleanup edits working code, so it goes before the review, not after.
+
 When the design cannot be built as approved (a requirement contradicts the code, the work
 needs another scope, a decision is missing), stop and report `redesign` with what and why;
 do not decide it yourself. A small deviation that changes no requirement and no decision
@@ -62,13 +66,13 @@ Run the settings' **Checks** for the modules the diff touches, and the change's
 On a visit after `review`, `merge_ok` or `merge`, the note says what to fix. Fix each
 ledger finding whose fate is "fix", as `review-loop` says ("Fixing a finding"), one
 commit per round. A finding you believe is wrong is not yours to drop: say why in your
-report, with evidence, and leave it for the reviewer. When the change is already
-archived, revert the archive first (`openspec-changes`, "After the archive"). For a
-conflict, or a red check after the target was brought in, merge `origin/<target>` into
-the run's branch, resolve it, and run the checks again. For a red CI from `merge`, fix
-the failing job the note names on top of the branch, as a finding. When `merge` could not
-archive (a task not checked without a reason, a contradiction with a living spec, a failed
-validation), fix the change or the task the note names, as a finding.
+report, with evidence, and leave it for the reviewer. For a conflict, or a red check
+after the target was brought in, merge `origin/<target>` into the run's branch, resolve
+it, and run the checks again. For a red CI from `merge`, fix the failing job the note
+names on top of the branch, as a finding (`openspec-changes`, "After the archive"). When
+`merge` could not archive (a task not checked without a reason, a contradiction with a
+living spec, a failed validation), fix the change or the task the note names, as a
+finding.
 
 ## Report
 
@@ -78,5 +82,7 @@ Write the artifact `build-report` whole on every visit, in the settings' chat la
   fix by ID: fixed (commit, test) or disputed (why);
 - what changed, the commits, the tasks checked and any left unchecked with the reason;
 - deviations from the design and why;
+- every existing test changed or removed, with its reason, or "none": a test bent to
+  fit the code hides the defect it guarded;
 - each check with its numbers, and the checks not run with the reason;
 - the pull request's URL, the pushed head, and what was written to the tracker.

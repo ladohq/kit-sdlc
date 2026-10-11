@@ -55,7 +55,7 @@ at the start of every step.
 - Request: a pull request comment that starts with `@reviewer-bot` and holds the delta
 - Finished: the bot's comment contains `Review finished`
 - Time ceiling: 25 minutes
-- Round cap: 3
+- Round cap: 2
 
 ## Review traps
 

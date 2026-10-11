@@ -3,10 +3,10 @@ name: review-loop
 description: >-
   The review routine that drives a pull request to no blockers: rounds of a local review
   pass and an external reviewer, every finding verified and kept in a ledger with a
-  verdict, a tier and a fate, a delta comment per external round, a stop rule, a cleanup
-  pass and a final round, then a closing report. Use when you review a pull request, fix
-  what a review found, or archive one that converged. The general engineering lessons it
-  relies on are `engineering-rules`.
+  verdict, a tier and a fate, a delta comment per external round, a stop rule and a round
+  cap, then a closing report with its metrics; its cleanup lens is for the developer
+  before the first review. Use when you review a pull request or fix what a review found.
+  The general engineering lessons it relies on are `engineering-rules`.
 ---
 
 # Review loop
@@ -26,7 +26,7 @@ the lenses: the best findings come from reading by hand.
 ## The ledger
 
 Every finding gets a row, and the row lives across rounds. It is the one source for the
-fixes, the delta comment, the archive and the closing report.
+fixes, the delta comment and the closing report.
 
 | ID | Round | Source | Finding | Verdict | Tier | Fate | Evidence | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -52,9 +52,7 @@ reason. No finding becomes a new task or a debt entry: the human can still decid
 at the merge gate. A refuted finding: `drop`. A minor `fix` goes to the developer with
 the fixes of its round; when its round sends nothing back, with the next fixes; it gets
 `decline` when the loop converges first. It is not something to fix for the external
-round or the stop criterion. The
-cleanup is the exception: its minor `fix` findings go to the developer, and the round
-after their fix is the final one.
+round or the stop criterion.
 
 ## A round
 
@@ -130,33 +128,26 @@ Treat the external reviewer's findings like any other: verify, tier, fate.
 The loop has converged when all hold:
 - the last round found no blocker and no confirmed important finding;
 - the pull request's CI is green: no findings over a red pipeline is not mergeable;
-- the pull request's title and description match its diff;
-- the cleanup pass ran after correctness converged, and one final round (precision pass
-  and external round) after the cleanup found no blocker and no important finding. When
-  the cleanup leaves nothing to fix, the round that converged is the final one. An
-  external round the human allowed you to skip counts as run; their answer, recorded in
-  the ledger, holds for the rest of the loop unless they say otherwise. After a return
-  from `merge_ok` or `conflicts`, the delta gets a precision pass and an external round
-  within the cap; cleanup runs again only when that round finds something to fix.
+- the pull request's title and description match its diff.
 
-Minor findings do not start another round: a minor finding of the final round gets
-`decline`, with "found in the final round" as its reason, and the human weighs it at the
-merge gate. A round that brings back only findings already declined is a stop signal.
-After the round cap of **External reviewer** (`sdlc-settings`), if the criterion still
-fails, ask the human with the open findings and your recommendation, and do as they say.
+An external round the human allowed you to skip counts as run; their answer, recorded in
+the ledger, holds for the rest of the loop unless they say otherwise. Minor findings do
+not start another round: a minor finding of the last round gets `decline`, and the human
+weighs it at the merge gate. A round that brings back only findings already declined is
+a stop signal.
 
-## Cleanup pass
-
-Once correctness has converged, and only then, run the cleanup lens
-(`references/lenses.md`) on the whole diff: cleaning earlier only polishes code about to
-change. Skip a cleanup finding that would change intended behaviour, reach far outside
-the diff or need a check you cannot run, and give the reason in its row. Cleanup edits
-code that was already approved and brings its own defects, so the final round follows
-it.
+**Round cap.** At most 2 external rounds for a full change and 1 for a hotfix or tweak;
+the settings' round cap (**External reviewer**, `sdlc-settings`) may lower it. After the
+cap, if the criterion still fails, ask the human with the open findings and your
+recommendation, and do as they say. A return from `merge_ok` or `conflicts` gets a
+precision pass on the delta and an external round within the cap.
 
 ## Closing report
 
 Rendered from the ledger, for the human's merge decision and the archive:
+- one line of metrics: rounds (local, external, substitute); findings confirmed and
+  refuted by source (local, external); findings the review made in code the developer's
+  cleanup changed;
 - the rounds, each with its passes and its external reviewer (a substitute named as
   such);
 - the confirmed findings with their fixing commits, the refuted ones with the mechanism;

@@ -32,7 +32,7 @@ supervisor. `openspec --help` names the commands of the installed version. Never
 | `openspec/specs/<capability>/spec.md` | the living spec |
 | `docs/superpowers/specs/<YYYY-MM-DD>-<topic>-design.md` | the design doc (full scale) |
 | `docs/superpowers/plans/<YYYY-MM-DD>-<topic>.md` | the implementation plan (full scale) |
-| `docs/superpowers/reports/<YYYY-MM-DD>-<name>-review.md` | the review's closing report, written at archive |
+| `docs/superpowers/reports/<YYYY-MM-DD>-<name>-review.md` | the review's closing report, from the ledger, written at archive |
 
 `<name>` is kebab-case and starts with the task key as a name (`sdlc-settings`, "The task
 key as a name"): `abc-123-export-csv`.
@@ -64,9 +64,9 @@ way stays unchecked with a line saying why, and the build report names it.
 
 ## Archive
 
-Archive after the review has converged and before the merge, on the pull request's
-branch, so the archive rides inside the pull request and every review fix belongs to the
-change it fixes.
+Archive in `merge`, after the human's approval at `merge_ok` and before the merge, on the
+pull request's branch, so the archive rides inside the pull request and every review fix
+belongs to the change it fixes.
 
 1. Every task of `tasks.md` is checked, or its line says why not, and the grep for
    contradictions (above) finds none. When either fails, do not archive.
@@ -77,17 +77,16 @@ change it fixes.
    any commit: `git restore --staged --worktree -- openspec/`, then delete every
    untracked path under `openspec/` that `git status --short -- openspec/` lists (the
    folder under `archive/`, the spec of a new capability); `git status` then shows no
-   change under `openspec/`. Commit nothing and say so at the top of `merge-report`.
-4. Write the review's closing report (`review-loop`, "Closing report") to
-   `docs/superpowers/reports/`.
+   change under `openspec/`. Commit nothing; the integrator reports `conflicts`.
+4. Write the review's closing report from the ledger to `docs/superpowers/reports/`.
 5. Commit these paths alone, message `archive(<KEY>): <name>`, and push. The pull
    request's diff against its target then shows the change under `archive/` and no
    `openspec/changes/<name>/` left.
 
 ## After the archive
 
-A fix that comes after the archive (the human rejected the merge, the target branch
-conflicts) belongs to the same change. Undo the archive with `git revert <archive
-commit>`, a new commit that brings back the active change and the living specs as they
-were; never rewrite pushed history. Fix the change and its code as usual; the integrator
-archives it again after the review.
+A fix after the archive belongs to the same change. Undo the archive with `git revert
+<archive commit>` only when a red CI after the merge's push needs a fix that changes the
+spec: a new commit brings back the active change and the living specs as they were;
+never rewrite pushed history. Otherwise fix on top: the change stays under `archive/`,
+and `merge` does not archive it again.

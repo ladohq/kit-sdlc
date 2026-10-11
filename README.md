@@ -14,7 +14,8 @@ it works on a project that already has one.
 
 ## Install and start
 
-You need LADO 0.30 or newer, `git` and the `openspec` CLI on the agents' PATH, the code
+You need LADO 0.34 or newer (the reviewer is read-only; the kit does not run on Codex
+CLI, which cannot take an agent's file-editing tools away), `git` and the `openspec` CLI on the agents' PATH, the code
 host's CLI that the project's settings name (e.g. `gh`) logged in, and a tracker kit: any kit that brings the skill `tracker`, set up as that kit says.
 sdlc asks the skill, by meaning, to read a task with its comments, list and change its
 status and post a comment and report its id, and, when it can, link a URL, assign the task and label it.
@@ -46,13 +47,12 @@ once, each in its own worktree.
 |---|---|---|
 | design | analyst | takes the task in the tracker (in progress), checks it is still wanted, proposes the scale (full, hotfix or tweak), designs with you (brainstorming, then grilling; mock-ups rendered as HTML), writes the openspec change, and at full scale the design doc and the plan |
 | design_ok | you | approve scope, scale, target branch and change |
-| build | developer | builds test-first, runs the project's checks, opens or updates the pull request, links it in the tracker, moves the task to review on its last pull request |
-| review | reviewer | one round of the review loop per visit: local review pass, check against the spec, external reviewer with a delta comment; then a cleanup pass and a final round |
-| archive | integrator | archives the openspec change inside the pull request, validates the specs, drafts the tracker comment |
-| merge_ok | you | approve the merge, seeing the ledger and the merge report |
-| merge | integrator | brings the target in, merges with a merge commit, deletes the remote branch, comments in the tracker |
+| build | developer | builds test-first, cleans up its own diff before the first review, lists every existing test it changed, runs the project's checks, opens or updates the pull request, links it in the tracker, moves the task to review on its last pull request |
+| review | reviewer | one round of the review loop per visit: local review pass, check against the spec, external reviewer with a delta comment; at most 2 external rounds (1 for hotfix and tweak), more only on your decision |
+| merge_ok | you | approve archiving and merging, seeing the ledger with its closing report and the findings left open |
+| merge | integrator | archives the openspec change inside the pull request, brings the target in, merges with a merge commit, deletes the remote branch, comments in the tracker |
 
-A rejected design goes back to the analyst; findings, a rejected merge or a conflict go
+A rejected design goes back to the analyst; findings, a rejected merge, a refused archive or a conflict go
 back to the developer. What the skill `tracker` cannot do (with some trackers: assign, label) the agents
 ask you to do by hand.
 

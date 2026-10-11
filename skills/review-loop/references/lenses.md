@@ -38,9 +38,10 @@ by the one who raises it and given a confidence. Look first where fixes break th
 other instances of a fixed defect, code moved between files, a docblock left behind, an
 error path the fix added, a test changed to pass.
 
-## Cleanup pass: once, after correctness converged
+## Cleanup: the developer, once, before the first review
 
-Four questions on the whole diff:
+The developer asks these of its own diff and changes only the diff, never a test or
+intended behaviour; the review then reads the cleaned code. Four questions:
 - **Reuse**: does code repeat something the codebase already has?
 - **Simplification**: can a branch, a layer or a parameter go without changing behaviour?
 - **Efficiency**: work done twice, in a loop, or on data that is never used?

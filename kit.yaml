@@ -1,18 +1,19 @@
 name: sdlc
-version: 0.3.0
+version: 0.4.0
 description: >-
   Day-to-day development of a project whose tasks live in a task tracker, one task per
   run: an analyst takes the task and designs the change with you as an openspec change, a
   developer builds it test-first and opens the pull request, a reviewer drives it through
-  local and external review rounds, an integrator archives the change inside the pull
-  request and merges it with the tracker routine. You approve the design and the merge.
+  local and external review rounds, and on your approval an integrator archives the
+  change inside the pull request and merges it with the tracker routine. You approve the
+  design and the merge.
   Start it with a tracker kit that gives the roles the skill tracker.
 supervisor: supervisor
 expects:
   skills: [tracker]
   commands: [git, openspec]
 dependencies:
-  lado: ">=0.30"
+  lado: ">=0.34"
   skills:
     superpowers:
       from: https://github.com/obra/superpowers@v6.4.1

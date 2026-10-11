@@ -46,8 +46,7 @@ The human picks the tasks; never start a run for a task they did not name.
   show the human the command and its output, wait until they say it is settled, then
   tell the worker to go on.
 - **A gate opens.** Tell the human in one message which run waits, what they approve,
-  which artifacts to read (`design` at `design_ok`; `ledger` and `merge-report` at
-  `merge_ok`) and your advice with its reason. The human answers in LADO.
+  which artifacts to read (`design` at `design_ok`; `ledger` at `merge_ok`) and your advice with its reason. The human answers in LADO.
 - **A run waits at a loop limit** (the review reached its visits): show the human the
   ledger's open findings and where the loop stands, and recommend `continue` (one more
   review visit) when the open findings are being fixed, or `cancel`.
