@@ -17,6 +17,10 @@
   - Затем полный проход по всем 12 файлам дельты целиком (правило 5 «Re-evaluation»).
   - Одиночных находок отброшено: 2 (low): `lenses.md` больше не требует пропускать находку чистки, для которой нужна недоступная проверка; в правиле про minor последнего раунда пропала причина «found in the final round». Обе — следствие решения человека убрать финальный раунд. Оставлено как подтверждённые: 2 (F8.1, F8.2).
 
+- Шаг `assess` рана `improve/sdlc-5` (2026-10-12, задача LAD-11): текст кита с 5e0eccc не менялся (`git diff --stat 5e0eccc -- kit.yaml README.md BLUEPRINT.md agents flows skills` пуст; после него только `BACKLOG.md`), задача велит взять этот отчёт как оценку текущей версии. Так же сделал `assess` рана `improve/sdlc-4` с отчётом 0.3.0. Кит заново не оценивался. Повторены `lado kits check .` (LADO 0.34.0; тот же вывод), скрипт бюджета (код 0; то же, кроме числа слов `agents/integrator.md`: 563, а не 553 — отчёт цитировал вывод визита 1, до правки F8.1/F8.2; исправлено ниже) и флоу-скрипт (`task.svg` без изменений; `--compare`: «same as the plan in BLUEPRINT.md»).
+  - Для триажа LAD-11 — места, где кит полагается на ключ задачи в имени change (`grep -rnE 'task key|<key>|<KEY>'`): `skills/sdlc-settings/SKILL.md:82-90` («Runs and openspec changes start with the task key as a name», «so the run, the change and the branch get the same name»); `skills/openspec-changes/SKILL.md:37-38` («`<name>` is kebab-case and starts with the task key as a name»); `skills/sdlc-settings/sdlc.example.md:20`; `agents/supervisor.md:33` (имя рана — остаётся); `BLUEPRINT.md:126` («Run, change and branch names are made from the task key») — требование блупринта тоже надо поправить, иначе кит разойдётся с ним. `skills/openspec-changes/SKILL.md:82` (`archive(<KEY>): <name>`) и путь отчёта `<name>-review.md` (`:35`) от префикса не зависят.
+  - Имя change уже передаётся без префикса: аналитик пишет его в артефакт `design` («the change's name, the scope and out of scope», `agents/analyst.md:87`), а `build`, `review` и `merge` читают `design` (`reads: [design, …]`, `flows/task.yaml:44,70,98`). Ни одна роль сейчас не ищет change по префиксу; `openspec validate <name>` (`agents/developer.md:47`) и `openspec validate <change>` (`flows/task.yaml:25`) берут имя из этого контекста. Правила о конфликте имён (`clash`, «already exist») в ките нет; строки `Task:` в `proposal.md` тоже нет (`skills/openspec-changes/SKILL.md:27`).
+
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
 
 ## Карточка
@@ -57,7 +61,7 @@ Read-only: `read-only roles: reviewer`; `dependencies.lado: ">=0.34"` (`kit.yaml
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green |
 | Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green |
 | Words in a role prompt | agents/developer.md | 693 | 800 / 1500 | green |
-| Words in a role prompt | agents/integrator.md | 553 | 800 / 1500 | green |
+| Words in a role prompt | agents/integrator.md | 563 | 800 / 1500 | green |
 | Words in a role prompt | agents/reviewer.md | 463 | 800 / 1500 | green |
 | Words in the lead's prompt | agents/supervisor.md | 751 | 1000 / 1500 | green |
 | Own skills | kit | 4 | 5 / 10 | green |
