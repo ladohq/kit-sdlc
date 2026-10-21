@@ -79,10 +79,12 @@ as skipped, and say so in your note.
   and handed to it as they are; the tracker skill formats them for its tracker.
 - **A link** to a pull request: when `tracker` cannot link a URL, post it as a comment.
 - **Assigning the task or labelling it**: when `tracker` can, do it; otherwise ask the
-  human in your note to do it by hand. An action of **After the merge** that `tracker`
-  lacks or refuses follows the integrator's rule instead. Assign to the account `tracker` works as: ask
+  human in your note to do it by hand. Assign to the account `tracker` works as: ask
   `tracker` which account that is and compare it with the task's assignee. Only when the
   task is assigned to another account, ask the human first.
+
+An action of **After the merge** that `tracker` lacks or refuses, or a status it names that
+no status of the task fits, follows the integrator's rule instead of the ones above.
 
 ## The task key as a name
 

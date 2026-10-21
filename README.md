@@ -27,7 +27,7 @@ Setting a field (e.g. a release) needs tracker-yougile 0.5.0 or newer or
 tracker-jira-server 1.6.0 or newer: `expects.skills` checks only the skill's name, not
 its version.
 
-For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.1.0 or newer:
+For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.6.0 or newer:
 
 ```bash
 lado kits add sdlc -m official
