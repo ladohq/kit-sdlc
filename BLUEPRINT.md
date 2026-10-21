@@ -22,7 +22,7 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   task updated in the tracker. Several tasks run in parallel, each run in its own worktree.
   *Source:* round 2 answer 3 (the process from task to merge); dump §3.4 (a worktree per task).
 - **R2** The kit is universal, not for Clens only. Everything a project differs in lives in
-  the project's file `.lado/sdlc.md`: languages, the tracker's labels, branch naming
+  the project's file `.lado/sdlc.md`: languages, what happens to the task after the merge, branch naming
   and base branch, check commands, the external reviewer, and free-form extra instructions
   that change the kit's work. *Source:* round 1 answer 5; round 3 answer 7; dump §8.
 - **R3** Specifications go on in the openspec format, compatible with the project's archive:
@@ -80,18 +80,34 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   proposal 2; triage of `improve/sdlc-4` answers 1–2).
 - **R10** Merge follows the human's routine: bring the base branch in, merge with a merge
   commit (never squash), check the merge by the pull request's state, delete the branch and
-  the worktree; in the tracker, the label for "waiting for release" and a two-part comment
-  (for QA, for the developer) in Markdown (R16). A task merged into an epic branch gets the comment but
-  no label and stays in review. *Source:* round 1 (merge procedure); dump §1.2 «Мерж PR»,
-  «Мерж PR в эпик»; round 5 answer 1. When the skill `tracker` cannot label an existing
-  task, the integrator asks the human, in its note after the merge, to set the label by hand
-  (R11). *Source:* round 5 answer 2; session kit-sdlc (R16).
+  the worktree. *Source:* round 1 (merge procedure); dump §1.2 «Мерж PR», «Мерж PR в эпик».
+  What then happens to the task in the tracker is the project's rule, not the kit's: the
+  section **After the merge** of `.lado/sdlc.md`, one part for a merge into the base branch
+  and one for a merge into an epic branch, in the project's words (a comment by its
+  template, a status, labels to add or remove, a field such as the release, and where each
+  value comes from). The integrator does exactly what the part for its merge says, through
+  `tracker`, and nothing else; without the section or the part the task is not touched and
+  the note says so, naming an old **Tracker** line «Waiting for release label» when the
+  file still has one. The kit knows no label, status or release of its own. When the
+  section asks for a comment by a template, the kit's rule for filling it holds: from the
+  pull request's description and the change's proposal and design, by layer, for QA what
+  to check in plain words, in the settings' tracker comment language, read back by its id.
+  An action the session's `tracker` lacks (`field` in tracker-yougile before 0.5.0 or
+  tracker-jira-server before 1.6.0) or one the tracker refuses gets no workaround: the
+  integrator does the rest and names in its note what was not done and why; the merge
+  stays `merged` and the human decides. The old line is no longer read; the README says
+  how to move it into the section. *Source:* task LAD-118 and its discussion in LADO
+  session `kit-tracker-yougile` (2026-10-21: "the integrator must not know it has to set
+  some label … it follows the project's rules in `.lado/sdlc.md` … if nothing is
+  described there, nothing has to be done"); task LAD-113 (the release number on the
+  task); triage of `improve/sdlc-6` answers 1–2.
 - **R11** Agents write to the tracker only as the routine says: take the task (assign, "in
   progress"), link each pull request, move to "review" only on the task's last pull request,
-  the merge label and comment. A new tracker task only after the human's explicit yes. All of
+  what the project's **After the merge** says (R10). A new tracker task only after the human's explicit yes. All of
   it through the skill `tracker`. One rule for what `tracker` may lack: when it has the
   action (assign a task, label an existing one, link a URL), the routine does it; otherwise
-  the human does it by hand, asked in the agent's note (a link goes in as a comment). The kit does not bring `tracker` itself: another kit of the
+  the human does it by hand, asked in the agent's note (a link goes in as a comment); an
+  action of **After the merge** follows R10 instead. The kit does not bring `tracker` itself: another kit of the
   session does (now `tracker-jira-server`; another tracker kit with a skill of the same
   name fits as well), so `kit.yaml` declares it in `expects.skills` and the roles that use
   it name it in their `skills:`. `expects.skills` needs LADO 0.29 and `expects.commands`
@@ -231,8 +247,8 @@ design. On its first visit it runs the cleanup lens on its own diff before `read
 | `task.build` | work step | R8, R11, R13 | TDD and the change; the cleanup lens on the first visit; the project's checks; push; the pull request, its link in the tracker, "review" on the last PR; changed or removed existing tests listed in `build-report`. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec, the closing report with its metrics line on `converged`; `max_visits: 6` (the first local round, a local round after its fixes, up to 2 external rounds and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
 | `task.merge_ok` | gate | R6, R9, R10 | The archive and the merge to the base branch are hard to undo (stage deploys from it on Clens). Approving means "archive and merge" with the ledger's open findings. Reads `ledger`. |
-| `task.merge` | work step | R3, R9, R10, R11 | Archives the openspec change inside the PR (`openspec-changes`), brings the base in, merges with a merge commit, checks by state, cleans up, posts the tracker comment in Markdown and sets the label, and says in its note what it did; `conflicts` back to build when the change cannot be archived (files restored, nothing merged), bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `ledger`. |
-| `sdlc-settings` | skill | R2, R11, R14, R16 | The format of `.lado/sdlc.md` and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
+| `task.merge` | work step | R3, R9, R10, R11 | Archives the openspec change inside the PR (`openspec-changes`), brings the base in, merges with a merge commit, checks by state, cleans up, does the project's **After the merge** for its target through `tracker` (nothing when the section or its part is missing), and says in its note what it did and did not; `conflicts` back to build when the change cannot be archived (files restored, nothing merged), bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `ledger`. |
+| `sdlc-settings` | skill | R2, R10, R11, R14, R16 | The format of `.lado/sdlc.md` (with the optional section **After the merge** and its neutral example: comment, status, label, field) and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
 | `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator); undoing a pushed archive when a fix after it changes the spec; the change named by its meaning, with its `Task:` line. |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, round caps by scale, closing report with its metrics line, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
 | `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer, reviewer and integrator. |
@@ -248,7 +264,7 @@ Reverse check:
   `task.design`, `task.design_ok`. R6: `task.design_ok`, `task.merge_ok`, `supervisor`.
   R7: `analyst`, `task.design`, brainstorming, `grilling`. R8: `reviewer`, `task.review`,
   `task.build`, `review-loop`. R9: `task.merge_ok`, `task.merge`, `openspec-changes`, `git`. R10: `integrator`,
-  `task.merge_ok`, `task.merge`. R11: `analyst`, `task.design`, `task.build`,
+  `task.merge_ok`, `task.merge`, `sdlc-settings`. R11: `analyst`, `task.design`, `task.build`,
   `task.merge`, `tracker`, `sdlc-settings`. R12: the four roles. R13: `engineering-rules`, `review-loop`,
   `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`. R15: section 5. R16:
   `sdlc-settings`, `tracker`, `supervisor`, `analyst`, `integrator`, `openspec-changes`.
@@ -319,6 +335,8 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.5.0, 2026-10-12).
 | 2026-10-11 | 0.4.0 | Archive undone by `git revert` whenever a fix after it changes the spec, whatever the return; a return with the change already archived rewrites the closing report file | kit-reports/sdlc-0.4.0-2026-10-11.md F8.1, F8.2; human's comment at `release_ok` |
 | 2026-10-12 | 0.5.0 | An openspec change is named by its meaning, not by the task key; `proposal.md` starts with `Task: <KEY>`; a taken name gives way to another of the same meaning, the human asked only when the open change holding it is the same task's; run and branch names keep the key | real run `task/lad-5` of the project lado: its change `openspec/changes/lad-5-git-check/` carries the key into the archive; task LAD-11; triage of `improve/sdlc-5` answers 2–4 |
 | 2026-10-12 | 0.5.0 | Section 3: the `openspec-changes` row matches the archive undo of 0.4.0 | kit-reports/sdlc-0.4.0-2026-10-11.md F6.1; triage answer 1 |
+| 2026-10-21 | 0.6.0 | What happens to the task after the merge is the project's section **After the merge** of `.lado/sdlc.md` (base branch, epic branch); the integrator does exactly it through `tracker`, nothing without it; the built-in waiting-for-release label, the epic "comment only" rule and the **Tracker** comment template leave the kit; the kit's rule for filling a comment template stays | task LAD-118 (from LAD-113; the project lado keeps its post-merge status and release rules as text in **Tracker**, which the kit cannot follow); triage of `improve/sdlc-6` answer 2 |
+| 2026-10-21 | 0.6.0 | An action of **After the merge** the tracker lacks or refuses: the rest is done, the note names what was not; README names tracker-yougile 0.5.0 and tracker-jira-server 1.6.0 for `field`, and how to move the old «Waiting for release label» line (no longer read; the note names it when found) | task LAD-118; triage answer 1 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
