@@ -280,7 +280,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.6.0, 2026-10-21).
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
 | Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green | |
 | Words in a role prompt | agents/developer.md | 693 | 800 / 1500 | green | |
-| Words in a role prompt | agents/integrator.md | 643 | 800 / 1500 | green | |
+| Words in a role prompt | agents/integrator.md | 656 | 800 / 1500 | green | |
 | Words in a role prompt | agents/reviewer.md | 463 | 800 / 1500 | green | |
 | Words in the lead's prompt | agents/supervisor.md | 751 | 1000 / 1500 | green | |
 | Own skills | kit | 4 | 5 / 10 | green | |

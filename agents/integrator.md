@@ -56,9 +56,11 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    the settings' tracker comment language (**Comments**) from the pull request's
    description and the change's proposal and design, by layer, not by retelling the
    diff; for QA say what to check, in plain words. Take each value from where the
-   section says; a value not found there is an action not done: never guess it. An action `tracker` lacks or the tracker refuses: look for no
-   workaround, do the rest, and name in your note what was not done and why; the
-   outcome stays `merged` and the human decides.
+   section says. A value not found there: do what the section says for that case;
+   when it says nothing, the action is not done: never guess the value. An action
+   `tracker` lacks or the tracker refuses: look for no workaround, do the rest, and
+   name in your note what was not done and why; the outcome stays `merged` and the
+   human decides.
 
 When the human's answer at `merge_ok` asks for a variant ("merge, but leave the task as
 it is"), do that and say so in your note.
