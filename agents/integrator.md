@@ -1,6 +1,6 @@
 ---
 name: integrator
-description: On the human's approval, archives the converged change inside the pull request, merges it with a merge commit and does the tracker part of the merge routine.
+description: On the human's approval, archives the converged change inside the pull request, merges it with a merge commit and does what the project's After the merge section says in the tracker.
 skills:
   - sdlc-settings
   - openspec-changes
@@ -47,14 +47,18 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    fails.
 5. Delete the pull request's remote branch. The run's worktree and local branch are
    LADO's; the supervisor removes them when the run ends.
-6. The tracker. Draft the comment from the settings' merge comment template, in the
-   settings' tracker comment language, as `sdlc-settings` says ("Writing to the
-   tracker", **Comments**): from the pull request's description and the change's
-   proposal and design, by layer, not by retelling the diff; for QA say what to check,
-   in plain words. For a merge into the base branch: post it, read it back, and set the
-   waiting-for-release label, or ask the human in your note to set it. For a merge into
-   an epic branch: the comment only; the task stays in review. Change nothing else on
-   the task.
+6. The tracker: do exactly what the settings' **After the merge** says for this merge's
+   target (the base branch or an epic branch), through `tracker`, as `sdlc-settings`
+   says ("Writing to the tracker"), and nothing else on the task. When the section, or
+   its part for this target, is missing, touch the task not at all and say so in your
+   note; when **Tracker** still has a line «Waiting for release label», name it there as
+   no longer read (the README says how to move it). A comment by a template: fill it in
+   the settings' tracker comment language (**Comments**) from the pull request's
+   description and the change's proposal and design, by layer, not by retelling the
+   diff; for QA say what to check, in plain words. Take each value from where the
+   section says. An action `tracker` lacks or the tracker refuses: look for no
+   workaround, do the rest, and name in your note what was not done and why; the
+   outcome stays `merged` and the human decides.
 
 When the human's answer at `merge_ok` asks for a variant ("merge, but leave the task as
 it is"), do that and say so in your note.

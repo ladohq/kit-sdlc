@@ -24,9 +24,12 @@ at the start of every step.
 
 ## Tracker
 
-- Waiting for release label: `waiting_for_release`
 - Skipped issue types: none
-- Merge comment (Markdown):
+
+## After the merge
+
+Into the base branch:
+- Post a comment by this template (Markdown):
 
   ```markdown
   **Merge report for PR #<n>**
@@ -37,6 +40,13 @@ at the start of every step.
   **For developers: what was done**
   - <by layer: key decisions, new API fields, migrations yes/no>
   ```
+
+- Move the task to the status "Done".
+- Add the label `merged`; remove the label `in-review`.
+- Set the field `release` to the version of the newest entry in `CHANGELOG.md`.
+
+Into an epic branch:
+- Post the comment above; change nothing else.
 
 ## Checks
 

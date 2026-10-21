@@ -2,7 +2,7 @@
 name: sdlc-settings
 description: >-
   The project's settings for the sdlc kit in `.lado/sdlc.md` (languages, branches, the
-  tracker's label and skipped issue types, checks, the external reviewer, extra
+  tracker's skipped issue types, what happens to the task after the merge, checks, the external reviewer, extra
   instructions, review traps), how each role reads them, how to talk to the human, and
   how an agent writes to the tracker through the skill `tracker`. Use at the start of
   every step, and before any message to the human or any tracker write.
@@ -16,7 +16,9 @@ instructions** change how the kit works on this project and win over this kit's
 defaults, except over a gate or the rules in "Writing to the tracker".
 
 When the file is missing, or lacks a section your step needs, stop and send the
-supervisor the section's name with `send_message`; never fill it in with a guess. The
+supervisor the section's name with `send_message`; never fill it in with a guess.
+**After the merge** is optional: without it, or without its part for a merge, the
+integrator leaves the task as it is, which is the project's choice, not a gap. The
 supervisor drafts a missing file with the human from `${SKILL_DIR}/sdlc.example.md`.
 
 ## Sections
@@ -25,7 +27,8 @@ supervisor drafts a missing file with the human from `${SKILL_DIR}/sdlc.example.
 |---|---|---|
 | **Languages** | the language of the chat with the human, of pull requests and their comments, of tracker comments, of commit messages and of the openspec documents | everyone |
 | **Git** | the remote, the base branch, how epic branches are named, the pull request branch name for each scale, the code host and its command-line tool | analyst, developer, integrator |
-| **Tracker** | the label for "waiting for release", the issue types the routine skips, the merge comment's template | analyst, developer, integrator |
+| **Tracker** | the issue types the routine skips | analyst, developer, integrator |
+| **After the merge** (optional) | what to do with the task in the tracker after a merge, one part for a merge into the base branch and one for a merge into an epic branch, in the project's words: a comment by a template, a status, labels to add or remove, fields to set, and where each value comes from | integrator |
 | **Checks** | the commands that must pass, where each runs, what is excluded from a normal round and why, what CI proves, how long to wait for CI | developer, reviewer, integrator |
 | **External reviewer** | how to request a round, how to tell it finished, a time ceiling, the round cap | reviewer |
 | **Review traps** | the project's known false greens and pitfalls, one per entry: symptom, how to spot it, how to get round it | developer, reviewer |
@@ -49,17 +52,18 @@ name it in your report so the human fixes the file.
 
 You reach the tracker only through the skill `tracker`, asking it for each action by its
 meaning: read the task with its comments, move it to a status, post a comment, link a
-URL. Name no tracker's commands, settings files or markup yourself, and use them only as
+URL, add or remove a label, set a field. Name no tracker's commands, settings files or markup yourself, and use them only as
 the skill `tracker` says: the project may use any tracker.
 
 Reading is always fine. You write only what your step's routine names, on the run's
-task. A reported success is not proof that the tracker took it, so check each write by
+task; the actions of **After the merge** are part of the integrator's routine. A reported success is not proof that the tracker took it, so check each write by
 what `tracker` gives back for it:
 - a comment by the id `tracker` reports, among the task's comments; when it reports no
   id, find the comment by `tracker`'s mark as the newest in your name, and say so in
   your note;
 - a status as the task now shows it, by meaning, or that it already was there;
-- an assignee or label as `tracker` reports it after the write, or its "already so";
+- an assignee, a label added or removed, or a field as `tracker` reports it after the
+  write, or its "already so";
 - a write the task does not show (a link) by `tracker`'s own result; say so in your note.
 
 Never compare the text you sent with the text the tracker keeps: it formats it and adds
@@ -75,7 +79,8 @@ as skipped, and say so in your note.
   and handed to it as they are; the tracker skill formats them for its tracker.
 - **A link** to a pull request: when `tracker` cannot link a URL, post it as a comment.
 - **Assigning the task or labelling it**: when `tracker` can, do it; otherwise ask the
-  human in your note to do it by hand. Assign to the account `tracker` works as: ask
+  human in your note to do it by hand. An action of **After the merge** that `tracker`
+  lacks or refuses follows the integrator's rule instead. Assign to the account `tracker` works as: ask
   `tracker` which account that is and compare it with the task's assignee. Only when the
   task is assigned to another account, ask the human first.
 
