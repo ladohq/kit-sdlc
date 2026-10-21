@@ -2,7 +2,7 @@
 
 - Дата: 2026-10-21
 - Кит: worktree рана `improve/sdlc-6` (`.lado/worktrees/lad-118/improve-sdlc-6`), путь дан задачей
-- Коммит: d00b86e (визит 2 шага `evaluate`, HEAD ветки рана по указанию супервизора; визит 1 — 3df706f, его отчёт в git, e6ff550)
+- Коммит: fa281df (визит 3 шага `evaluate`; визит 2 — d00b86e, отчёт 48c57bc; визит 1 — 3df706f, его отчёт в git, e6ff550)
 - Оценил: критик kit-builder (слои a и b)
 - Режим: повторная оценка.
   - Сравнивается с `kit-reports/sdlc-0.5.0-2026-10-12.md` (артефакт `assessment`), планом (`plan`) и `build-report`.
@@ -13,6 +13,7 @@
   - Затем проверка вырезанных правил по `git diff --word-diff 2d818eb 3df706f` и таблице «Cut text» из `build-report`.
   - Затем полный проход по 6 файлам дельты целиком (правило 5 «Re-evaluation»): одна находка, F10.1 (low).
 - Визит 2: правки по находкам визита 1, `git diff e6ff550 d00b86e -- kit.yaml README.md BLUEPRINT.md agents flows skills` (4 файла; abf87c6 — F7.1, F5.1, F10.1; d00b86e — запасной вариант раздела для ненайденного значения, F7.1). Три прохода по правке и её окрестностям (шаг 6 интегратора, «Writing to the tracker», раздел «Install and start» README, места, которые на них ссылаются: R10, R16 блупринта), затем полный проход по этим 4 файлам. Находки визита 1 — в «Прежних находках». Новая: F10.2 (low), одиночная, подтверждена `grep`. Одиночных отброшено: 0.
+- Визит 3: правка F10.2 по ответу человека на `release_ok`, `git diff 48c57bc fa281df -- kit.yaml README.md BLUEPRINT.md agents flows skills` — одно предложение R16 в `BLUEPRINT.md`, файлы кита не менялись. Три прохода по R16 и местам, на которые оно ссылается (R10, README `:26-30`), и полный проход по `BLUEPRINT.md`: новых находок нет. Одиночных отброшено: 0.
   - Визит 1. Одиночных находок отброшено: 1 (low: в записке интегратор называет только старую строку «Waiting for release label», а не старый шаблон «Merge comment»; README в «Upgrading from 0.5» называет обе, так что человек узнаёт обо всём). Оставлено как подтверждённые: 0.
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
@@ -24,8 +25,8 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | визит 2: 1 находка (0 high, 0 medium, 1 low: F10.2); F7.1, F5.1, F10.1 визита 1 закрыты; 11 из 12 критериев без находок; F3.1 из 0.5.0 оставлена планом |
-| Охват | повторная оценка изменённого текста; визит 1 — с полным проходом по 6 файлам дельты, визит 2 — по 4 файлам правок |
+| b. Рубрика | визит 3: 0 находок; F7.1, F5.1, F10.1 визита 1 и F10.2 визита 2 закрыты; 12 из 12 критериев без находок; F3.1 из 0.5.0 оставлена планом |
+| Охват | повторная оценка изменённого текста; визит 1 — с полным проходом по 6 файлам дельты, визит 2 — по 4 файлам правок, визит 3 — по `BLUEPRINT.md` |
 | Правило остановки | выполнено: 0 high, 0 medium |
 
 Счёт относится только к тому, что указано в строке «Охват». С полной оценкой его сравнивать нельзя.
@@ -80,7 +81,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Исправить в первую очередь
 
-1. Поправить R16 блупринта: README теперь называет tracker-jira-server 1.6.0, а не 1.1.0 (F10.2, low). Это не блокирует.
+Нечего: открытых находок в изменённом тексте нет.
 
 ## Находки
 
@@ -124,11 +125,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.6.0 or newer:» (`README.md:30`).
 
-- **F10.2** [low] `BLUEPRINT.md:134`
-  > 1.1.0 or newer, the first that can also assign a task, label an existing one and show
-  - R16 по-прежнему говорит «the README names» / «1.1.0 or newer» (`:133-134`), а README после правки F10.1 называет 1.6.0 (`README.md:30`) и объясняет это полем (`:26-28`). Агентам блупринт не читается, но следующий `triage` или `improve` сверяет кит с блупринтом и может принять 1.6.0 за отклонение от R16 и вернуть 1.1.0.
-
-  Fix: в R16 — «the README names 1.6.0 or newer, the first that can also set a field (**After the merge**, R10); 1.1.0 is the first that can assign a task, label an existing one and show each comment's id». Passes: 1/3, confirmed (`grep -n "1\.1\.0\|1\.6\.0" README.md BLUEPRINT.md`: `README.md:27`, `:30` — 1.6.0; `BLUEPRINT.md:134` — 1.1.0)
+F10.2 визита 2 закрыта: «and the README names 1.6.0 or newer, the first that can also set a field (R10).» (`BLUEPRINT.md:135`), что совпадает с `README.md:27`, `:30`.
 
 Описание `sdlc-settings` обновлено: «tracker's skipped issue types, what happens to the task after the merge» (`skills/sdlc-settings/SKILL.md:5`). Набор скилов у ролей не менялся.
 
@@ -163,7 +160,8 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 | F3.1 [low] из 0.5.0: занятое имя change на ветке параллельного рана | STILL OPEN, оставлена планом | `git diff 2d818eb -- skills/openspec-changes agents/analyst.md` пуст; запись в `BACKLOG.md` |
 | F7.1 [medium] визита 1: значение, которого нет там, где велит раздел | RESOLVED | «when it says nothing, the action is not done: never guess the value. An action» (`agents/integrator.md:60`; в d00b86e — сначала запасной вариант раздела, `:59`) |
 | F5.1 [low] визита 1: исключение After the merge не покрывает статусы | RESOLVED | «no status of the task fits, follows the integrator's rule instead of the ones above.» (`skills/sdlc-settings/SKILL.md:87`) |
-| F10.1 [low] визита 1: пример установки с 1.1.0 | RESOLVED, оставила F10.2 | «… kit-tracker-jira-server) 1.6.0 or newer:» (`README.md:30`) |
+| F10.2 [low] визита 2: R16 блупринта называет 1.1.0 | RESOLVED | «and the README names 1.6.0 or newer, the first that can also set a field (R10).» (`BLUEPRINT.md:135`) |
+| F10.1 [low] визита 1: пример установки с 1.1.0 | RESOLVED | «… kit-tracker-jira-server) 1.6.0 or newer:» (`README.md:30`) |
 | F8.3 [low] из 0.4.0 | STILL OPEN, оставлена раньше (BACKLOG) | `git diff 2d818eb -- agents/developer.md` пуст |
 | F5.1 [medium] из 0.3.0: `tracker` не говорит свой аккаунт | STILL OPEN, оставлена раньше (BACKLOG) | «Assign to the account `tracker` works as: ask» (`skills/sdlc-settings/SKILL.md:83`) — без изменений по смыслу |
 
@@ -215,7 +213,7 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 
 ## Вопросы человеку
 
-Нет. F10.2 правится одной строкой блупринта; её можно сделать при релизе или оставить в BACKLOG.
+Нет.
 
 ## Найдено по пути
 
