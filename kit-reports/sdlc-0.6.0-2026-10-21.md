@@ -2,7 +2,7 @@
 
 - Дата: 2026-10-21
 - Кит: worktree рана `improve/sdlc-6` (`.lado/worktrees/lad-118/improve-sdlc-6`), путь дан задачей
-- Коммит: abf87c6 (визит 2 шага `evaluate`; визит 1 — 3df706f, его отчёт в git, e6ff550)
+- Коммит: d00b86e (визит 2 шага `evaluate`, HEAD ветки рана по указанию супервизора; визит 1 — 3df706f, его отчёт в git, e6ff550)
 - Оценил: критик kit-builder (слои a и b)
 - Режим: повторная оценка.
   - Сравнивается с `kit-reports/sdlc-0.5.0-2026-10-12.md` (артефакт `assessment`), планом (`plan`) и `build-report`.
@@ -12,7 +12,7 @@
   - Проходы шли в одном контексте, поэтому независимыми их считать нельзя. Обе находки изменённого текста подтверждены в файлах.
   - Затем проверка вырезанных правил по `git diff --word-diff 2d818eb 3df706f` и таблице «Cut text» из `build-report`.
   - Затем полный проход по 6 файлам дельты целиком (правило 5 «Re-evaluation»): одна находка, F10.1 (low).
-- Визит 2: правки по находкам визита 1, `git diff e6ff550 abf87c6 -- kit.yaml README.md BLUEPRINT.md agents flows skills` (4 файла, +7 −5). Три прохода по правке и её окрестностям (шаг 6 интегратора, «Writing to the tracker», раздел «Install and start» README, места, которые на них ссылаются: R10, R16 блупринта), затем полный проход по этим 4 файлам. Находки визита 1 — в «Прежних находках». Новая: F10.2 (low), одиночная, подтверждена `grep`. Одиночных отброшено: 0.
+- Визит 2: правки по находкам визита 1, `git diff e6ff550 d00b86e -- kit.yaml README.md BLUEPRINT.md agents flows skills` (4 файла; abf87c6 — F7.1, F5.1, F10.1; d00b86e — запасной вариант раздела для ненайденного значения, F7.1). Три прохода по правке и её окрестностям (шаг 6 интегратора, «Writing to the tracker», раздел «Install and start» README, места, которые на них ссылаются: R10, R16 блупринта), затем полный проход по этим 4 файлам. Находки визита 1 — в «Прежних находках». Новая: F10.2 (low), одиночная, подтверждена `grep`. Одиночных отброшено: 0.
   - Визит 1. Одиночных находок отброшено: 1 (low: в записке интегратор называет только старую строку «Waiting for release label», а не старый шаблон «Merge comment»; README в «Upgrading from 0.5» называет обе, так что человек узнаёт обо всём). Оставлено как подтверждённые: 0.
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
@@ -55,7 +55,7 @@ Read-only: `read-only roles: reviewer`; `dependencies.lado: ">=0.34"` (`kit.yaml
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green |
 | Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green |
 | Words in a role prompt | agents/developer.md | 693 | 800 / 1500 | green |
-| Words in a role prompt | agents/integrator.md | 643 | 800 / 1500 | green |
+| Words in a role prompt | agents/integrator.md | 656 | 800 / 1500 | green |
 | Words in a role prompt | agents/reviewer.md | 463 | 800 / 1500 | green |
 | Words in the lead's prompt | agents/supervisor.md | 751 | 1000 / 1500 | green |
 | Own skills | kit | 4 | 5 / 10 | green |
@@ -94,7 +94,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ### 3. Готовность и исходы
 
-Без находок. Исход при неполном выполнении раздела назван: «the» / «outcome stays `merged` and the human decides» (`agents/integrator.md:60-61`); это совместимо с «Report `merged` once the pull request's state is merged and the tracker routine is» (`flows/task.yaml:102`).
+Без находок. Исход при неполном выполнении раздела назван: «the outcome stays `merged` and the» / «human decides.» (`agents/integrator.md:62-63`); это совместимо с «Report `merged` once the pull request's state is merged and the tracker routine is» (`flows/task.yaml:102`).
 
 ### 4. Независимая проверка
 
@@ -110,7 +110,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ### 7. Когда звать человека
 
-Без находок. F7.1 визита 1 закрыта: «section says; a value not found there is an action not done: never guess it. An action `tracker` lacks or the tracker refuses: look for no» (`agents/integrator.md:59`). Ненайденное значение попадает под уже написанное правило: «workaround, do the rest, and name in your note what was not done and why; the» (`:60`). Решение остаётся за человеком: «outcome stays `merged` and the human decides.» (`:61`).
+Без находок. F7.1 визита 1 закрыта: «section says. A value not found there: do what the section says for that case;» / «when it says nothing, the action is not done: never guess the value. An action» (`agents/integrator.md:59-60`). Сначала — запасной вариант самого раздела (это всё ещё «exactly what the settings' **After the merge** says», `:50`), без него действие не делается и попадает под уже написанное правило: «name in your note what was not done and why; the outcome stays `merged` and the» (`:62`). Угадывание запрещено в обоих случаях.
 
 ### 8. Циклы на повторном визите
 
@@ -138,13 +138,13 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 
 ### 12. Безопасность и границы
 
-Без находок. Граница записи узкая: «and nothing else on the task» (`agents/integrator.md:52`); без раздела «touch the task not at all» (`:53`); обхода нет: «look for no» / «workaround» (`:59-60`). Создать задачу по-прежнему можно только с явного «yes, create» (`skills/sdlc-settings/SKILL.md:70-71`).
+Без находок. Граница записи узкая: «and nothing else on the task» (`agents/integrator.md:52`); без раздела «touch the task not at all» (`:53`); обхода нет: «`tracker` lacks or the tracker refuses: look for no workaround, do the rest, and» (`:61`). Создать задачу по-прежнему можно только с явного «yes, create» (`skills/sdlc-settings/SKILL.md:70-71`).
 
 ## Известные дыры
 
 | Известная дыра | Находка или чем кит её закрывает |
 |---|---|
-| 1. Красная проверка без учёта причины в окружении | Дельта не трогает. Отказ трекера после мержа — не `conflicts`: «outcome stays `merged` and the human decides.» (`agents/integrator.md:61`) |
+| 1. Красная проверка без учёта причины в окружении | Дельта не трогает. Отказ трекера после мержа — не `conflicts`: «the outcome stays `merged` and the» / «human decides.» (`agents/integrator.md:62-63`) |
 | 2. Работа вне флоу, мерж без гейта | Дельта не трогает: записи в трекер — шаг `merge` после `merge_ok`, ask гейта: «merges with a merge commit and updates the tracker» (`flows/task.yaml:94`) |
 | 3. Путь вне worktree рана | Закрыта. Новый путь — `CHANGELOG.md` в примере (`sdlc.example.md:46`), то есть файл репозитория; README ссылается на `skills/sdlc-settings/sdlc.example.md` как на файл кита для человека, а не для агента |
 | 4. Вердикт без порога серьёзности | Дельта не трогает: «- the last round found no blocker and no confirmed important finding;» (`skills/review-loop/SKILL.md:129`) |
@@ -161,7 +161,7 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 | Находка | Статус | Чем подтверждено |
 |---|---|---|
 | F3.1 [low] из 0.5.0: занятое имя change на ветке параллельного рана | STILL OPEN, оставлена планом | `git diff 2d818eb -- skills/openspec-changes agents/analyst.md` пуст; запись в `BACKLOG.md` |
-| F7.1 [medium] визита 1: значение, которого нет там, где велит раздел | RESOLVED | «section says; a value not found there is an action not done: never guess it.» (`agents/integrator.md:59`) |
+| F7.1 [medium] визита 1: значение, которого нет там, где велит раздел | RESOLVED | «when it says nothing, the action is not done: never guess the value. An action» (`agents/integrator.md:60`; в d00b86e — сначала запасной вариант раздела, `:59`) |
 | F5.1 [low] визита 1: исключение After the merge не покрывает статусы | RESOLVED | «no status of the task fits, follows the integrator's rule instead of the ones above.» (`skills/sdlc-settings/SKILL.md:87`) |
 | F10.1 [low] визита 1: пример установки с 1.1.0 | RESOLVED, оставила F10.2 | «… kit-tracker-jira-server) 1.6.0 or newer:» (`README.md:30`) |
 | F8.3 [low] из 0.4.0 | STILL OPEN, оставлена раньше (BACKLOG) | `git diff 2d818eb -- agents/developer.md` пуст |
@@ -176,8 +176,8 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 | «Writing to the tracker»: действия раздела — часть рутины; метка ±, поле; проверка записи | RESOLVED | `:55`, `:59`, `:65-66` |
 | Отсутствующее или отказанное действие раздела — по правилу интегратора | RESOLVED, с оговоркой F5.1 | `:82-83` |
 | `sdlc.example.md`: нейтральный пример base / epic | RESOLVED | `:29-49` |
-| `integrator.md` шаг 6 | RESOLVED, с оговоркой F7.1 | `agents/integrator.md:50-61`; 630 слов, зелёный |
-| Вариант `merge_ok` остаётся | RESOLVED | `:63-64` |
+| `integrator.md` шаг 6 | RESOLVED, с оговоркой F7.1 | `agents/integrator.md:50-63`; 656 слов, зелёный |
+| Вариант `merge_ok` остаётся | RESOLVED | `:65-66` |
 | README: настройки, строка `merge`, `field` и версии, «Upgrading from 0.5» | RESOLVED, с оговоркой F10.1 | `README.md:21-22`, `:26-28`, `:38-40`, `:59`, `:63-64`, `:66-72` |
 | `kit.yaml` 0.6.0 | RESOLVED | `version: 0.6.0` (`kit.yaml:2`); описание («merges it with the tracker routine», `:8`) метку не называет |
 | `flows/task.yaml` проверен | RESOLVED (без изменений) | `:7`, `:94`, `:102-104` не называют метку или комментарий как правило кита |
@@ -193,7 +193,7 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 |---|---|
 | «Draft the comment from the settings' merge comment template» (`agents/integrator.md:50`) | шаблон — в разделе проекта («Post a comment by this template», `sdlc.example.md:32`); правило заполнения — `agents/integrator.md:55-58` |
 | «post it, read it back» (`agents/integrator.md:54`) | проверка записи комментария по id — «a comment by the id `tracker` reports, among the task's comments» (`skills/sdlc-settings/SKILL.md:61`), на него ссылается шаг 6 («as `sdlc-settings`» / «says ("Writing to the tracker")», `agents/integrator.md:51-52`) |
-| «set the» / «waiting-for-release label, or ask the human in your note to set it» (`agents/integrator.md:54-55`) | снято намеренно (LAD-118); метка — в разделе проекта (`sdlc.example.md:45`), недоступное действие — `agents/integrator.md:59-61` |
+| «set the» / «waiting-for-release label, or ask the human in your note to set it» (`agents/integrator.md:54-55`) | снято намеренно (LAD-118); метка — в разделе проекта (`sdlc.example.md:45`), недоступное действие — `agents/integrator.md:60-63` |
 | «For a merge into» / «an epic branch: the comment only; the task stays in review» (`agents/integrator.md:55-56`) | снято намеренно; часть epic раздела проекта: «Post the comment above; change nothing else.» (`sdlc.example.md:49`) |
 | «Change nothing else on» / «the task» (`agents/integrator.md:56-57`) | «and nothing else on the task» (`agents/integrator.md:52`) |
 | **Tracker**: «the label for "waiting for release"», «the merge comment's template» (`skills/sdlc-settings/SKILL.md:28`) | строка **After the merge** (`:31`) |
@@ -203,7 +203,7 @@ F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](h
 
 Потерянных правил нет.
 
-Визит 2 (`git diff --word-diff e6ff550 abf87c6`): вырезано только «An action of **After the merge** that `tracker`» / «lacks or refuses follows the integrator's rule instead.» (`skills/sdlc-settings/SKILL.md:82-83` в e6ff550). Теперь правило — `:86-87`, шире прежнего (и статусы). Потерянных правил нет.
+Визит 2 (`git diff --word-diff e6ff550 d00b86e`): вырезано только «An action of **After the merge** that `tracker`» / «lacks or refuses follows the integrator's rule instead.» (`skills/sdlc-settings/SKILL.md:82-83` в e6ff550). Теперь правило — `:86-87`, шире прежнего (и статусы). В d00b86e фраза «a value not found there is an action not done: never guess it» переписана в «A value not found there: do what the section says for that case;» / «when it says nothing, the action is not done: never guess the value.» (`agents/integrator.md:59-60`): правило сохранено и дополнено. Потерянных правил нет.
 
 ## Пропущено ранее
 
