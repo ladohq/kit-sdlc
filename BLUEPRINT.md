@@ -130,9 +130,9 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   the skill `tracker` says. They know only that the skill `tracker` is there and ask it for actions by meaning (read the task with its
   comments, change its status, comment, link the pull request). Text for the tracker is
   Markdown; the tracker skill formats it for its tracker. A tracker kit used with `sdlc`
-  must therefore accept Markdown: `tracker-jira-server` does from 1.0.1; the README names
-  1.1.0 or newer, the first that can also assign a task, label an existing one and show
-  each comment's id. A write is checked by what `tracker` gives back for it (a comment by
+  must therefore accept Markdown: `tracker-jira-server` does from 1.0.1; 1.1.0 is the
+  first that can also assign a task, label an existing one and show each comment's id,
+  and the README names 1.6.0 or newer, the first that can also set a field (R10). A write is checked by what `tracker` gives back for it (a comment by
   its id, a status, assignee or label as the task shows it, by meaning), never by
   comparing the text sent with the text kept, which the tracker formats and marks. The
   task is assigned to the account `tracker` works as, never to a guessed login. Text for
