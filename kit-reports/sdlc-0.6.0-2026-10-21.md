@@ -2,7 +2,7 @@
 
 - Дата: 2026-10-21
 - Кит: worktree рана `improve/sdlc-6` (`.lado/worktrees/lad-118/improve-sdlc-6`), путь дан задачей
-- Коммит: 3df706f (визит 1 шага `evaluate`)
+- Коммит: abf87c6 (визит 2 шага `evaluate`; визит 1 — 3df706f, его отчёт в git, e6ff550)
 - Оценил: критик kit-builder (слои a и b)
 - Режим: повторная оценка.
   - Сравнивается с `kit-reports/sdlc-0.5.0-2026-10-12.md` (артефакт `assessment`), планом (`plan`) и `build-report`.
@@ -12,7 +12,8 @@
   - Проходы шли в одном контексте, поэтому независимыми их считать нельзя. Обе находки изменённого текста подтверждены в файлах.
   - Затем проверка вырезанных правил по `git diff --word-diff 2d818eb 3df706f` и таблице «Cut text» из `build-report`.
   - Затем полный проход по 6 файлам дельты целиком (правило 5 «Re-evaluation»): одна находка, F10.1 (low).
-  - Одиночных находок отброшено: 1 (low: в записке интегратор называет только старую строку «Waiting for release label», а не старый шаблон «Merge comment»; README в «Upgrading from 0.5» называет обе, так что человек узнаёт обо всём). Оставлено как подтверждённые: 0.
+- Визит 2: правки по находкам визита 1, `git diff e6ff550 abf87c6 -- kit.yaml README.md BLUEPRINT.md agents flows skills` (4 файла, +7 −5). Три прохода по правке и её окрестностям (шаг 6 интегратора, «Writing to the tracker», раздел «Install and start» README, места, которые на них ссылаются: R10, R16 блупринта), затем полный проход по этим 4 файлам. Находки визита 1 — в «Прежних находках». Новая: F10.2 (low), одиночная, подтверждена `grep`. Одиночных отброшено: 0.
+  - Визит 1. Одиночных находок отброшено: 1 (low: в записке интегратор называет только старую строку «Waiting for release label», а не старый шаблон «Merge comment»; README в «Upgrading from 0.5» называет обе, так что человек узнаёт обо всём). Оставлено как подтверждённые: 0.
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
 
@@ -23,9 +24,9 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | 3 находки (0 high, 1 medium: F7.1; 2 low: F5.1, F10.1); 9 из 12 критериев без находок; F3.1 из 0.5.0 оставлена планом |
-| Охват | повторная оценка изменённого текста, с полным проходом по 6 файлам дельты |
-| Правило остановки | не выполнено: 0 high, 1 medium (F7.1). Это совет для гейта `release_ok`, а не блок |
+| b. Рубрика | визит 2: 1 находка (0 high, 0 medium, 1 low: F10.2); F7.1, F5.1, F10.1 визита 1 закрыты; 11 из 12 критериев без находок; F3.1 из 0.5.0 оставлена планом |
+| Охват | повторная оценка изменённого текста; визит 1 — с полным проходом по 6 файлам дельты, визит 2 — по 4 файлам правок |
+| Правило остановки | выполнено: 0 high, 0 medium |
 
 Счёт относится только к тому, что указано в строке «Охват». С полной оценкой его сравнивать нельзя.
 
@@ -54,7 +55,7 @@ Read-only: `read-only roles: reviewer`; `dependencies.lado: ">=0.34"` (`kit.yaml
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green |
 | Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green |
 | Words in a role prompt | agents/developer.md | 693 | 800 / 1500 | green |
-| Words in a role prompt | agents/integrator.md | 630 | 800 / 1500 | green |
+| Words in a role prompt | agents/integrator.md | 643 | 800 / 1500 | green |
 | Words in a role prompt | agents/reviewer.md | 463 | 800 / 1500 | green |
 | Words in the lead's prompt | agents/supervisor.md | 751 | 1000 / 1500 | green |
 | Own skills | kit | 4 | 5 / 10 | green |
@@ -79,7 +80,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Исправить в первую очередь
 
-1. Сказать интегратору, что делать, когда значения нет там, где его велит взять раздел (F7.1, medium). Это не блокирует, но правка — одна фраза, и она прямо касается проверки LAD-118.
+1. Поправить R16 блупринта: README теперь называет tracker-jira-server 1.6.0, а не 1.1.0 (F10.2, low). Это не блокирует.
 
 ## Находки
 
@@ -101,12 +102,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ### 5. Противоречия
 
-- **F5.1** [low] `skills/sdlc-settings/SKILL.md:77`
-  > statuses the task can move to and pick by meaning; when none fits, ask the human.
-  - Исключение для **After the merge** стоит внутри пункта про исполнителя и метку: «human in your note to do it by hand. An action of **After the merge** that `tracker`» / «lacks or refuses follows the integrator's rule instead.» (`:82-83`). Пункт про статусы (`:75-77`) его не получает.
-  - Если в трекере нет статуса, который раздел называет («Move the task to the status "Done".», `sdlc.example.md:44`), одно правило велит спросить человека, другое — сделать остальное и назвать несделанное в записке (`agents/integrator.md:59-61`). Интегратор может в одном ране остановиться и написать супервизору, а в другом пойти дальше.
-
-  Fix: вынести фразу «An action of **After the merge** that `tracker` lacks or refuses follows the integrator's rule instead.» из пункта про метку отдельной строкой после списка, чтобы она касалась статусов, меток, полей и комментария. Passes: 2/3
+Без находок. F5.1 визита 1 закрыта: исключение стоит отдельной строкой после списка и покрывает статусы: «An action of **After the merge** that `tracker` lacks or refuses, or a status it names that» / «no status of the task fits, follows the integrator's rule instead of the ones above.» (`skills/sdlc-settings/SKILL.md:86-87`). «the ones above» — правила о недостающем действии (статус: «ask the human», `:77`; метка и исполнитель: `:81-82`), а не проверка записи (`:60-67`): фраза говорит только о случаях «lacks or refuses» и «no status … fits».
 
 ### 6. Дублирование
 
@@ -114,13 +110,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ### 7. Когда звать человека
 
-- **F7.1** [medium] `agents/integrator.md:58`
-  > diff; for QA say what to check, in plain words. Take each value from where the
-  > section says. An action `tracker` lacks or the tracker refuses: look for no
-  - Правило «no workaround, do the rest, name it» покрывает действие, которого нет у `tracker`, и отказ трекера, но не значение, которого нет там, где его велит взять раздел. Пример раздела сам ведёт к такому случаю: «Set the field `release` to the version of the newest entry in `CHANGELOG.md`.» (`skills/sdlc-settings/sdlc.example.md:46`). Нет файла, нет записи, или новая запись — «Unreleased».
-  - Запрет угадывать в `sdlc-settings` касается разделов, а не значений: «When the file is missing, or lacks a section your step needs, stop and send the» / «supervisor the section's name with `send_message`; never fill it in with a guess.» (`skills/sdlc-settings/SKILL.md:18-19`). Значит, интегратор в одном ране поставит в поле ближайшее похожее значение (версию из `package.json`, прошлый релиз или «Unreleased»), в другом пропустит поле, в третьем остановится и напишет супервизору. Неверный релиз на задаче потом виден QA и релизу. LAD-118 требует, чтобы делалось только описанное.
-
-  Fix: в шаге 6 после «Take each value from where the section says» добавить: «; a value not found there is an action not done: never guess it» — тогда работает уже написанное правило «do the rest, and name in your note what was not done and why». Passes: 3/3
+Без находок. F7.1 визита 1 закрыта: «section says; a value not found there is an action not done: never guess it. An action `tracker` lacks or the tracker refuses: look for no» (`agents/integrator.md:59`). Ненайденное значение попадает под уже написанное правило: «workaround, do the rest, and name in your note what was not done and why; the» (`:60`). Решение остаётся за человеком: «outcome stays `merged` and the human decides.» (`:61`).
 
 ### 8. Циклы на повторном визите
 
@@ -132,11 +122,13 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ### 10. Описания скилов
 
-- **F10.1** [low] `README.md:30`
-  > For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.1.0 or newer:
-  - Абзацем выше сказано: «Setting a field (e.g. a release) needs tracker-yougile 0.5.0 or newer or» (`:26`), «tracker-jira-server 1.6.0 or newer» (`:27`). А пример установки по-прежнему обещает, что хватит 1.1.0. Человек, который ставит по примеру и берёт `field` из примера настроек, получает ошибку аргумента при каждом мерже. Интегратор назовёт это в записке (`agents/integrator.md:59-61`), поэтому вреда нет, есть только лишний круг.
+F10.1 визита 1 закрыта: «For example, with [tracker-jira-server](https://github.com/ladohq/kit-tracker-jira-server) 1.6.0 or newer:» (`README.md:30`).
 
-  Fix: «1.1.0 or newer (1.6.0 or newer to set a field in **After the merge**):». Passes: full pass, confirmed (`grep -nF` нашёл обе строки; найдено полным проходом, в окрестности изменённого текста)
+- **F10.2** [low] `BLUEPRINT.md:134`
+  > 1.1.0 or newer, the first that can also assign a task, label an existing one and show
+  - R16 по-прежнему говорит «the README names» / «1.1.0 or newer» (`:133-134`), а README после правки F10.1 называет 1.6.0 (`README.md:30`) и объясняет это полем (`:26-28`). Агентам блупринт не читается, но следующий `triage` или `improve` сверяет кит с блупринтом и может принять 1.6.0 за отклонение от R16 и вернуть 1.1.0.
+
+  Fix: в R16 — «the README names 1.6.0 or newer, the first that can also set a field (**After the merge**, R10); 1.1.0 is the first that can assign a task, label an existing one and show each comment's id». Passes: 1/3, confirmed (`grep -n "1\.1\.0\|1\.6\.0" README.md BLUEPRINT.md`: `README.md:27`, `:30` — 1.6.0; `BLUEPRINT.md:134` — 1.1.0)
 
 Описание `sdlc-settings` обновлено: «tracker's skipped issue types, what happens to the task after the merge» (`skills/sdlc-settings/SKILL.md:5`). Набор скилов у ролей не менялся.
 
@@ -169,6 +161,9 @@ same as the plan in BLUEPRINT.md (exit status 0)
 | Находка | Статус | Чем подтверждено |
 |---|---|---|
 | F3.1 [low] из 0.5.0: занятое имя change на ветке параллельного рана | STILL OPEN, оставлена планом | `git diff 2d818eb -- skills/openspec-changes agents/analyst.md` пуст; запись в `BACKLOG.md` |
+| F7.1 [medium] визита 1: значение, которого нет там, где велит раздел | RESOLVED | «section says; a value not found there is an action not done: never guess it.» (`agents/integrator.md:59`) |
+| F5.1 [low] визита 1: исключение After the merge не покрывает статусы | RESOLVED | «no status of the task fits, follows the integrator's rule instead of the ones above.» (`skills/sdlc-settings/SKILL.md:87`) |
+| F10.1 [low] визита 1: пример установки с 1.1.0 | RESOLVED, оставила F10.2 | «… kit-tracker-jira-server) 1.6.0 or newer:» (`README.md:30`) |
 | F8.3 [low] из 0.4.0 | STILL OPEN, оставлена раньше (BACKLOG) | `git diff 2d818eb -- agents/developer.md` пуст |
 | F5.1 [medium] из 0.3.0: `tracker` не говорит свой аккаунт | STILL OPEN, оставлена раньше (BACKLOG) | «Assign to the account `tracker` works as: ask» (`skills/sdlc-settings/SKILL.md:83`) — без изменений по смыслу |
 
@@ -208,9 +203,11 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 Потерянных правил нет.
 
+Визит 2 (`git diff --word-diff e6ff550 abf87c6`): вырезано только «An action of **After the merge** that `tracker`» / «lacks or refuses follows the integrator's rule instead.» (`skills/sdlc-settings/SKILL.md:82-83` в e6ff550). Теперь правило — `:86-87`, шире прежнего (и статусы). Потерянных правил нет.
+
 ## Пропущено ранее
 
-Нет. Полный проход по 6 файлам дельты нашёл F10.1, но это строка рядом с изменённым текстом, которую изменение сделало неточной, поэтому она стоит среди находок.
+Нет. Визит 2: полный проход по 4 файлам правки нового вне изменённого текста не нашёл; F10.2 вызвана правкой README. Визит 1: полный проход по 6 файлам дельты нашёл F10.1, но это строка рядом с изменённым текстом, которую изменение сделало неточной, поэтому она стоит среди находок.
 
 ## Оставлено планом
 
@@ -218,7 +215,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Вопросы человеку
 
-1. Исправить ли F7.1 до релиза? Совет: да. Это одна фраза в шаге 6, и она закрывает случай, на котором проверка LAD-118 на полигоне может дать неверный релиз в поле. F5.1 и F10.1 тоже правятся одной строкой каждая; их можно взять в тот же заход.
+Нет. F10.2 правится одной строкой блупринта; её можно сделать при релизе или оставить в BACKLOG.
 
 ## Найдено по пути
 
