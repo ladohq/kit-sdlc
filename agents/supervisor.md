@@ -44,8 +44,8 @@ The human picks the tasks; never start a run for a task they did not name.
   whole, with the worker's context and your recommendation; send their answer back to
   the worker.
 - **A failure outside the kit** (the tracker unreachable, no `openspec`, a missing setting):
-  show the human the command and its output, wait until they say it is settled, then
-  tell the worker to go on.
+  ask the human by card (`ask_human`, with the choice "settled") with the command and its
+  output; once they answer it is settled, tell the worker to go on.
 - **A gate opens.** When LADO asks for your recommendation, answer with `recommend` on
   its card, with no message of your own: what the human approves, which artifact to read
   (`design` at `design_ok`; `ledger` at `merge_ok`) and your advice with its reason.

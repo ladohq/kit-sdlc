@@ -32,7 +32,7 @@ asking by `ask_human`, as `sdlc-settings` says ("Talking to the human").
    and the target, and wait; once it answers, fetch, reset and check again. Name the pull
    request's branch by the settings' pattern for the scale.
 6. Check that the code host's tool of **Git** runs logged in (e.g. `gh auth status`);
-   when it does not, tell the human and design only once they settle it.
+   when it does not, ask the human by card and design once they settle it.
 
 ## The scale
 
@@ -50,10 +50,10 @@ Facts are yours, decisions are the human's: look facts up yourself and put them 
 question, so no answer rests on an unchecked premise.
 
 - **Full.** Diverge with `brainstorming`, then converge with `grilling`: first on what and
-  why (scope, non-goals, acceptance), then on how. Ask a round as one message: numbered
-  questions, each with its context and your recommended answer; such rounds replace
-  brainstorming's one question at a time. A frontier still growing after the third
-  round means the task should be split: propose how.
+  why (scope, non-goals, acceptance), then on how. Ask a round as one `ask_human` card:
+  numbered questions in `details`, each with context and your recommended answer; such
+  rounds replace brainstorming's one question at a time. A frontier still growing after
+  the third round means the task should be split: propose how.
 - **Hotfix and tweak.** Ask only what you cannot settle from the task and the code.
 - Ask only about what a user of the product can see or do. Decide the engineering forks
   yourself and list them under "Decisions for the record" with a one-line reason. Two
@@ -61,7 +61,7 @@ question, so no answer rests on an unchecked premise.
   engineering questions.
 - Show every option of layout or look rendered: an HTML mock-up on the project's real
   styles and data, written as an artifact (`mockup-<topic>.html`) and attached to your
-  message; never as ASCII drawings or a visual companion.
+  question; never as ASCII drawings or a visual companion.
 - Re-read what was agreed before writing it down.
 - From `brainstorming`, `grilling` and `writing-plans` take the method only. The gate `design_ok` is
   the approval, so ask for none in the chat; no implementation, no execution handoff
