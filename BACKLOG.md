@@ -33,3 +33,9 @@
   the run to `build` with no rule for the developer. Fix once a real run hits it (R15): a
   refused archive because the name is taken is `conflicts`; in `build` the developer renames
   the change to another of the same meaning.
+- The analyst's prompt is at 800 of 800 words (green limit) after 0.7.0
+  (kit-reports/sdlc-0.7.0-2026-10-25.md): the next change to `agents/analyst.md` moves
+  text into a skill rather than adding to the role.
+- Check on the first real `task` run with a conflict only in CHANGELOG after `merge_ok`
+  (LAD-146, S1 of 0.7.0): no second `merge_ok`, and the merge commit keeps both sides'
+  CHANGELOG entries.
