@@ -101,6 +101,15 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   some label … it follows the project's rules in `.lado/sdlc.md` … if nothing is
   described there, nothing has to be done"); task LAD-113 (the release number on the
   task); triage of `improve/sdlc-6` answers 1–2.
+  Bringing the base in after `merge_ok` opens no second `merge_ok` when the pull request's
+  code is unchanged: a conflict wholly in the changelog file (`CHANGELOG.md` and the like:
+  `CHANGES`, `HISTORY`) the integrator resolves itself, keeping both sides' entries, runs
+  the **Checks**, merges, and says in its note what it brought in and how it resolved it.
+  A conflict in any other file is `conflicts` as before, and the run comes back to
+  `merge_ok`. No list of such files in the project's settings until a real run shows
+  another one (R15). *Source:* task LAD-146, S1 (LAD-143: gates #126 → #127 over a
+  CHANGELOG-only conflict; 20 `merge_ok` on 14 steps of epic LAD-116); triage of
+  `improve/sdlc-7` answer 1.
 - **R11** Agents write to the tracker only as the routine says: take the task (assign, "in
   progress"), link each pull request, move to "review" only on the task's last pull request,
   what the project's **After the merge** says (R10). A new tracker task only after the human's explicit yes. All of
@@ -125,6 +134,17 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
 - **R14** Everything the human reads is in the language the project's settings name, and
   whatever they must read is the last message before a question, not hidden before it.
   *Source:* dump §6 rules 32, 35.
+  A question to the human is a card (`ask_human`, with choices when there are some), from
+  any role; a text message to the human only informs. The analyst asks the human
+  directly; the developer, the reviewer and the integrator still ask the supervisor,
+  which answers what it can and asks the human the rest by card. A question about a
+  defect goes: what is wrong, why it is built so (the cause), the options with their
+  consequences, the recommendation. At a gate or a loop limit the supervisor gives its
+  advice on LADO's card with `recommend`, not in a message of its own. *Source:* task
+  LAD-146, S2 (remark #521: four questions of the analyst in S1 of epic LAD-116 came as
+  text, unseen in the UI), S3 (LAD-143: three counter-questions #1428 → #1434 before the
+  cause), S4 (the gate message duplicated LADO's gate card); triage of `improve/sdlc-7`
+  answers 2–4.
 - **R16** The kit works with any task tracker. Its roles never reach a tracker themselves and
   name no tracker's commands, settings files, markup or key format; they use them only as
   the skill `tracker` says. They know only that the skill `tracker` is there and ask it for actions by meaning (read the task with its
@@ -236,8 +256,8 @@ design. On its first visit it runs the cleanup lens on its own diff before `read
 
 | Element | Kind | Covers | Why it exists / why nothing simpler |
 |---|---|---|---|
-| `supervisor` | role (lead) | R1, R6, R14, R16 | Starts one run of `task` per tracker task the human names (the run named after its key, converted), in the human's language; answers blocked workers; brings the human to the gates. |
-| `analyst` | role | R5, R7, R11, R12, R16 | Takes the task in the tracker and runs the design dialogue with the human directly (the other workers reach the human through the supervisor); writes documents only, never code. |
+| `supervisor` | role (lead) | R1, R6, R14, R16 | Starts one run of `task` per tracker task the human names (the run named after its key, converted), in the human's language; answers blocked workers and asks the human the rest by card; gives its advice on the gate's card with `recommend`. |
+| `analyst` | role | R5, R7, R11, R12, R16 | Takes the task in the tracker and runs the design dialogue with the human directly, by card (the other workers reach the human through the supervisor); writes documents only, never code. |
 | `developer` | role | R4, R8, R12, R13 | Builds from the approved artifacts with a fresh context; runs the cleanup lens on its diff before the first review; fixes what the review, a rejection or a conflict names. |
 | `reviewer` | role (read-only) | R8, R12, R13 | A fresh look the developer cannot give itself: fixes and cleanups introduce defects (dump §5 pattern 3). `read_only: true`: it shares the worktree with the developer, and the rule is the CLI's, not only the prompt's (R8). |
 | `integrator` | role | R9, R10, R11, R12, R16 | Other rights (archive, merge, tracker writes) and a fresh context after the long review loop; follows the merge routine with its known traps. |
@@ -247,8 +267,8 @@ design. On its first visit it runs the cleanup lens on its own diff before `read
 | `task.build` | work step | R8, R11, R13 | TDD and the change; the cleanup lens on the first visit; the project's checks; push; the pull request, its link in the tracker, "review" on the last PR; changed or removed existing tests listed in `build-report`. `redesign` when the work needs a scope change. Reads `design`, `ledger`. Produces `build-report`. |
 | `task.review` | work step | R8, R13 | Local review pass, external round with a delta, findings ledger, check against the spec, the closing report with its metrics line on `converged`; `max_visits: 6` (the first local round, a local round after its fixes, up to 2 external rounds and a re-entry after `merge_ok` or `conflicts`; the limit is a rare stop, not a step of an ordinary run). Reads `design`, `build-report`. Produces `ledger`. |
 | `task.merge_ok` | gate | R6, R9, R10 | The archive and the merge to the base branch are hard to undo (stage deploys from it on Clens). Approving means "archive and merge" with the ledger's open findings. Reads `ledger`. |
-| `task.merge` | work step | R3, R9, R10, R11 | Archives the openspec change inside the PR (`openspec-changes`), brings the base in, merges with a merge commit, checks by state, cleans up, does the project's **After the merge** for its target through `tracker` (nothing when the section or its part is missing), and says in its note what it did and did not; `conflicts` back to build when the change cannot be archived (files restored, nothing merged), bringing the target in conflicts or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `ledger`. |
-| `sdlc-settings` | skill | R2, R10, R11, R14, R16 | The format of `.lado/sdlc.md` (with the optional section **After the merge** and its neutral example: comment, status, label, field) and how every role reads it, and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
+| `task.merge` | work step | R3, R9, R10, R11 | Archives the openspec change inside the PR (`openspec-changes`), brings the base in, merges with a merge commit, checks by state, cleans up, does the project's **After the merge** for its target through `tracker` (nothing when the section or its part is missing), and says in its note what it did and did not; `conflicts` back to build when the change cannot be archived (files restored, nothing merged), bringing the target in conflicts in a file other than the changelog (a conflict only in the changelog it resolves itself, keeping both sides, and merges with no second `merge_ok`: R10) or a local check is red for a cause in the work; a red CI after the push leaves the pushed merge: `conflicts` for a cause in the work, the supervisor otherwise. Pushes to the pull request's branch as the developer does. Reads `design`, `ledger`. |
+| `sdlc-settings` | skill | R2, R10, R11, R14, R16 | The format of `.lado/sdlc.md` (with the optional section **After the merge** and its neutral example: comment, status, label, field) and how every role reads it, how every role talks to the human (a question by card, a defect's cause before its options), and the routine of writes to the tracker ("Writing to the tracker"): what the roles ask `tracker` for, by meaning, and what the human does by hand when `tracker` lacks an action; one place instead of five roles. |
 | `openspec-changes` | skill | R3, R9, R16 | How to create, validate and archive a change compatibly with the project's archive (analyst, developer, reviewer, integrator); undoing a pushed archive when a fix after it changes the spec; the change named by its meaning, with its `Task:` line. |
 | `review-loop` | skill | R8, R13 | The human's `pr-converge` routine, provider-neutral: passes, verdicts, ledger, delta comment, stop rule, round caps by scale, closing report with its metrics line, false-green traps; its references hold the review lenses (breadth, precision, cleanup), written in the kit's own words from the review tools the human uses now (session artifact with their texts, round 6), never naming one CLI's commands. Project-specific traps (Clens's `.claude/pr-converge.md`) belong in the project's `.lado/sdlc.md`, not here. |
 | `engineering-rules` | skill | R13 | The history's general lessons (red test first, checks that can fail, evidence as numbers, git safety), shared by developer, reviewer and integrator. |
@@ -266,7 +286,7 @@ Reverse check:
   `task.build`, `review-loop`. R9: `task.merge_ok`, `task.merge`, `openspec-changes`, `git`. R10: `integrator`,
   `task.merge_ok`, `task.merge`, `sdlc-settings`. R11: `analyst`, `task.design`, `task.build`,
   `task.merge`, `tracker`, `sdlc-settings`. R12: the four roles. R13: `engineering-rules`, `review-loop`,
-  `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`. R15: section 5. R16:
+  `developer`, `reviewer`. R14: `sdlc-settings`, `supervisor`, `analyst`. R15: section 5. R16:
   `sdlc-settings`, `tracker`, `supervisor`, `analyst`, `integrator`, `openspec-changes`.
 
 ## 4. Complexity budget
@@ -337,6 +357,9 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.6.0, 2026-10-21).
 | 2026-10-12 | 0.5.0 | Section 3: the `openspec-changes` row matches the archive undo of 0.4.0 | kit-reports/sdlc-0.4.0-2026-10-11.md F6.1; triage answer 1 |
 | 2026-10-21 | 0.6.0 | What happens to the task after the merge is the project's section **After the merge** of `.lado/sdlc.md` (base branch, epic branch); the integrator does exactly it through `tracker`, nothing without it; the built-in waiting-for-release label, the epic "comment only" rule and the **Tracker** comment template leave the kit; the kit's rule for filling a comment template stays | task LAD-118 (from LAD-113; the project lado keeps its post-merge status and release rules as text in **Tracker**, which the kit cannot follow); triage of `improve/sdlc-6` answer 2 |
 | 2026-10-21 | 0.6.0 | An action of **After the merge** the tracker lacks or refuses: the rest is done, the note names what was not; README names tracker-yougile 0.5.0 and tracker-jira-server 1.6.0 for `field`, and how to move the old «Waiting for release label» line (no longer read; the note names it when found) | task LAD-118; triage answer 1 |
+| 2026-10-25 | 0.7.0 | A conflict wholly in the changelog file when bringing the base in: the integrator resolves it (both sides' entries), runs the **Checks** and merges with no second `merge_ok`, naming the resolution in its note; any other conflict is `conflicts` as before | task LAD-146 S1 (LAD-143, gates #126 → #127); triage of `improve/sdlc-7` answer 1 |
+| 2026-10-25 | 0.7.0 | `sdlc-settings` "Talking to the human": a question to the human only by card (`ask_human`, choices when there are some), a text message only informs; a question about a defect gives the cause before the options; the analyst's line matches | task LAD-146 S2 (remark #521), S3 (LAD-143, #1428 → #1434); triage answers 2–3 |
+| 2026-10-25 | 0.7.0 | Supervisor: at a gate or a loop limit its advice goes on LADO's card with `recommend`, no message of its own; `dependencies.lado: ">=0.42"` | task LAD-146 S4; triage answers 4–5 |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
