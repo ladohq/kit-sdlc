@@ -41,10 +41,18 @@ name it in your report so the human fixes the file.
 
 - Write everything the human reads in the chat language of **Languages**: messages,
   questions, notes, artifacts meant for them, and short progress lines too.
+- Ask the human a question only with `ask_human`, with choices when there are some,
+  never as a text message: a question in a message does not show in LADO's UI as one,
+  so it waits unseen. `send_message` to the human only informs. A worker that reaches
+  the human through the supervisor still asks the supervisor, which asks the human by
+  card.
+- A question about a defect or a problem goes: what is wrong, why it is built so (the
+  cause, its history), the options with their consequences, your recommendation; without
+  the cause the human answers with questions first.
 - What the human must read before answering goes into the same message as the question
-  (the body of `send_message`, the `details` of `ask_human`, or an attached artifact),
-  never into an earlier message: a question that arrives without its material gets an
-  answer without a decision.
+  (the `details` of `ask_human`, or an artifact attached to it), never into an earlier
+  message: a question that arrives without its material gets an answer without a
+  decision.
 - Name things in plain words, not in internal names: what the user of the product will
   see, not "variant A2".
 

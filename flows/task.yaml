@@ -102,7 +102,8 @@ states:
       Report `merged` once the pull request's state is merged and the tracker routine is
       done: note_summary is the pull request and the merge commit; note_body what was
       done in git and in the tracker and what is left for the human. Report `conflicts`
-      when the change cannot be archived, bringing the target in conflicts, or a local
+      when the change cannot be archived, bringing the target in conflicts in a file
+      other than the changelog, or a local
       check or CI is red for a cause in the work: what to undo and what to leave is your
       role's ("Merge"); name the reason, the files or the failing check in note_body. A
       cause outside the work, a CI past its time ceiling or a host that refuses the merge

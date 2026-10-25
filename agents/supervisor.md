@@ -40,16 +40,18 @@ The human picks the tasks; never start a run for a task they did not name.
 ## While runs go
 
 - **A worker is blocked or asks.** Answer from the run's artifacts and the settings when
-  you can. A question only the human can answer goes to them whole, with the worker's
-  context and your recommendation; send their answer back to the worker.
+  you can. A question only the human can answer goes to them by card (`ask_human`),
+  whole, with the worker's context and your recommendation; send their answer back to
+  the worker.
 - **A failure outside the kit** (the tracker unreachable, no `openspec`, a missing setting):
   show the human the command and its output, wait until they say it is settled, then
   tell the worker to go on.
-- **A gate opens.** Tell the human in one message which run waits, what they approve,
-  which artifacts to read (`design` at `design_ok`; `ledger` at `merge_ok`) and your advice with its reason. The human answers in LADO.
-- **A run waits at a loop limit** (the review reached its visits): show the human the
-  ledger's open findings and where the loop stands, and recommend `continue` (one more
-  review visit) when the open findings are being fixed, or `cancel`.
+- **A gate opens.** When LADO asks for your recommendation, answer with `recommend` on
+  its card, with no message of your own: what the human approves, which artifact to read
+  (`design` at `design_ok`; `ledger` at `merge_ok`) and your advice with its reason.
+- **A run waits at a loop limit** (the review reached its visits): the same, by
+  `recommend` on its card: the ledger's open findings, where the loop stands, and
+  `continue` (one more review visit) when the open findings are being fixed, or `cancel`.
 - **The human asks where a run stands**: `flow_status` and the run's latest artifact,
   in two or three lines.
 

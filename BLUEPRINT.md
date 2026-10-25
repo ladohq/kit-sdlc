@@ -291,18 +291,18 @@ Reverse check:
 
 ## 4. Complexity budget
 
-Counted by the `kit-budget` script on the built kit (sdlc 0.6.0, 2026-10-21).
+Counted by the `kit-budget` script on the built kit (sdlc 0.7.0, 2026-10-25).
 
 | Measure | Where | Value | Green / yellow up to | Zone | Reason, when not green |
 |---|---|---|---|---|---|
 | Worker roles (not supervisor) | kit | 4 | 3 / 5 | yellow | R12, R4: the human asked for specialised roles; a run keeps one worker per role, so with three roles the developer would carry the whole review loop's context into archive and merge, and merging and tracker writes are rights the developer does not otherwise need. |
 | Work steps in a flow | flows/task.yaml | 4 | 5 / 8 | green | |
 | Gates in a flow | flows/task.yaml | 2 | 2 / 3 | green | |
-| Words in a role prompt | agents/analyst.md | 799 | 800 / 1500 | green | |
+| Words in a role prompt | agents/analyst.md | 797 | 800 / 1500 | green | |
 | Words in a role prompt | agents/developer.md | 693 | 800 / 1500 | green | |
-| Words in a role prompt | agents/integrator.md | 656 | 800 / 1500 | green | |
+| Words in a role prompt | agents/integrator.md | 711 | 800 / 1500 | green | |
 | Words in a role prompt | agents/reviewer.md | 463 | 800 / 1500 | green | |
-| Words in the lead's prompt | agents/supervisor.md | 751 | 1000 / 1500 | green | |
+| Words in the lead's prompt | agents/supervisor.md | 761 | 1000 / 1500 | green | |
 | Own skills | kit | 4 | 5 / 10 | green | |
 | MCP servers | kit | 0 | 2 / 4 | green | |
 | Similar paragraphs | kit | none | | green | |

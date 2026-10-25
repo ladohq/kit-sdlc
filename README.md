@@ -14,8 +14,8 @@ it works on a project that already has one.
 
 ## Install and start
 
-You need LADO 0.34 or newer (the reviewer is read-only; the kit does not run on Codex
-CLI, which cannot take an agent's file-editing tools away), `git` and the `openspec` CLI on the agents' PATH, the code
+You need LADO 0.42 or newer (the supervisor gives its advice on gate cards; the reviewer
+is read-only, so the kit does not run on Codex CLI, which cannot take an agent's file-editing tools away), `git` and the `openspec` CLI on the agents' PATH, the code
 host's CLI that the project's settings name (e.g. `gh`) logged in, and a tracker kit: any kit that brings the skill `tracker`, set up as that kit says.
 sdlc asks the skill, by meaning, to read a task with its comments, list and change its
 status and post a comment and report its id, and, when it can, link a URL, assign the task and label it,
@@ -59,7 +59,8 @@ once, each in its own worktree.
 | merge | integrator | archives the openspec change inside the pull request, brings the target in, merges with a merge commit, deletes the remote branch, does what the project's **After the merge** says in the tracker |
 
 A rejected design goes back to the analyst; findings, a rejected merge, a refused archive or a conflict go
-back to the developer. What the skill `tracker` cannot do (with some trackers: assign, label) the agents
+back to the developer. A conflict only in the changelog the integrator resolves itself, keeping both
+sides' entries, and merges without asking you again. What the skill `tracker` cannot do (with some trackers: assign, label) the agents
 ask you to do by hand; an action of **After the merge** the tracker lacks or refuses the
 integrator names in its note, having done the rest.
 

@@ -1,5 +1,5 @@
 name: sdlc
-version: 0.6.0
+version: 0.7.0
 description: >-
   Day-to-day development of a project whose tasks live in a task tracker, one task per
   run: an analyst takes the task and designs the change with you as an openspec change, a
@@ -13,7 +13,7 @@ expects:
   skills: [tracker]
   commands: [git, openspec]
 dependencies:
-  lado: ">=0.34"
+  lado: ">=0.42"
   skills:
     superpowers:
       from: https://github.com/obra/superpowers@v6.4.1

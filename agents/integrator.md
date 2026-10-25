@@ -27,8 +27,12 @@ Read `.lado/sdlc.md` first (`sdlc-settings`). Your inputs are the approved chang
    `openspec/changes/archive/` (a return from `conflicts`), skip the archive, but
    rewrite the closing report (`openspec-changes`, "Archive" 4), commit and push it.
 2. `git fetch origin`, note `git rev-parse HEAD`, and merge `origin/<target>` into the
-   run's branch. On a conflict, `git merge --abort` and report `conflicts`. When it
-   merges cleanly and brought changes, run the settings' **Checks**. A red check whose
+   run's branch. When every conflicting file is the changelog (`CHANGELOG.md` and the
+   like: `CHANGES`, `HISTORY`), resolve it yourself, keeping both sides' entries (none
+   lost), and commit the merge: the pull request's code is what the human approved, so
+   it needs no second `merge_ok`. Say in your note what was brought in and how you
+   resolved it. When any other file conflicts, `git merge --abort` and report
+   `conflicts`. When it merged and brought changes, run the settings' **Checks**. A red check whose
    cause is in the work (`engineering-rules`, "A red check") is `conflicts` too: first
    `git reset --keep <the noted commit>`, so the unpushed merge commit goes. A red check
    whose cause is outside the work follows "A red check". With every check green, push
