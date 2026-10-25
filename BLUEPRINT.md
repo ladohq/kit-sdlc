@@ -132,7 +132,8 @@ in LADO session `kit-sdlc` (2026-10-09), cited as "session kit-sdlc".
   -A`, no bare stash, no force push. *Source:* round 1 ("extract useful routines and turn
   them into rules for our agents"); dump §6.
 - **R14** Everything the human reads is in the language the project's settings name, and
-  whatever they must read is the last message before a question, not hidden before it.
+  whatever they must read comes with the question, on its card (its `details` or an
+  attached artifact), not in an earlier message.
   *Source:* dump §6 rules 32, 35.
   A question to the human is a card (`ask_human`, with choices when there are some), from
   any role; a text message to the human only informs. The analyst asks the human
@@ -360,6 +361,7 @@ Counted by the `kit-budget` script on the built kit (sdlc 0.7.0, 2026-10-25).
 | 2026-10-25 | 0.7.0 | A conflict wholly in the changelog file when bringing the base in: the integrator resolves it (both sides' entries), runs the **Checks** and merges with no second `merge_ok`, naming the resolution in its note; any other conflict is `conflicts` as before | task LAD-146 S1 (LAD-143, gates #126 → #127); triage of `improve/sdlc-7` answer 1 |
 | 2026-10-25 | 0.7.0 | `sdlc-settings` "Talking to the human": a question to the human only by card (`ask_human`, choices when there are some), a text message only informs; a question about a defect gives the cause before the options; the analyst's line matches | task LAD-146 S2 (remark #521), S3 (LAD-143, #1428 → #1434); triage answers 2–3 |
 | 2026-10-25 | 0.7.0 | Supervisor: at a gate or a loop limit its advice goes on LADO's card with `recommend`, no message of its own; `dependencies.lado: ">=0.42"` | task LAD-146 S4; triage answers 4–5 |
+| 2026-10-25 | 0.7.0 | R14: what the human must read comes with the question on its card, not as the last message before it (the blueprint only; `sdlc-settings` already says so) | kit-reports/sdlc-0.7.0-2026-10-25.md F5.3; the human at `release_ok` of `improve/sdlc-7` ("fix F5.2 and F5.3") |
 
 Plan of versions (R15), revisited after v1 works on Clens:
 - **v1** (this blueprint): R1–R16, flow `task`.
