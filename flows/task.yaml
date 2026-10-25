@@ -27,9 +27,9 @@ states:
       change's one-line summary; note_body what changed since the last visit and the
       engineering decisions you took for the record. Report `dropped` only when the human
       agreed the task is no longer wanted; `design` then says why, and nothing new is
-      committed. When the task is already in the "in progress" or "review"
-      status, ask, in the message where you propose dropping it, whether to move it back
-      and to which status, and move it only on their yes (`sdlc-settings`, "Writing to
+      committed. When the task is already in the "in progress" or "review" status, ask,
+      on the `ask_human` card where you propose dropping it, whether to move it back and
+      to which status, and move it only on their yes (`sdlc-settings`, "Writing to
       the tracker").
     outcomes: {ready: design_ok, dropped: dropped}
   design_ok:
