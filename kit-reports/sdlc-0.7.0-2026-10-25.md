@@ -2,7 +2,7 @@
 
 - Дата: 2026-10-25
 - Кит: worktree рана `improve/sdlc-7` (корень репозитория), путь дан задачей
-- Коммит: b41b069 (визит 2 шага `evaluate`; визит 1 — 473160f, его отчёт в git, 9c17bff)
+- Коммит: 01e58c3 (визит 3 шага `evaluate`; визит 2 — b41b069, отчёт 8b6a7e4; визит 1 — 473160f, отчёт 9c17bff)
 - Оценил: критик kit-builder (слои a и b)
 - Режим: повторная оценка.
   - Сравнивается с `kit-reports/sdlc-0.6.0-2026-10-21.md` (артефакт `assessment`), планом (`plan`) и `build-report`.
@@ -10,6 +10,7 @@
 - Проходы:
   - Визит 1. Три прохода критик сделал сам, без суб-агентов, каждый со своей точки входа: 1 — `kit.yaml` и роли (интегратор, аналитик, супервизор); 2 — `flows/task.yaml`, состояние `merge` и гейты; 3 — `sdlc-settings` («Talking to the human»), потом снова роли — все места, где роль спрашивает человека или ждёт его ответа (`grep -n -i human` по `agents/` и `skills/`). Проходы шли в одном контексте, поэтому независимыми их считать нельзя; каждая находка подтверждена в файлах (`grep -nF`). `recommend` проверен по коду LADO 0.42.0: инструмент `recommend` в `lado/mcp_server.py` есть только у супервизора, а `_ask_recommendation` в `lado/runs.py` запрашивает рекомендацию на каждый открытый гейт, в том числе на гейт лимита петли (вид `loop`). Одиночных отброшено: 1 (low: при конфликте в changelog «keeping both sides' entries» не говорит, куда ставить запись PR, если база уже выпустила версию, под которой она стояла; вред — только рассуждение). Оставлено как подтверждённые: 0.
   - Визит 2. Правки по находкам визита 1: `git diff 9c17bff b41b069 -- kit.yaml README.md BLUEPRINT.md agents flows skills` — `agents/analyst.md`, `agents/supervisor.md`, раздел 4 `BLUEPRINT.md`. Три прохода по правкам и их окрестностям («Taking the task» 6 и «The dialogue» аналитика, «While runs go» супервизора, «Talking to the human» `sdlc-settings`): новых находок нет. Затем проверка вырезанных правил визита 2. Затем — блокирующих находок не осталось — полный проход по всем 8 файлам дельты целиком (правило 5 «Re-evaluation»): F5.2 (medium) и одна находка под «Пропущено ранее». Одиночных отброшено: 0.
+  - Визит 3. Правки F5.2 (828f45b, `flows/task.yaml` `design.do`) и F5.3 (01e58c3, R14 `BLUEPRINT.md` и строка раздела 5): `git diff 8b6a7e4 01e58c3 -- kit.yaml README.md BLUEPRINT.md agents flows skills`. Три прохода по правкам и их окрестностям (`design.do` целиком, «Talking to the human» `sdlc-settings`, R14 целиком): новых находок нет; `grep -rn "in the message\|one message" agents flows skills` пуст. Затем полный проход по двум затронутым файлам (`flows/task.yaml`, `BLUEPRINT.md`, R-разделы и разделы 3–5): новых находок нет. Одиночных отброшено: 0.
 
 Находки — это кандидаты, которые взвешивает человек, а не оценка «прошёл / не прошёл».
 
@@ -20,9 +21,9 @@
 | a. `lado kits check` | OK; 0 предупреждений |
 | a. Бюджет | жёлтый; Worker roles = 4 (обосновано в блупринте: R12, R4) |
 | a. Флоу | 1 нарисован; совпадает со скелетом блупринта |
-| b. Рубрика | визит 2: 1 находка (0 high, 1 medium, 0 low); F5.1, F7.1, F7.2 визита 1 закрыты; 11 из 12 критериев без находок; 1 находка под «Пропущено ранее» (low) |
-| Охват | повторная оценка изменённого текста; визит 2 — с полным проходом по 8 файлам дельты |
-| Правило остановки | не выполнено: 0 high, 1 medium (F5.2) |
+| b. Рубрика | визит 3: 0 находок; F5.1, F7.1, F7.2 визита 1 и F5.2, F5.3 визита 2 закрыты; 12 из 12 критериев без находок |
+| Охват | повторная оценка изменённого текста; визит 2 — с полным проходом по 8 файлам дельты, визит 3 — по `flows/task.yaml` и `BLUEPRINT.md` |
+| Правило остановки | выполнено: 0 high, 0 medium |
 
 Счёт относится только к тому, что названо в строке «Охват»: счёт повторной оценки и счёт полной оценки сравнивать нельзя.
 
@@ -76,7 +77,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Исправить в первую очередь
 
-1. `flows/task.yaml` `design.do`: «ask, in the message where you propose dropping it» — вопрос о статусе при отказе от задачи задавать на той же карточке `ask_human`, где предлагается отказ (F5.2). Не блокирует.
+Нечего: открытых находок нет.
 
 ## Находки
 
@@ -100,7 +101,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 - **F5.1** [high] `agents/analyst.md:53-54` — визит 1, **RESOLVED** (см. «Прежние находки»).
 
-- **F5.2** [medium] `flows/task.yaml:30-31` (state `design`)
+- **F5.2** [medium] `flows/task.yaml:30-31` (state `design`) — визит 2, **RESOLVED** (см. «Прежние находки»)
   > committed. When the task is already in the "in progress" or "review"
   > status, ask, in the message where you propose dropping it, whether to move it back
   `do` шага велит аналитику задать вопрос о статусе «в сообщении, где вы предлагаете отказ», а `sdlc-settings:44-46` теперь требует «Ask the human a question only with `ask_human` … never as a text message». Одни агенты положат оба вопроса в карточку, другие предложат отказ сообщением и будут ждать ответа, которого человек не увидит как вопрос (симптом S2). Строку изменение не трогает, но противоречие создало оно: в 0.6.0 вопрос сообщением был разрешён (`git show fa281df:agents/analyst.md`, строка 17: «(`send_message` to the human, `ask_human`)»), и план требовал проверить все такие места — так что это находка изменения, а не «Пропущено ранее».
@@ -115,7 +116,7 @@ same as the plan in BLUEPRINT.md (exit status 0)
 - **F7.1** [medium] `agents/supervisor.md:46-48` — визит 1, **RESOLVED**.
 - **F7.2** [medium] `agents/analyst.md:34-35` — визит 1, **RESOLVED**.
 
-Остальное проверено: вопросы разработчика, ревьюера и интегратора идут супервизору через `send_message` (`agents/developer.md:39-40`, `agents/reviewer.md:42-44`, `agents/integrator.md:46-47`), а супервизор задаёт их человеку карточкой (`agents/supervisor.md:43`). «Ask» без канала в супервизоре («say so and ask», «Ask before you close anything»), в `review-loop` («Round cap») и `openspec-changes:46` покрыто общим правилом `sdlc-settings`. Критерий S2 («the roles say so explicitly») выполнен, кроме F5.2 в `do` шага.
+Остальное проверено: вопросы разработчика, ревьюера и интегратора идут супервизору через `send_message` (`agents/developer.md:39-40`, `agents/reviewer.md:42-44`, `agents/integrator.md:46-47`), а супервизор задаёт их человеку карточкой (`agents/supervisor.md:43`). «Ask» без канала в супервизоре («say so and ask», «Ask before you close anything»), в `review-loop` («Round cap») и `openspec-changes:46` покрыто общим правилом `sdlc-settings`. Критерий S2 («the roles say so explicitly») выполнен; F5.2 в `do` шага закрыта на визите 3.
 
 ### 8. Петли при повторном визите
 
@@ -162,6 +163,8 @@ same as the plan in BLUEPRINT.md (exit status 0)
 | F5.1 [high] визита 1: аналитик задаёт раунд «as one message» | RESOLVED | `agents/analyst.md:53-54`: «Ask a round as one `ask_human` card: numbered questions in `details`, each with context and your recommended answer» |
 | F7.1 [medium] визита 1: супервизор ждёт «settled» после сообщения | RESOLVED | `agents/supervisor.md:47-48`: «ask the human by card (`ask_human`, with the choice "settled") with the command and its output; once they answer it is settled, tell the worker to go on» |
 | F7.2 [medium] визита 1: аналитик «tell the human» при неработающем входе | RESOLVED | `agents/analyst.md:35`: «when it does not, ask the human by card and design once they settle it» |
+| F5.2 [medium] визита 2: вопрос о статусе «in the message where you propose dropping it» | RESOLVED | `flows/task.yaml:30-32`: «ask, on the `ask_human` card where you propose dropping it, whether to move it back and to which status» |
+| F5.3 [low] визита 2 (пропущено ранее): R14 «the last message before a question» | RESOLVED | `BLUEPRINT.md:135-136`: «whatever they must read comes with the question, on its card (its `details` or an attached artifact), not in an earlier message» |
 
 Список автора «fixed / not fixed» из `build-report` сверен с файлами: все три правки на месте. Фразу «choices only for a round of one question» автор не добавил, сославшись на «with choices when there are some» в `sdlc-settings:44` и на лимит слов. Этого достаточно: при раунде из нескольких вопросов вариантов нет, и карточка остаётся со свободным ответом.
 
@@ -181,11 +184,15 @@ same as the plan in BLUEPRINT.md (exit status 0)
 | `agents/supervisor.md:51-53` loop limit: «show the human the ledger's open findings … recommend `continue` … or `cancel`» | `agents/supervisor.md:52-54`, всё через `recommend` |
 | `skills/sdlc-settings/SKILL.md:44-45` «(the body of `send_message`, the `details` of `ask_human`, or an attached artifact)» | Сужено намеренно: `:52-53` «(the `details` of `ask_human`, or an artifact attached to it)» |
 | `flows/task.yaml:105` «bringing the target in conflicts» | `:105-106` «bringing the target in conflicts in a file other than the changelog» |
+| `flows/task.yaml:31` (визит 2) «ask, in the message where you propose dropping it, whether to move it back» | `flows/task.yaml:30-32`, на карточке `ask_human`; «move it only on their yes» сохранено |
+| `BLUEPRINT.md:135` (визит 2) «whatever they must read is the last message before a question, not hidden before it» | `BLUEPRINT.md:135-136`, «comes with the question, on its card … not in an earlier message» |
 | `kit.yaml` `lado: ">=0.34"`, README «LADO 0.34 or newer» | `>=0.42`, README «LADO 0.42 or newer»; причина «the reviewer is read-only…Codex CLI» сохранена |
 
 Потерянных правил нет.
 
 ## Пропущено ранее
+
+Визит 3: нет новых. F5.3 визита 2 закрыта (см. «Прежние находки»); её текст оставлен ниже как запись.
 
 - **F5.3** [low] `BLUEPRINT.md:134-135` (R14)
   > - **R14** Everything the human reads is in the language the project's settings name, and
@@ -199,4 +206,4 @@ same as the plan in BLUEPRINT.md (exit status 0)
 
 ## Вопросы человеку
 
-Нет. Вопрос визита 1 (как аналитику задавать раунд) автор решил по рекомендации: одна карточка, вопросы пронумерованы в `details`.
+Нет. Вопрос визита 1 (как аналитику задавать раунд) автор решил по рекомендации: одна карточка, вопросы пронумерованы в `details`. Совет на гейт: аналитик — 800 слов из 800, следующая правка этой роли, вероятно, потребует вынести текст в скил.
